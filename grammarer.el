@@ -8,7 +8,7 @@
 (cl-defun grammarer-util-member (what where &key (test #'equal))
   (if (and where (not (funcall test what (car where))))
       (grammarer-util-member what (cdr where) :test test)
-    where))
+      where))
 
 (defun grammarer-parse-current-buffer ()
   (setq *grammarer-def-data* nil)
@@ -27,25 +27,24 @@
   (grammarer-parse-current-buffer)
   (let* ((def (grammarer-find-def (thing-at-point 'symbol))))
     (if def
-        (message "Definition found.")
-      (message "Definition not found."))
-    (when def
-      (push (point) *grammarer-defn-stack*)
-      (goto-char (cdr def)))))
+        (progn
+          (push (point) *grammarer-defn-stack*)
+          (goto-char (cdr def))
+          (message "Jumped to \"%s\"." (car def)))
+      (message "Entity not found."))))
 
 (defun grammarer-go-back ()
   (interactive)
-  (when *grammarer-defn-stack*
+  (if *grammarer-defn-stack*
     (goto-char (pop *grammarer-defn-stack*)))
-  (unless *grammarer-defn-stack*
-    (message "Defn stack is empty.")))
+    (message "Defn stack is empty."))
 
 ;; ---------------------------------------------------------
 ;; PARSER
 ;; ---------------------------------------------------------
 
 (defvar ^s^valid-ident-chars nil)
-(setq ^s^valid-ident-chars '(?= ?& ?? ?* ?^ ?% ?$ ?@ ?!
+(setq ^s^valid-ident-chars '(?= ?& ?? ?* ?^ ?% ?$ ?@ ?! ?/
                                ?~ ?> ?< ?. ?- ?_ ?+ ?q ?w ?e ?r ?t ?y ?u ?i
                                ?o ?p ?a ?s ?d ?f ?g ?h ?j ?k
                                ?l ?z ?x ?c ?v ?b ?n ?m ?: ?1
@@ -107,16 +106,18 @@
         ;; ((eq ?\; c) ;; comment
         ;;  (do ((c (^s^read-char) (^s^read-char)))
         ;;      ((or (not (characterp c)) (eq ?\n c)))))
-        ;; ((eq ?\# c) ;; block comment
-        ;;  (setq c (^s^read-char))
-        ;;  (block skip-comment-loop
-        ;;    (do ((c (^s^read-char) (^s^read-char)))
-        ;;        ((not (characterp c)) (^s^unread-char))
-        ;;      (when (eq ?\| c)
-        ;;        (setq c (^s^read-char))
-        ;;        (if (eq ?\# c)
-        ;;            (return-from skip-comment-loop)
-        ;;          (if (characterp c) (^s^unread-char)))))))
+        ((eq ?/ c) ;; block comment
+         (setq c (^s^read-char))
+         (if (eq ?* c)
+             (block skip-comment-loop
+               (do ((c (^s^read-char) (^s^read-char)))
+                   ((not (characterp c)) (^s^unread-char))
+                 (when (eq ?* c)
+                   (setq c (^s^read-char))
+                   (if (eq ?/ c)
+                       (return-from skip-comment-loop)
+                       (if (characterp c) (^s^unread-char))))))
+              (push-back c token)))
         ((or (member c ^s^valid-ident-chars) screen) ;; ident
          (push-back c token)
          (when screen
