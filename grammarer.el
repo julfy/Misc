@@ -1,26 +1,36 @@
 ;; <julfy did this
 
-(defvar *grammarer-defn-stack* nil)
+(eval-when-compile
+  (require 'cl))
 
-(global-set-key (kbd "C-c .") 'grammarer-go-to-def)
-(global-set-key (kbd "C-c ,") 'grammarer-go-back)
+(defvar *grammarer-defn-stack* nil)
+(defvar *grammarer-def-data* nil)
+(defvar *grammarer-file* nil)
+
+(global-set-key (kbd "M-.") 'grammarer-go-to-def)
+(global-set-key (kbd "M-,") 'grammarer-go-back)
 
 (cl-defun grammarer-util-member (what where &key (test #'equal))
-  (if (and where (not (funcall test what (car where))))
-      (grammarer-util-member what (cdr where) :test test)
-      where))
+  (dolist (item where)
+    (when (funcall test what item)
+       (return-from grammarer-util-member item)))
+  nil)
 
 (defun grammarer-parse-current-buffer ()
-  (setq *grammarer-def-data* nil)
-  (with-current-buffer (current-buffer)
-    (^s^grammar-parser (buffer-file-name (current-buffer))))
+  (unless (equal *grammarer-file* (buffer-file-name (current-buffer)))
+    (setq *grammarer-file* (buffer-file-name (current-buffer)))
+    (setq *grammarer-def-data* nil)
+    (setq *grammarer-defn-stack* nil))
+  (unless *grammarer-def-data*
+    (with-current-buffer (current-buffer)
+      (^s^grammar-parser *grammarer-file*)))
   *grammarer-def-data*)
 
 (defun grammarer-find-def (ident)
-  (car (grammarer-util-member ident
-                              *grammarer-def-data*
-                              :test #'(lambda (x y)
-                                        (equal x (car y))))))
+  (grammarer-util-member ident
+                         *grammarer-def-data*
+                         :test #'(lambda (x y)
+                                   (equal x (car y)))))
  
 (defun grammarer-go-to-def ()
   (interactive)
@@ -36,8 +46,8 @@
 (defun grammarer-go-back ()
   (interactive)
   (if *grammarer-defn-stack*
-    (goto-char (pop *grammarer-defn-stack*)))
-    (message "Defn stack is empty."))
+      (goto-char (pop *grammarer-defn-stack*))
+      (message "Defn stack is empty.")))
 
 ;; ---------------------------------------------------------
 ;; PARSER
@@ -79,7 +89,7 @@
   (let ((id ^s^c-tkn)
         (pos ^s^token-pos))
     (do () ((not ^s^c-tkn))
-        (when (equal (^s^read) "->")
+        (when (equal (^s^read) "-->")
           (push (cons id (- pos (length id))) *grammarer-def-data*))
         (setq id ^s^c-tkn)
         (setq pos ^s^token-pos))))
