@@ -1,0 +1,248 @@
+(in-package :rev-eng2-java)
+(in-grammar :java #\")
+
+(defclass java-dsmc-root (dsm-component)
+  ())
+
+(defmethod create-dsm-components-root ((language java-language-class))
+  (make-instance 'java-dsmc-root))
+
+(defclass java-dsmc-proj-root (dsmc-sub-components-items dsmc-named-mixin)
+  ())
+
+;; (defclass java-dsmc-dir (dsmc-sub-components-items dsmc-named-mixin)
+;;   ())
+
+(defclass java-dsmc-package (dsmc-sub-components-items dsmc-named-mixin dsmc-package)
+  ((files :accessor dsmc-files
+          :initarg :files)))
+
+;; (defclass java-dsmc-file (dsmc-sub-components-items dsmc-named-mixin dsmc-source-location-mixin dsmc-file)
+;;   ())
+
+(defclass java-dsmc-definition (dsmc-sub-components-items dsmc-term-mixin dsmc-named-mixin dsmc-source-location-mixin dsmc-context-mixin)
+  ())
+
+(defclass java-dsmc-leaf (dsmc-leaf dsmc-term-mixin dsmc-context-mixin dsmc-source-location-mixin dsmc-named-mixin dsm-component)
+  ((entity :accessor dsmc-entity
+          :initarg :entity)))
+
+(defclass java-dsmc-operation (java-dsmc-leaf dsmc-operation)
+  ())
+
+(defclass java-dsmc-field (java-dsmc-leaf)
+  ())
+
+(defmethod dsmc-create-sub-components ((dsmc java-dsmc-root))
+  (format *error-output* "CREATING ROOT~%")
+  (list (make-instance 'java-dsmc-proj-root
+                       :name "root")))
+
+(defmethod dsmc-create-sub-components ((dsmc java-dsmc-proj-root))
+  (format *error-output* "CREATING PRT~%")
+  (let ((pkgs (make-hash-table :test #'equal))
+        (subs nil))
+    (loop for pn in (all-files-in-project *re2-language-instance*) do
+         (let ((p-name (collect-package-in-file pn)))
+           (push pn (gethash p-name pkgs))))
+    (maphash (lambda (k v)
+               (push (make-instance 'java-dsmc-package
+                                    :name k
+                                    :files v)
+                     subs))
+             pkgs)
+    subs))
+
+(defmethod dsmc-create-sub-components ((dsmc java-dsmc-package))
+  (format *error-output* "CREATING PKG~%")
+  (let ((items nil))
+    (loop for fn in (dsmc-files dsmc) do
+         (loop for cl in (java-collect-definitions (get-parsed-component *sos* *java-language* fn)) do
+              (push (make-instance 'java-dsmc-definition
+                                   :name (jut:package-path-to-java-name (butlast (jut:defn-qualifiers-namestrings cl)))
+                                   :context (cdr cl)
+                                   :source-location (make-file-source-location fn)
+                                   :term (car cl)) items)))
+    items))
+
+(defmethod dsmc-create-sub-components ((dsmc java-dsmc-definition))
+  (format *error-output* "CREATING DEF~%")
+  (let ((term (dsmc-term dsmc))
+        (context (dsmc-context dsmc))
+        (component-list nil)
+        (location (dsmc-source-location dsmc)))
+    (foreach term ((method_decl ?md)
+                   (field_decl ?fd)
+                   (mod? ?mod-o))
+      (:include jut:with-context)
+      (:ordered #! entity_item "?mod-o ?md"
+                (when (jut:lookup-name (get-operation-name *java-language* ?md) context)
+                  (push (make-instance 'java-dsmc-operation
+                                       :name (get-operation-name *java-language* ?md)
+                                       :term ?md
+                                       :source-location location
+                                       :context jut:*context*
+                                       :entity "operation")
+                        component-list)))
+      (:ordered #! entity_item "?mod-o ?fd"
+                (when (jut:lookup-name (get-name *java-language* ?fd) context)
+                  (push (make-instance 'java-dsmc-field
+                                       :name (jut:entity-name ?fd)
+                                       :term ?fd
+                                       :source-location location
+                                       :context jut:*context*
+                                       :entity "field")
+                        component-list)))
+      )
+    component-list))
+
+(defvar *java-dsm-read-vars-item* (make-instance 'dsm-obj-set-item
+                                                  :name-func #'jut:defn-name
+                                                  :info-pass :java-read-write-var-info-pass))
+
+(defvar *java-dsm-write-vars-item* (make-instance 'dsm-obj-set-item
+                                                   :name-func #'jut:defn-name
+                                                   :info-pass :java-read-write-var-info-pass))
+
+(defmethod get-dsm-formula ((language java-language-class) (kind (eql :rw)))
+  `(value *java-dsm-read-vars-item* *java-dsm-write-vars-item*))
+
+(defmethod get-dsm-formula ((language java-language-class) (kind (eql :rwww)))
+  `(+ (value *java-dsm-read-vars-item* *java-dsm-write-vars-item*)
+      (value *java-dsm-write-vars-item* *java-dsm-write-vars-item*)))
+
+(defmethod get-dsm-kind-path ((language java-language-class) (kind (eql :rwww)) row-or-column)
+  (declare (ignore row-or-column))
+  '((:sub "root")))
+
+(defmethod dsmc-run-info-gathering-pass ((dsmc java-dsmc-leaf) (info (eql :java-read-write-var-info-pass)))
+  (format *error-output* "GATHERING RW INFO~%")
+  (let ((term (dsmc-term dsmc))
+        (context (dsmc-context dsmc)))
+    (multiple-value-bind (rvars wvars) (jut:collect-vars term context)
+      (list (cons *java-dsm-read-vars-item*
+                  (dsm-item-set-from-list *java-dsm-read-vars-item*
+                                          rvars))
+            (cons *java-dsm-write-vars-item*
+                  (dsm-item-set-from-list *java-dsm-write-vars-item*
+                                          wvars))))))
+
+(defvar *java-dsm-use-vars-item* (make-instance 'dsm-obj-set-item
+                                                 :name-func #'jut:defn-name
+                                                 :info-pass :java-use-def-var-info-pass))
+
+(defvar *java-dsm-def-vars-item* (make-instance 'dsm-obj-set-item
+                                                 :name-func #'jut:defn-name
+                                                 :info-pass :java-use-def-var-info-pass))
+
+(defmethod dsmc-run-info-gathering-pass ((dsmc java-dsmc-leaf) (info (eql :java-use-def-var-info-pass)))
+  (format *error-output* "GATHERING UD INFO FOR ~A~%" (dsmc-entity dsmc))
+  (let ((term (dsmc-term dsmc))
+        (context (dsmc-context dsmc)))
+    (multiple-value-bind (use def) (collect-java-use-def-vars term context)
+      (list (cons *java-dsm-use-vars-item*
+                  (dsm-item-set-from-list *java-dsm-use-vars-item*
+                                          use))
+            (cons *java-dsm-def-vars-item*
+                  (dsm-item-set-from-list *java-dsm-def-vars-item*
+                                          def))))))
+
+(defmethod get-dsm-formula ((langauge java-language-class) (kind (eql :usedef)))
+  `(value *java-dsm-def-vars-item* *java-dsm-use-vars-item*))
+
+(defmethod get-dsm-kind-path ((language java-language-class) (kind (eql :usedef)) row-or-column)
+  (declare (ignore row-or-column))
+  '((:sub "root")))
+
+(defmethod dsmc-run-location-gathering-pass ((dsmc java-dsmc-leaf) (info (eql :java-read-write-var-info-pass)))
+  (format *error-output* "GATHERING Loc INFO~%")
+  (let ((term (dsmc-term dsmc))
+        (context (dsmc-context dsmc)))
+    (labels ((%gather-in-sub-term (sub-term sub-context)
+               (multiple-value-bind (rvars wvars) (jut:collect-vars sub-term sub-context)
+                 (loop for res-lst in (list rvars wvars)
+                    for item in (list *java-dsm-read-vars-item* *java-dsm-write-vars-item*)
+                    when res-lst
+                    collect (make-location-info
+                             :term sub-term
+                             :dsm-item item
+                             :source-location (term-source-location sub-term)
+                             :set (dsm-item-set-from-list item
+                                                          res-lst))))))
+      (let ((lst nil)
+            (jut:*context* context))
+               (foreach term ((stmt ?stmt))
+                 (:include jut:with-context)
+                 (?stmt
+                  (let* ((res (%gather-in-sub-term self jut:*context*)))
+                    (setf lst (append res lst)))
+                  t))
+               lst))))
+
+(defmethod get-find-locations-spec ((language java-language-class) (kind (eql :read-write)))
+  (values
+   *java-dsm-def-vars-item*
+   (list *java-dsm-read-vars-item* *java-dsm-write-vars-item*)
+   '((:sub "root")
+     (:recursive :wildcard))
+   '((:sub "root")
+     (:recursive :wildcard))))
+
+(defmethod operation-dependency-metrics-columns ((language java-language-class))
+  '("File" "Operation"))
+
+(defmethod operation-dependency-metrics-columns-values ((language java-language-class) (dsmc java-dsmc-definition))
+  (list (src-file-path (dsmc-source-location dsmc))
+        (dsmc-name dsmc)))
+
+(defmethod dsm-kind-and-path-for-dependency-data ((language java-language-class) (what (eql :file)))
+  (values :usedef
+          (path-append (get-dsm-kind-path *java-language* :usedef :row)
+                       '((:recursive (:typed :wildcard "file"))))))
+
+(defmethod dsm-kind-and-path-for-dependency-data ((language java-language-class) (what (eql :operation)))
+  (values :usedef
+          (path-append (get-dsm-kind-path *java-language* :usedef :row)
+                       '((:recursive :wildcard)))))
+
+
+(defun java-collect-definitions (tree)
+  (let* ((defs nil)
+         (java-utils:*context* nil))
+    (foreach tree ((class_decl ?cd)
+                   (enum_decl ?ed)
+                   (interface_decl ?id))
+      (:include jut:with-context)
+      (:pre :down :ordered (or ?cd ?ed ?id)
+            (push (cons self java-utils:*context*) defs)))
+    defs))
+
+(defun collect-java-use-def-vars (term context)
+  (let ((used-vars nil)
+        (defined-vars nil))
+    (mapc #'(lambda (x)
+              (push (jut:defn-key x) defined-vars))
+          (jut:collect-java-definitions term context))
+    (multiple-value-bind (read write) (jut:collect-vars term context)
+          (format *error-output* "Locals : ~A~%" read)
+    (format *error-output* "Modified : ~A~%" write)
+      (mapc #'(lambda (x)
+                (push (jut:defn-key x) used-vars)) read)
+      (mapc #'(lambda (x)
+                (push (jut:defn-key x) used-vars)) write))  
+    (values used-vars defined-vars)))
+
+(defun collect-java-usages (term context)
+
+  )
+
+(defun collect-package-in-file (file)
+  (let* ((tree (get-parsed-component *sos* *java-language* file))
+         (package nil))
+    (foreach tree ((annotations? ?ann)
+                   (qualified_id ?qid))
+      (:pre :down #! compilation_unit_front "?ann package ?qid ;"
+            (setf package (term-to-string ?qid))))
+    (if package
+        package
+        "default")))

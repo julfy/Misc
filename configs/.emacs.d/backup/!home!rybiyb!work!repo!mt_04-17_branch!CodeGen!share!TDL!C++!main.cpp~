@@ -1,0 +1,16 @@
+#include "ConcurrentLogger.hpp"
+#include <fstream>
+#include <thread>
+
+using namespace std;
+
+int main () {
+    ostream* os = new ofstream("test.txt",std::ios::out | std::ios::binary);
+    TDL::MTLogging::ConcurrentLogger* logger = TDL::MTLogging::ConcurrentLogger::getInstance (os);
+    TDL::MTLogging::ConcurrentLogger* logger2 = TDL::MTLogging::ConcurrentLogger::getInstance (os);
+    cout << "----" << (logger == logger2) << endl;
+    logger->logMessage ("asdsafasf");
+    logger->logMessage ("asdsafasf");
+    delete logger;
+    return 0;
+}

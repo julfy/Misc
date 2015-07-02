@@ -1,0 +1,32 @@
+#ifndef TDL_CONCURRENTLOGGER_HPP
+#define TDL_CONCURRENTLOGGER_HPP
+//#include <EventsLogger.hpp>
+#include <semaphore.h>
+#include <iostream>
+#include <string>
+#include <sstream>
+
+namespace TDL {
+    namespace MTLogging{
+        class ConcurrentLogger {//: public virtual EventsLogger {
+        private:
+//static ConcurrentLogger* instance;
+            std::ostream* output_stream;
+            std::stringstream queue;
+            sem_t sem;
+            int msgNum;
+            const int minMsgNum = 1000;
+            void output(std::string value);
+        public:
+            ConcurrentLogger();
+            ~ConcurrentLogger();
+            ConcurrentLogger(ConcurrentLogger const&) {} // Stub;
+            void operator=(ConcurrentLogger const&) {} // Stub;
+            void logMessage(std::string value);
+            static ConcurrentLogger* getInstance (std::ostream* stream);
+            void dumpMessages();
+        };
+    }
+}
+
+#endif
