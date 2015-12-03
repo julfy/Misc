@@ -139,8 +139,6 @@
 (add-to-list 'auto-mode-alist '("\\.d\\'" . c-mode))
 (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
 
-(load-file "~/emacs/grammarer.el")
-
 (require 'cc-mode)
 
 (require 'tabbar)
@@ -375,22 +373,10 @@
      (end-of-buffer)
      (eval-print-last-sexp))))
 
-;enable AC slime
-(let ((mt-home "/home/rybiyb/work/repo/kml/CodeGen"));(getenv "MOUSETRAP_HOME")))
-  (setenv "MOUSETRAP_HOME" mt-home)
-  (setq inferior-lisp-program (concat mt-home "/devbin/ac"))
-  (setq slime-contribs '(slime-fancy))
-  (add-to-list 'load-path "~/emacs/slime/")
-  (add-to-list 'load-path "~/emacs/slime/contrib")
-  (require 'slime-autoloads) 
-  (slime-setup '(slime-fancy)))
-
-(add-hook 'slime-repl-mode-hook (lambda () (paredit-mode +1)))
-
-(defun override-slime-repl-bindings-with-paredit ()
-  (define-key slime-repl-mode-map
-    (read-kbd-macro paredit-backward-delete-key) nil))
-(add-hook 'slime-repl-mode-hook 'override-slime-repl-bindings-with-paredit)
+(setq my-el-get-packages  
+      '(tuareg-mode))  
+  
+(el-get 'sync my-el-get-packages)  
 
 ; smart HOME button. Really smart.
 (defun smart-beginning-of-line ()
@@ -406,7 +392,11 @@
 
 (global-set-key [home] 'smart-beginning-of-line)
 
+(setq opam-share (substring (shell-command-to-string "opam config var share 2> /dev/null") 0 -1))
+(add-to-list 'load-path (concat opam-share "/emacs/site-lisp"))
+(require 'merlin)
 
+(add-hook 'tuareg-mode-hook 'merlin-mode)
 
 ;enable color theming
 ;(require 'color-theme)
