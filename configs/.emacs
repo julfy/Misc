@@ -397,6 +397,7 @@
 (require 'merlin)
 
 (add-hook 'tuareg-mode-hook 'merlin-mode)
+(add-hook 'tuareg-mode-hook 'paredit-mode)
 
 ;enable color theming
 ;(require 'color-theme)
