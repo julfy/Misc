@@ -397,7 +397,13 @@
 (require 'merlin)
 
 (add-hook 'tuareg-mode-hook 'merlin-mode)
-(add-hook 'tuareg-mode-hook 'paredit-mode)
+
+(eval-after-load 'merlin-mode
+  (progn
+   (define-key merlin-mode-map (kbd "M-.") 'merlin-locate)
+   (define-key merlin-mode-map (kbd "M-,") 'merlin-pop-stack)))
+
+(add-hook 'buffer-list-update-hook '(lambda () (setq ac-auto-start 2)))
 
 ;enable color theming
 ;(require 'color-theme)
