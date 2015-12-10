@@ -154,19 +154,6 @@
 (global-set-key [\S-right] 'tabbar-forward)
 (global-set-key [\S-left] 'tabbar-backward)
 
-(defun magic-sicp ()
-  (interactive)
-  (cd "~/prj/sicp/")
-  (run-scheme "scheme")
-  (setq w (selected-window))
-  (setq w2 (split-window w 25))
-  (find-file "ch*.scm" 1)
-  (setq fr (make-frame))
-  (select-window (frame-first-window fr))
-  (load-library "w3m")
-  (w3m-goto-url "file:///usr/src/Doc/Docs4/sicp/book-Z-H-4.html" nil nil)  
-  )
-  
 ;(require 'tex-site)
 (put 'upcase-region 'disabled nil)
 (require 'session)
@@ -184,27 +171,6 @@
   
 (require 'bar-cursor)
 (bar-cursor-mode 10)
-
-(defun load-project-agame ()
-  (interactive)
-  (load-library "quack")
-  (cd "~/projects/AGame/src/")
-  (run-scheme "csi")
-  (setq w (selected-window))
-;  (setq w2 (split-window w 10))
-    (other-window 1)
-  (find-file "*.scm" 1)
-  (setq fr (make-frame))
-  (select-window (frame-first-window fr))
-  (eshell)  
-  (setq w (selected-window))
-  (setq w2 (split-window w 25))
-  (dired ".")
-  (setq fr (make-frame))
-  (select-window (frame-first-window fr))
-  (find-file "/usr/include/SDL/SDL.h"))
-
-(require 'psvn)
 
 (setq case-fold-search t)
 (defvar in-command nil)
@@ -282,14 +248,6 @@
         (save-buffers-kill-emacs))
     (message "Canceled exit")))
 
-;(when window-system
-;  (global-set-key (kbd "C-x C-c") 'ask-before-closing))
-
-;;======================================================================================================
-;; added by omarchenko
-
-;add pretty lambdas
-
 (defun esk-pretty-lambdas ()
   (font-lock-add-keywords
    nil `(("(?\\(lambda\\>\\)"
@@ -353,10 +311,6 @@
 (require 'auto-complete-config)
 (add-to-list 'ac-dictionary-directories "~/emacs/ac-dict")
 (ac-config-default)
-;(global-auto-complete-mode t)
-;(auto-complete-mode t)
-;(auto-complete-mode 1)
-
 
 ;enable enter-and-indent
 (global-set-key "\C-m" 'newline-and-indent)
@@ -381,7 +335,6 @@
 ; smart HOME button. Really smart.
 (defun smart-beginning-of-line ()
   "Move point to first non-whitespace character or beginning-of-line.
-
   Move point to the first non-whitespace character on this line.
   If point was already at that position, move point to beginning of line."
   (interactive) ; Use  (interactive "^") in Emacs 23 to make shift-select work
@@ -392,16 +345,31 @@
 
 (global-set-key [home] 'smart-beginning-of-line)
 
+(shell-command-to-string "eval `opam config env`")
 (setq opam-share (substring (shell-command-to-string "opam config var share 2> /dev/null") 0 -1))
 (add-to-list 'load-path (concat opam-share "/emacs/site-lisp"))
 (require 'merlin)
 
 (add-hook 'tuareg-mode-hook 'merlin-mode)
+(add-hook 'tuareg-mode-hook (lambda () (electric-indent-local-mode -1)))
+
+(defun merlin-switch-src ()
+  (interactive)
+  (let* ((fname (buffer-file-name))
+         (ext (subseq fname (- (length fname) 3)))
+         (mli (concat fname "i"))
+         (ml (subseq fname 0 (1- (length fname)))))
+    (if (and (string= ext ".ml") (file-exists-p mli))
+        (find-file mli)
+      (if (and (string= ext "mli") (file-exists-p ml))
+          (find-file ml)
+        (message "File not found.")))))
 
 (eval-after-load 'merlin-mode
   (progn
    (define-key merlin-mode-map (kbd "M-.") 'merlin-locate)
-   (define-key merlin-mode-map (kbd "M-,") 'merlin-pop-stack)))
+   (define-key merlin-mode-map (kbd "M-,") 'merlin-pop-stack)
+   (define-key merlin-mode-map (kbd "C-c C-i") 'merlin-switch-src)))
 
 (add-hook 'buffer-list-update-hook '(lambda () (setq ac-auto-start 2)))
 
