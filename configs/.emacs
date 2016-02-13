@@ -1,34 +1,34 @@
-;; (add-to-list 'default-frame-alist '(font . "Terminus:size=14"))
-
-;; (add-to-list 'default-frame-alist '(fontset . 
-;;     '("fontset-default" cyrillic ("Terminus" . "unicode-bmp"))))
-
 (setq-default bidi-display-reordering nil)
 
 (add-to-list 'load-path "~/emacs")
 
 (desktop-save-mode 1)
 
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(TeX-PDF-mode t)
- '(TeX-mode-hook (quote (auto-fill-mode flyspell-mode my-install-tex-input-helper)))
- '(TeX-output-view-style (quote (("^dvi$" ("^landscape$" "^pstricks$\\|^pst-\\|^psfrag$") "%(o?)dvips -t landscape %d -o && gv %f") ("^dvi$" "^pstricks$\\|^pst-\\|^psfrag$" "%(o?)dvips %d -o && gv %f") ("^dvi$" ("^a4\\(?:dutch\\|paper\\|wide\\)\\|sem-a4$" "^landscape$") "%(o?)xdvi %dS -paper a4r -s 0 %d") ("^dvi$" "^a4\\(?:dutch\\|paper\\|wide\\)\\|sem-a4$" "%(o?)xdvi %dS -paper a4 %d") ("^dvi$" ("^a5\\(?:comb\\|paper\\)$" "^landscape$") "%(o?)xdvi %dS -paper a5r -s 0 %d") ("^dvi$" "^a5\\(?:comb\\|paper\\)$" "%(o?)xdvi %dS -paper a5 %d") ("^dvi$" "^b5paper$" "%(o?)xdvi %dS -paper b5 %d") ("^dvi$" "^letterpaper$" "%(o?)xdvi %dS -paper us %d") ("^dvi$" "^legalpaper$" "%(o?)xdvi %dS -paper legal %d") ("^dvi$" "^executivepaper$" "%(o?)xdvi %dS -paper 7.25x10.5in %d") ("^dvi$" "." "%(o?)xdvi %dS %d") ("^pdf$" "." "kpdf \"%s.pdf\"") ("^html?$" "." "netscape %o"))))
- '(ansi-color-names-vector ["black" "#d55e00" "#009e73" "#f8ec59" "#0072b2" "#cc79a7" "#56b4e9" "white"])
  '(backup-directory-alist (\` (("." . "~/.emacs.d/backup"))))
  '(browse-url-browser-function (quote browse-url-generic))
  '(browse-url-generic-program "firefox")
  '(c-basic-offset 4)
- '(c-default-style (quote ((c-mode . "k&r") (c++-mode . "k&r") (java-mode . "java") (other . "gnu"))))
+ '(c-default-style
+   (quote
+    ((c-mode . "k&r")
+     (c++-mode . "k&r")
+     (java-mode . "java")
+     (other . "gnu"))))
  '(case-fold-search nil)
  '(column-number-mode t)
  '(compilation-scroll-output t)
  '(cua-mode t nil (cua-base))
  '(custom-enabled-themes (quote (mydeef)))
- '(custom-safe-themes (quote ("9132bcf10a0bb4a723c0ae8acbf80be53b661cbec6331bcbdd47d27cbfe9571b" "a479d9d8fdeaac65198a2621e84b9e1759c33704133e9308f64bb9a6276def01" "68d50d6e1ba3ecd4ee91daaa00b36ce291fbe957152c5e44693653d3e547bbd9" "aa006c73cfbaa50e101ce0d5081bde0742f9561e72b78704579f450c662b2140" "99db6b9a6408acb84c08764bf49bbf2aa88e1033076923381189aded9fcdf29e" "a7ba32bec7f453b100bb31cfcc314df195d341a0e72a8a94775a9911ba9160f7" default)))
+ '(custom-safe-themes
+   (quote
+    ("9132bcf10a0bb4a723c0ae8acbf80be53b661cbec6331bcbdd47d27cbfe9571b" default)))
  '(default-input-method "ukrainian-computer-ext")
  '(default-justification (quote full))
  '(diff-switches "-u")
@@ -39,28 +39,30 @@
  '(font-lock-support-mode (quote jit-lock-mode))
  '(global-font-lock-mode t)
  '(global-hl-line-mode nil)
+ '(global-rainbow-delimiters-mode t)
  '(haskell-literate-default (quote latex))
  '(highlight-symbol-mode t t)
- '(imaxima-fnt-size "large")
- '(imaxima-lisp-file (if (eq system-type (quote windows-nt)) (imaxima-subst-char-in-string 92 47 (locate-library "imaxima.lisp")) (locate-library "imaxima.lisp")))
- '(imaxima-maxima-options "--preload-lisp=nil")
- '(imaxima-pt-size 12)
- '(imaxima-use-maxima-mode-flag t)
  '(indent-tabs-mode nil)
  '(inferior-lisp-program "sbcl" t)
- '(ispell-local-dictionary-alist (quote (("ukrainian" "[йцукенгшщзхїфівапролджєячсмитьбю]" "[^йцукенгшщзхїфівапролджєячсмитьбю]" "[']" t ("-B" "-d" "ukrainian") nil utf-8))))
+ '(initial-frame-alist (quote ((fullscreen . maximized))))
+ '(ispell-local-dictionary-alist
+   (quote
+    (("ukrainian" "[йцукенгшщзхїфівапролджєячсмитьбю]" "[^йцукенгшщзхїфівапролджєячсмитьбю]" "[']" t
+      ("-B" "-d" "ukrainian")
+      nil utf-8))))
  '(ispell-program-name "/usr/bin/aspell")
  '(load-home-init-file t t)
+ '(merlin-error-on-single-line t)
+ '(merlin-locate-in-new-window (quote never))
  '(minimap-window-location (quote right))
  '(mmm-submode-decoration-level 0)
  '(paren-mode (quote paren) nil (paren))
  '(preview-image-type (quote png))
- '(quack-default-program "guile")
- '(quack-fontify-style (quote plt))
- '(quack-pretty-lambda-p nil)
- '(quack-programs (quote ("bigloo" "mzscheme -M r5rs" "bigloo" "csi" "csi -hygienic" "gosh" "gsi" "gsi ~~/syntax-case.scm -" "guile" "kawa" "mit-scheme" "mred -z" "mzscheme" "mzscheme -M errortrace" "rs" "scheme" "scheme48" "scsh" "sisc" "stklos" "sxi")))
- '(quack-smart-open-paren-p nil)
- '(safe-local-variable-values (quote ((make-backup-files . t) (trim-versions-without-asking))))
+ '(require-final-newline nil)
+ '(safe-local-variable-values
+   (quote
+    ((make-backup-files . t)
+     (trim-versions-without-asking))))
  '(scalable-fonts-allowed nil)
  '(scroll-bar-mode (quote right))
  '(show-paren-delay 0)
@@ -68,14 +70,17 @@
  '(show-paren-style (quote expression))
  '(spell-command "aspell")
  '(tab-width 8)
- '(tex-dvi-view-command (quote (cond ((eq window-system (quote x)) "kdvi") ((eq window-system (quote w32)) "yap") (t "dvi2tty * | cat -s"))))
  '(transient-mark-mode t)
  '(truncate-lines t)
+ '(tuareg-begin-indent 0)
+ '(tuareg-default-indent 2)
+ '(tuareg-if-then-else-indent 0)
+ '(tuareg-match-clause-indent 0)
+ '(tuareg-match-when-indent 2)
  '(ude-url-browser "firefox")
  '(undo-limit 2000000)
  '(w3m-default-display-inline-images t)
  '(w3m-key-binding (quote info)))
-; '(tab-width 4))
 
 (defun comment-or-uncomment-region-or-line ()
     "Comments or uncomments the region or the current line if there's no active region."
@@ -126,12 +131,8 @@
 (global-set-key (kbd "C-;") 'comment-or-uncomment-region-or-line)
 (global-set-key [(control shift up)] 'move-line-up)
 (global-set-key [(control shift down)] 'move-line-down)
-(global-set-key (kbd "C-x C-a") 'revert-buffer-no-confirm)
-;(global-set-key (kbd "C-,") 'slime-complete-symbol)
-(global-set-key (kbd "S-<down>")
-    (lambda () (interactive) (next-line 5)))
-(global-set-key (kbd "S-<up>")
-    (lambda () (interactive) (previous-line 5)))
+(global-set-key (kbd "S-<down>") (lambda () (interactive) (next-line 5)))
+(global-set-key (kbd "S-<up>") (lambda () (interactive) (previous-line 5)))
 
 (load-library "ukr-ext")
 
@@ -168,7 +169,20 @@
   (set-language-environment 'utf-8)
   (set-input-method 'cyrillic-jcuken)
   (toggle-input-method))
-  
+
+; smart HOME button. Really smart.
+(defun smart-beginning-of-line ()
+  "Move point to first non-whitespace character or beginning-of-line.
+  Move point to the first non-whitespace character on this line.
+  If point was already at that position, move point to beginning of line."
+  (interactive) ; Use  (interactive "^") in Emacs 23 to make shift-select work
+  (let ((oldpos (point)))
+    (back-to-indentation)
+    (and (= oldpos (point))
+         (beginning-of-line))))
+
+(global-set-key [home] 'smart-beginning-of-line)
+
 (require 'bar-cursor)
 (bar-cursor-mode 10)
 
@@ -191,8 +205,8 @@
 	  (if ind
 	      (progn (setq num (1+ ind))
 		     (setq in-command t)
-		     (if current-input-method 
-			 (progn 
+		     (if current-input-method
+			 (progn
 			   (setq out-com-input-method current-input-method)
 			   (set-input-method nil))
 		       (setq out-com-input-method nil)))
@@ -204,40 +218,39 @@
 (defun my-install-tex-input-helper ()
   (add-hook 'after-change-functions 'my-tex-input-helper))
 
+;; (defun lisp-add-keywords (face-name keyword-rules)
+;;    (let* ((keyword-list (mapcar #'(lambda (x)
+;;                                     (symbol-name (cdr x)))
+;;                                 keyword-rules))
+;;           (keyword-regexp (concat "(\\("
+;;                                   (regexp-opt keyword-list)
+;;                                   "\\)[ \n]")))
+;;      (font-lock-add-keywords 'lisp-mode
+;;                              `((,keyword-regexp 1 ',face-name))))
+;;    (mapc #'(lambda (x)
+;;              (put (cdr x)
+;;                   ;;'scheme-indent-function
+;;                   'common-lisp-indent-function
+;;                   (car x)))
+;;          keyword-rules))
 
-(defun lisp-add-keywords (face-name keyword-rules)
-   (let* ((keyword-list (mapcar #'(lambda (x)
-                                    (symbol-name (cdr x)))
-                                keyword-rules))
-          (keyword-regexp (concat "(\\("
-                                  (regexp-opt keyword-list)
-                                  "\\)[ \n]")))
-     (font-lock-add-keywords 'lisp-mode
-                             `((,keyword-regexp 1 ',face-name))))
-   (mapc #'(lambda (x)
-             (put (cdr x)
-                  ;;'scheme-indent-function
-                  'common-lisp-indent-function
-                  (car x)))
-         keyword-rules))
- 
-(lisp-add-keywords
- 'font-lock-keyword-face
- '((0 . mv-let*)
-   (0 . letvar)
-   (0 . letvar*)
-   (nil . deftrf)
-   (2 . !~)
-   (2 . !.)
-   (2 . foreach)
-   (2 . forsome)
-   (2 . forthis)
-   (2 . /.)
-   (2 . foreach-child)
-   (2 . foreach-collect)
-   (0 . aif)
-   (0 . awhen)
-   ))
+;; (lisp-add-keywords
+ ;; 'font-lock-keyword-face
+ ;; '((0 . mv-let*)
+ ;;   (0 . letvar)
+ ;;   (0 . letvar*)
+ ;;   (nil . deftrf)
+ ;;   (2 . !~)
+ ;;   (2 . !.)
+ ;;   (2 . foreach)
+ ;;   (2 . forsome)
+ ;;   (2 . forthis)
+ ;;   (2 . /.)
+ ;;   (2 . foreach-child)
+ ;;   (2 . foreach-collect)
+ ;;   (0 . aif)
+ ;;   (0 . awhen)
+ ;;   ))
 
 (defun ask-before-closing ()
   "Ask whether or not to close, and then close if y was pressed"
@@ -248,14 +261,14 @@
         (save-buffers-kill-emacs))
     (message "Canceled exit")))
 
-(defun esk-pretty-lambdas ()
-  (font-lock-add-keywords
-   nil `(("(?\\(lambda\\>\\)"
-          (0 (progn (compose-region (match-beginning 1) (match-end 1)
-                                    ,(make-char 'greek-iso8859-7 107))
-                    nil))))))
+;; (defun esk-pretty-lambdas ()
+;;   (font-lock-add-keywords
+;;    nil `(("(?\\(lambda\\>\\)"
+;;           (0 (progn (compose-region (match-beginning 1) (match-end 1)
+;;                                     ,(make-char 'greek-iso8859-7 107))
+;;                     nil))))))
+;; (add-hook 'prog-mode-hook 'esk-pretty-lambdas)
 
-(add-hook 'prog-mode-hook 'esk-pretty-lambdas)
 (add-hook 'prog-mode-hook 'global-visual-line-mode)
 
 ;remove toolbar
@@ -270,7 +283,6 @@
 
 ;enable symbol highlight
 (require 'highlight-symbol)
-;(highlight-symbol-mode)
 (global-set-key [(control f3)] 'highlight-symbol-at-point)
 (global-set-key [f3] 'highlight-symbol-next)
 (global-set-key [(shift f3)] 'highlight-symbol-prev)
@@ -292,13 +304,12 @@
 (eval-after-load 'paredit
   '(progn
      (define-key paredit-mode-map (kbd "<M-up>") nil)
-     (define-key paredit-mode-map (kbd "<M-down>") nil) 
-     (define-key paredit-mode-map (kbd "<S-right>") nil) 
-     (define-key paredit-mode-map (kbd "<S-left>") nil))
-)
+     (define-key paredit-mode-map (kbd "<M-down>") nil)
+     (define-key paredit-mode-map (kbd "<S-right>") nil)
+     (define-key paredit-mode-map (kbd "<S-left>") nil)))
 
 ;disable welcome screen
-(setq inhibit-startup-message t)  
+(setq inhibit-startup-message t)
 
 ;disable menu-bar
 (menu-bar-mode -1)
@@ -327,31 +338,23 @@
      (end-of-buffer)
      (eval-print-last-sexp))))
 
-(setq my-el-get-packages  
-      '(tuareg-mode))  
-  
-(el-get 'sync my-el-get-packages)  
+(setq my-el-get-packages
+      '(tuareg-mode))
 
-; smart HOME button. Really smart.
-(defun smart-beginning-of-line ()
-  "Move point to first non-whitespace character or beginning-of-line.
-  Move point to the first non-whitespace character on this line.
-  If point was already at that position, move point to beginning of line."
-  (interactive) ; Use  (interactive "^") in Emacs 23 to make shift-select work
-  (let ((oldpos (point)))
-    (back-to-indentation)
-    (and (= oldpos (point))
-         (beginning-of-line))))
+(el-get 'sync my-el-get-packages)
 
-(global-set-key [home] 'smart-beginning-of-line)
+(add-to-list 'auto-mode-alist '("\\.ml[ily]?$" . tuareg-mode))
+(add-to-list 'auto-mode-alist '("\\.topml$" . tuareg-mode))
 
-(shell-command-to-string "eval `opam config env`")
 (setq opam-share (substring (shell-command-to-string "opam config var share 2> /dev/null") 0 -1))
 (add-to-list 'load-path (concat opam-share "/emacs/site-lisp"))
+(require 'ocp-index)
 (require 'merlin)
 
 (add-hook 'tuareg-mode-hook 'merlin-mode)
-(add-hook 'tuareg-mode-hook (lambda () (electric-indent-local-mode -1)))
+(add-hook 'tuareg-mode-hook (lambda ()
+                              (setq c-syntactic-indentation nil)
+                              (electric-indent-local-mode -1)))
 
 (defun merlin-switch-src ()
   (interactive)
@@ -371,33 +374,18 @@
    (define-key merlin-mode-map (kbd "M-,") 'merlin-pop-stack)
    (define-key merlin-mode-map (kbd "C-c C-i") 'merlin-switch-src)))
 
-(add-hook 'buffer-list-update-hook '(lambda () (setq ac-auto-start 2)))
+;; (add-to-list 'load-path "/home/bogdan/.opam/4.02.3/share/emacs/site-lisp")
 
-;enable color theming
-;(require 'color-theme)
-;(color-theme-initialize)
-;(color-theme-mustang)
+(add-hook 'buffer-list-update-hook '(lambda () (setq ac-auto-start 3)))
+
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(rainbow-delimiters-depth-1-face ((t (:foreground "#ff8700"))))
- '(rainbow-delimiters-depth-2-face ((t (:foreground "#ff8700"))))
- '(rainbow-delimiters-depth-3-face ((t (:foreground "#ff8700"))))
- '(rainbow-delimiters-depth-4-face ((t (:foreground "#ff8700"))))
- '(rainbow-delimiters-depth-5-face ((t (:foreground "#ff8700"))))
- '(rainbow-delimiters-depth-6-face ((t (:foreground "#ff8700"))))
- '(rainbow-delimiters-depth-7-face ((t (:foreground "#ff8700"))))
- '(rainbow-delimiters-depth-8-face ((t (:foreground "#ff8700"))))
- '(rainbow-delimiters-depth-9-face ((t (:foreground "#ff8700"))))
- '(rainbow-delimiters-unmatched-face ((t (:foreground "#ff191B" :box (:line-width 2 :color "#ff191b" :style released-button))))))
-
-(set-face-attribute 'default nil :height 105)
-
-;; Local Variables:
-;; no-byte-compile: t
-;; End:
-;;; rippedcasts-theme.el ends here
-
-
+ '(rainbow-delimiters-depth-1-face ((t (:foreground "sandy brown"))))
+ '(rainbow-delimiters-depth-2-face ((t (:foreground "chocolate"))))
+ '(rainbow-delimiters-depth-3-face ((t (:foreground "goldenrod"))))
+ '(rainbow-delimiters-depth-4-face ((t (:foreground "gold"))))
+ '(rainbow-delimiters-depth-5-face ((t (:foreground "dark khaki"))))
+ '(rainbow-delimiters-unmatched-face ((t (:foreground "red")))))
