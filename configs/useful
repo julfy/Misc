@@ -1,1 +1,1 @@
-while [[ 1 ]]; do sleep 600; (zenity --notification --text="$(fortune -a -s)" --timeout=1 &> /dev/null &); done
+while [[ 1 ]]; do sleep 600; (zenity --notification --timeout=1 --text="$(fortune -a -s | fold -sw 30)" &> /dev/null); done
