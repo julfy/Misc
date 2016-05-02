@@ -134,6 +134,8 @@
 (global-set-key [(control shift down)] 'move-line-down)
 (global-set-key (kbd "S-<down>") (lambda () (interactive) (next-line 5)))
 (global-set-key (kbd "S-<up>") (lambda () (interactive) (previous-line 5)))
+(global-set-key (kbd "S-<right>") 'forward-word)
+(global-set-key (kbd "S-<left>") 'backward-word)
 
 (load-library "ukr-ext")
 
@@ -153,8 +155,8 @@
 ;; (global-set-key [?\M-s] 'replace-string)
 ;; (global-set-key [?\M-n] 'replace-regexp)
 ;; (global-set-key [?\C-.] 'call-last-kbd-macro)
-(global-set-key [\S-right] 'tabbar-forward)
-(global-set-key [\S-left] 'tabbar-backward)
+(global-set-key [\C-right] 'tabbar-forward)
+(global-set-key [\C-left] 'tabbar-backward)
 
 ;(require 'tex-site)
 (put 'upcase-region 'disabled nil)
@@ -301,13 +303,18 @@
 (add-hook 'lisp-interaction-mode-hook            #'enable-paredit-mode)
 (add-hook 'scheme-mode-hook                      #'enable-paredit-mode)
 
-;disable this stupid keybindings
+;fix this stupid keybindings
 (eval-after-load 'paredit
   '(progn
+     (define-key paredit-mode-map (kbd "<C-M-left>") 'paredit-forward-barf-sexp)
+     (define-key paredit-mode-map (kbd "<C-M-right>") 'paredit-forward-slurp-sexp)
      (define-key paredit-mode-map (kbd "<M-up>") nil)
      (define-key paredit-mode-map (kbd "<M-down>") nil)
      (define-key paredit-mode-map (kbd "<S-right>") nil)
-     (define-key paredit-mode-map (kbd "<S-left>") nil)))
+     (define-key paredit-mode-map (kbd "<S-left>") nil)
+     (define-key paredit-mode-map (kbd "<C-left>") nil)
+     (define-key paredit-mode-map (kbd "<C-right>") nil)
+     ))
 
 ;disable welcome screen
 (setq inhibit-startup-message t)
@@ -324,9 +331,6 @@
 (add-to-list 'ac-dictionary-directories "~/emacs/ac-dict")
 (ac-config-default)
 
-;enable enter-and-indent
-(global-set-key "\C-m" 'newline-and-indent)
-
 ;set default grep command
 (setq grep-command "grep -risn ")
 
@@ -340,9 +344,24 @@
      (eval-print-last-sexp))))
 
 (setq my-el-get-packages
-      '(tuareg-mode))
+      '(tuareg-mode
+        ))
 
 (el-get 'sync my-el-get-packages)
+
+;; (defun minimap-toggle ()
+;;   "Toggle minimap"
+;;   (interactive)
+;;   (if (or (not (boundp 'minimap-exists))
+;; 	  (not minimap-exists))
+;;       (progn (minimap-create)
+;; 	     (setf minimap-exists t)
+;; 	     (set-frame-width (selected-frame) 100))
+;;     (progn (minimap-kill)
+;; 	   (setf minimap-exists nil)
+;; 	   (set-frame-width (selected-frame) 80))))
+
+;; (global-set-key "\C-m" 'minimap-toggle)
 
 (add-to-list 'auto-mode-alist '("\\.ml[ily]?$" . tuareg-mode))
 (add-to-list 'auto-mode-alist '("\\.topml$" . tuareg-mode))
