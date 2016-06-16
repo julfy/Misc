@@ -56,6 +56,7 @@
  '(merlin-locate-in-new-window (quote never))
  '(minimap-window-location (quote right))
  '(mmm-submode-decoration-level 0)
+ '(ocp-index-override-auto-complete-defaults nil)
  '(paren-mode (quote paren) nil (paren))
  '(preview-image-type (quote png))
  '(require-final-newline nil)
@@ -280,6 +281,9 @@
 ;enable line numbers
 (global-linum-mode t)
 
+(global-set-key [f5]'kmacro-start-macro-or-insert-counter)
+(global-set-key [f6]'kmacro-end-or-call-macro)
+
 ;enable bash auto completion
 (require 'bash-completion)
 (bash-completion-setup)
@@ -387,12 +391,17 @@
       (if (and (string= ext "mli") (file-exists-p ml))
           (find-file ml)
         (message "File not found.")))))
+(defun merlin-clear-werrors ()
+  (interactive)
+  (mapc #'delete-overlay (overlays-in (point-min) (point-max)))
+  t)
 
 (eval-after-load 'merlin-mode
   (progn
    (define-key merlin-mode-map (kbd "M-.") 'merlin-locate)
    (define-key merlin-mode-map (kbd "M-,") 'merlin-pop-stack)
-   (define-key merlin-mode-map (kbd "C-c C-i") 'merlin-switch-src)))
+   (define-key merlin-mode-map (kbd "C-c C-i") 'merlin-switch-src)
+   (define-key merlin-mode-map (kbd "C-c C-z") 'merlin-clear-werrors)))
 
 ;; (add-to-list 'load-path "/home/bogdan/.opam/4.02.3/share/emacs/site-lisp")
 
