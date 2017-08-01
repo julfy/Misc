@@ -70,7 +70,7 @@
  '(show-paren-mode t)
  '(show-paren-style (quote expression))
  '(spell-command "aspell")
- '(tab-width 8)
+ '(tab-width 4)
  '(tabbar-mode t)
  '(transient-mark-mode t)
  '(truncate-lines t)
@@ -120,8 +120,8 @@
 (global-set-key "\C-z" 'shell)
 (global-set-key (kbd "M-<up>") 'backward-paragraph)
 (global-set-key (kbd "M-<down>") 'forward-paragraph)
-(global-set-key (kbd "C-<up>") '(lambda () "Previous" (interactive) (scroll-down 1)))
-(global-set-key (kbd "C-<down>") '(lambda () "Next" (interactive) (scroll-up 1)))
+(global-set-key (kbd "S-<up>") '(lambda () "Previous" (interactive) (scroll-down 1)))
+(global-set-key (kbd "S-<down>") '(lambda () "Next" (interactive) (scroll-up 1)))
 (global-set-key (kbd "C-`") 'other-window)
 (global-set-key (kbd "C-<tab>") 'auto-complete)
 (global-set-key (kbd "C-s") 'isearch-forward-regexp)
@@ -133,10 +133,10 @@
 (global-set-key (kbd "C-;") 'comment-or-uncomment-region-or-line)
 (global-set-key [(control shift up)] 'move-line-up)
 (global-set-key [(control shift down)] 'move-line-down)
-(global-set-key (kbd "S-<down>") (lambda () (interactive) (next-line 5)))
-(global-set-key (kbd "S-<up>") (lambda () (interactive) (previous-line 5)))
-(global-set-key (kbd "S-<right>") 'forward-word)
-(global-set-key (kbd "S-<left>") 'backward-word)
+(global-set-key (kbd "C-<down>") (lambda () (interactive) (next-line 5)))
+(global-set-key (kbd "C-<up>") (lambda () (interactive) (previous-line 5)))
+(global-set-key (kbd "C-<right>") 'forward-word)
+(global-set-key (kbd "C-<left>") 'backward-word)
 
 (load-library "ukr-ext")
 
@@ -156,8 +156,8 @@
 ;; (global-set-key [?\M-s] 'replace-string)
 ;; (global-set-key [?\M-n] 'replace-regexp)
 ;; (global-set-key [?\C-.] 'call-last-kbd-macro)
-(global-set-key [\C-right] 'tabbar-forward)
-(global-set-key [\C-left] 'tabbar-backward)
+(global-set-key [\S-right] 'tabbar-forward)
+(global-set-key [\S-left] 'tabbar-backward)
 
 ;(require 'tex-site)
 (put 'upcase-region 'disabled nil)
@@ -380,17 +380,6 @@
                               (setq c-syntactic-indentation nil)
                               (electric-indent-local-mode -1)))
 
-(defun merlin-switch-src ()
-  (interactive)
-  (let* ((fname (buffer-file-name))
-         (ext (subseq fname (- (length fname) 3)))
-         (mli (concat fname "i"))
-         (ml (subseq fname 0 (1- (length fname)))))
-    (if (and (string= ext ".ml") (file-exists-p mli))
-        (find-file mli)
-      (if (and (string= ext "mli") (file-exists-p ml))
-          (find-file ml)
-        (message "File not found.")))))
 (defun merlin-clear-werrors ()
   (interactive)
   (mapc #'delete-overlay (overlays-in (point-min) (point-max)))
@@ -400,18 +389,21 @@
   (progn
    (define-key merlin-mode-map (kbd "M-.") 'merlin-locate)
    (define-key merlin-mode-map (kbd "M-,") 'merlin-pop-stack)
-   (define-key merlin-mode-map (kbd "C-c C-i") 'merlin-switch-src)
    (define-key merlin-mode-map (kbd "C-c C-z") 'merlin-clear-werrors)))
 
 ;; (add-to-list 'load-path "/home/bogdan/.opam/4.02.3/share/emacs/site-lisp")
 
 (add-hook 'buffer-list-update-hook '(lambda () (setq ac-auto-start 3)))
+(add-hook 'buffer-list-update-hook '(lambda () (setq ac-delay 0.2)))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(ebrowse-default ((t nil)))
+ '(ebrowse-progress ((t (:background "dark olive green"))))
+ '(ebrowse-root-class ((t (:foreground "deep sky blue" :weight bold))))
  '(rainbow-delimiters-depth-1-face ((t (:foreground "sandy brown"))))
  '(rainbow-delimiters-depth-2-face ((t (:foreground "chocolate"))))
  '(rainbow-delimiters-depth-3-face ((t (:foreground "goldenrod"))))
@@ -419,3 +411,4 @@
  '(rainbow-delimiters-depth-5-face ((t (:foreground "dark khaki"))))
  '(rainbow-delimiters-unmatched-face ((t (:foreground "red"))))
  '(tabbar-default-face ((t (:inherit variable-pitch :background "gray72" :foreground "gray20" :height 0.8)))))
+(put 'erase-buffer 'disabled nil)
