@@ -393,8 +393,10 @@
 
 ;; (add-to-list 'load-path "/home/bogdan/.opam/4.02.3/share/emacs/site-lisp")
 
-(add-hook 'buffer-list-update-hook '(lambda () (setq ac-auto-start 3)))
-(add-hook 'buffer-list-update-hook '(lambda () (setq ac-delay 0.2)))
+(add-hook 'buffer-list-update-hook '(lambda ()
+  (setq ac-auto-start 3)
+  (setq ac-delay 0.2)
+  (setq ac-menu-height 20)))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
