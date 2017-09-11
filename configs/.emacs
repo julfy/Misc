@@ -159,15 +159,6 @@
 (global-set-key [\S-right] 'tabbar-forward)
 (global-set-key [\S-left] 'tabbar-backward)
 
-;(require 'tex-site)
-(put 'upcase-region 'disabled nil)
-(require 'session)
-(add-hook 'after-init-hook 'session-initialize)
-
-(require 'dired-x)
-;(mouse-avoidance-mode 'cat-and-mouse)
-(msb-mode)
-
 (defun init-utf ()
   (interactive)
   (set-language-environment 'utf-8)
@@ -193,68 +184,6 @@
 (setq case-fold-search t)
 (defvar in-command nil)
 (defvar out-com-input-method nil)
-
-(defun my-process-region (str)
-  (let  ((num 0))
-    (while (< num (length str))
-      (if in-command
-	  (let ((ind (string-match "\\s \\|{\\|}" str num)))
-	    (if ind
-		(progn (setq num (1+ ind))
-		       (setq in-command nil)
-		       (if out-com-input-method
-			   (set-input-method out-com-input-method)))
-	      (setq num (length str))))
-	(let ((ind (string-match "\\\\" str num)))
-	  (if ind
-	      (progn (setq num (1+ ind))
-		     (setq in-command t)
-		     (if current-input-method
-			 (progn
-			   (setq out-com-input-method current-input-method)
-			   (set-input-method nil))
-		       (setq out-com-input-method nil)))
-	    (setq num (length str))))))))
-
-(defun my-tex-input-helper (beg end len)
-  (my-process-region (buffer-substring-no-properties beg end)))
-
-(defun my-install-tex-input-helper ()
-  (add-hook 'after-change-functions 'my-tex-input-helper))
-
-;; (defun lisp-add-keywords (face-name keyword-rules)
-;;    (let* ((keyword-list (mapcar #'(lambda (x)
-;;                                     (symbol-name (cdr x)))
-;;                                 keyword-rules))
-;;           (keyword-regexp (concat "(\\("
-;;                                   (regexp-opt keyword-list)
-;;                                   "\\)[ \n]")))
-;;      (font-lock-add-keywords 'lisp-mode
-;;                              `((,keyword-regexp 1 ',face-name))))
-;;    (mapc #'(lambda (x)
-;;              (put (cdr x)
-;;                   ;;'scheme-indent-function
-;;                   'common-lisp-indent-function
-;;                   (car x)))
-;;          keyword-rules))
-
-;; (lisp-add-keywords
- ;; 'font-lock-keyword-face
- ;; '((0 . mv-let*)
- ;;   (0 . letvar)
- ;;   (0 . letvar*)
- ;;   (nil . deftrf)
- ;;   (2 . !~)
- ;;   (2 . !.)
- ;;   (2 . foreach)
- ;;   (2 . forsome)
- ;;   (2 . forthis)
- ;;   (2 . /.)
- ;;   (2 . foreach-child)
- ;;   (2 . foreach-collect)
- ;;   (0 . aif)
- ;;   (0 . awhen)
- ;;   ))
 
 (defun ask-before-closing ()
   "Ask whether or not to close, and then close if y was pressed"
