@@ -40,6 +40,8 @@
  '(global-font-lock-mode t)
  '(global-hl-line-mode nil)
  '(global-rainbow-delimiters-mode t)
+ '(grep-highlight-matches (quote auto))
+ '(grep-use-null-device nil)
  '(haskell-literate-default (quote latex))
  '(highlight-symbol-mode t t)
  '(indent-tabs-mode nil)
@@ -110,7 +112,28 @@
 
 (defun revert-buffer-no-confirm ()
   "Revert buffer without confirmation."
-  (interactive) (revert-buffer t t))
+  (interactive)
+  (revert-buffer t t)
+  (message "Revert buffer"))
+
+(defun kill-buffer-and-its-windows (buffer)
+  "Kill BUFFER and delete its windows.  Default is `current-buffer'.
+BUFFER may be either a buffer or its name (a string)."
+  (interactive (list (read-buffer "Kill buffer: " (current-buffer) 'existing)))
+  (setq buffer  (get-buffer buffer))
+  (if (buffer-live-p buffer)            ; Kill live buffer only.
+      (let ((wins  (get-buffer-window-list buffer nil t))) ; On all frames.
+        (when (and (buffer-modified-p buffer)
+                   (fboundp '1on1-flash-ding-minibuffer-frame))
+          (1on1-flash-ding-minibuffer-frame t)) ; Defined in `oneonone.el'.
+        (when (kill-buffer buffer)      ; Only delete windows if buffer killed.
+          (dolist (win  wins)           ; (User might keep buffer if modified.)
+            (when (window-live-p win)
+              ;; Ignore error, in particular,
+              ;; "Attempt to delete the sole visible or iconified frame".
+              (condition-case nil (delete-window win) (error nil))))))
+    (when (interactive-p)
+      (error "Cannot kill buffer.  Not a live buffer: `%s'" buffer))))
 
 (setq mouse-wheel-scroll-amount '(2))
 (setq mouse-wheel-progressive-speed nil)
@@ -120,8 +143,8 @@
 (global-set-key "\C-z" 'shell)
 (global-set-key (kbd "M-<up>") 'backward-paragraph)
 (global-set-key (kbd "M-<down>") 'forward-paragraph)
-(global-set-key (kbd "S-<up>") '(lambda () "Previous" (interactive) (scroll-down 1)))
-(global-set-key (kbd "S-<down>") '(lambda () "Next" (interactive) (scroll-up 1)))
+(global-set-key (kbd "S-<up>") '(lambda () "Previous" (interactive) (scroll-down 5)))
+(global-set-key (kbd "S-<down>") '(lambda () "Next" (interactive) (scroll-up 5)))
 (global-set-key (kbd "C-`") 'other-window)
 (global-set-key (kbd "C-<tab>") 'auto-complete)
 (global-set-key (kbd "C-s") 'isearch-forward-regexp)
@@ -137,6 +160,8 @@
 (global-set-key (kbd "C-<up>") (lambda () (interactive) (previous-line 5)))
 (global-set-key (kbd "C-<right>") 'forward-word)
 (global-set-key (kbd "C-<left>") 'backward-word)
+(global-set-key (kbd "C-M-r") 'revert-buffer-no-confirm)
+(global-set-key (kbd "C-x C-k") 'kill-buffer-and-its-windows)
 
 (load-library "ukr-ext")
 
@@ -201,7 +226,6 @@
 ;;                                     ,(make-char 'greek-iso8859-7 107))
 ;;                     nil))))))
 ;; (add-hook 'prog-mode-hook 'esk-pretty-lambdas)
-
 (add-hook 'prog-mode-hook 'global-visual-line-mode)
 
 ;remove toolbar
@@ -265,7 +289,7 @@
 (ac-config-default)
 
 ;set default grep command
-(setq grep-command "grep -risn ")
+(setq grep-command "ag --nogroup ")
 
 (add-to-list 'load-path "~/.emacs.d/el-get/el-get")
 
@@ -312,7 +336,7 @@
 (defun merlin-clear-werrors ()
   (interactive)
   (mapc #'delete-overlay (overlays-in (point-min) (point-max)))
-  t)
+  (message "Clear overlay") t)
 
 (eval-after-load 'merlin-mode
   (progn
