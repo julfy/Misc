@@ -1,0 +1,8 @@
+[user]
+	name = julfy
+	email = julfy777@gmail.com
+[alias]
+	co = checkout
+	br = branch
+	ci = commit
+	st = status

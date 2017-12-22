@@ -119,7 +119,8 @@ bind '"\e[1;5D":backward-word'
 . /home/bogdan/.opam/opam-init/init.sh > /dev/null 2> /dev/null || true
 
 eval `opam config env`
-
+. ~/.cargo/env
+export PATH="~/.cargo/bin:${PATH}"
 export EDITOR=/usr/bin/vim
 alias up="git fetch;git rebase"
 
