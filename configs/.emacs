@@ -34,13 +34,14 @@
  '(diff-switches "-u")
  '(dired-guess-shell-alist-user (quote ((".*\\.djvu$" "djview ? &"))))
  '(dired-listing-switches "-alDh")
+ '(electric-indent-mode nil)
  '(flyspell-default-dictionary "uk")
  '(font-lock-maximum-decoration t)
  '(font-lock-support-mode (quote jit-lock-mode))
  '(global-font-lock-mode t)
  '(global-hl-line-mode nil)
  '(global-rainbow-delimiters-mode t)
- '(grep-highlight-matches (quote auto))
+ '(grep-highlight-matches t)
  '(grep-use-null-device nil)
  '(haskell-literate-default (quote latex))
  '(highlight-symbol-mode t t)
@@ -242,6 +243,10 @@ BUFFER may be either a buffer or its name (a string)."
 (require 'bash-completion)
 (bash-completion-setup)
 
+;snippets
+;(require 'yasnippet)
+
+
 ;enable symbol highlight
 (require 'highlight-symbol)
 (global-set-key [(control f3)] 'highlight-symbol-at-point)
@@ -280,6 +285,12 @@ BUFFER may be either a buffer or its name (a string)."
 ;disable menu-bar
 (menu-bar-mode -1)
 
+;ac-settings
+(add-hook 'buffer-list-update-hook '(lambda ()
+  (setq ac-auto-start 3)
+  (setq ac-delay 0.2)
+  (setq ac-menu-height 20)))
+
 ;enable rainbow parens
 (require 'rainbow-delimiters)
 (global-rainbow-delimiters-mode)
@@ -303,6 +314,11 @@ BUFFER may be either a buffer or its name (a string)."
 
 (setq my-el-get-packages
       '(tuareg-mode
+        rust-mode
+        emacs-racer
+        s ;; racer dep
+        f ;; racer dep
+        pos-tip ;; racer dep
         ))
 
 (el-get 'sync my-el-get-packages)
@@ -321,8 +337,19 @@ BUFFER may be either a buffer or its name (a string)."
 
 ;; (global-set-key "\C-m" 'minimap-toggle)
 
+;; Rust settings
+(require 'rust-mode)
+(add-hook 'rust-mode-hook 'racer-mode)
+(add-hook 'racer-mode-hook 'eldoc-mode)
+
+(eval-after-load 'racer-mode
+  (progn
+   (define-key rust-mode-map (kbd "C-c C-t") #'racer-describe)))
+
+;; OCaml settings
 (add-to-list 'auto-mode-alist '("\\.ml[ily]?$" . tuareg-mode))
 (add-to-list 'auto-mode-alist '("\\.topml$" . tuareg-mode))
+(add-to-list 'auto-mode-alist '("\\.atd$" . tuareg-mode))
 
 (setq opam-share (substring (shell-command-to-string "opam config var share 2> /dev/null") 0 -1))
 (add-to-list 'load-path (concat opam-share "/emacs/site-lisp"))
@@ -387,13 +414,6 @@ BUFFER may be either a buffer or its name (a string)."
    (define-key merlin-mode-map (kbd "M-,") 'merlin-pop-stack)
    (define-key merlin-mode-map (kbd "C-c C-z") 'merlin-clear-werrors)
    (define-key merlin-mode-map (kbd "C-t") 'ocaml-snippets)))
-
-;; (add-to-list 'load-path "/home/bogdan/.opam/4.02.3/share/emacs/site-lisp")
-
-;; (add-hook 'buffer-list-update-hook '(lambda ()
-  ;; (setq ac-auto-start nil)
-  ;; (setq ac-delay 3600)
-  ;; (setq ac-menu-height 20)))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
