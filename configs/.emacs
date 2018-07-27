@@ -45,7 +45,7 @@
  '(haskell-literate-default (quote latex))
  '(highlight-symbol-mode t t)
  '(indent-tabs-mode nil)
- '(inferior-lisp-program "sbcl" t)
+ '(inferior-lisp-program "sbcl")
  '(initial-frame-alist (quote ((fullscreen . maximized))))
  '(ispell-local-dictionary-alist
    (quote
@@ -147,6 +147,7 @@ BUFFER may be either a buffer or its name (a string)."
 (global-set-key (kbd "S-<down>") '(lambda () "Next" (interactive) (scroll-up 5)))
 (global-set-key (kbd "C-`") 'other-window)
 (global-set-key (kbd "C-<tab>") 'auto-complete)
+(global-set-key "\t" 'auto-complete)
 (global-set-key (kbd "C-s") 'isearch-forward-regexp)
 (global-set-key (kbd "C-r") 'isearch-backward-regexp)
 (global-set-key (kbd "C-<PageUp>") 'beginning-of-buffer)
@@ -285,8 +286,8 @@ BUFFER may be either a buffer or its name (a string)."
 
 ;enable auto complete package
 (require 'auto-complete-config)
-(add-to-list 'ac-dictionary-directories "~/emacs/ac-dict")
-(ac-config-default)
+;; (add-to-list 'ac-dictionary-directories "~/emacs/ac-dict")
+;; (ac-config-default)
 
 ;set default grep command
 (setq grep-command "ag --nogroup ")
@@ -328,6 +329,56 @@ BUFFER may be either a buffer or its name (a string)."
 (require 'ocp-index)
 (require 'merlin)
 
+(defmacro make-snippet (name cmds)
+  `(cons ,name (lambda (bounds)
+      (let ((pos1 (car bounds))
+            (pos2 (cdr bounds)))
+        (delete-region pos1 pos2) ,@cmds))))
+(defun run-snippet ()
+  (interactive)
+  (cl-flet ((newline (x) (let ((cid (current-indentation))) (insert "\n") (indent-to (max 0 (+ cid x))))))
+   (let ((sym (thing-at-point 'symbol))
+         (snippets (list
+                    (make-snippet "let"
+                                  ((insert "let ")
+                                   (setq final-pos (point))
+                                   (insert " =  in")
+                                   (goto-char final-pos)))
+                    (make-snippet "bfun"
+                                  ((insert "begin fun ")
+                                   (setq final-pos (point))
+                                   (insert " ->")
+                                   (newline 2) (newline -2) (insert "end")
+                                   (goto-char final-pos)))
+                    (make-snippet "match"
+                                  ((insert "match ")
+                                   (setq final-pos (point))
+                                   (insert " with")
+                                   (newline -2) (insert "| ")
+                                   (newline 0) (insert "| ")
+                                   (goto-char final-pos)))
+                    (make-snippet "bmatch"
+                                  ((insert "begin match ")
+                                   (setq final-pos (point))
+                                   (insert " with")
+                                   (newline -2) (insert "| ")
+                                   (newline 0) (insert "| ")
+                                   (newline 0) (insert "end")
+                                   (goto-char final-pos)))
+                    )))
+     (if (dolist (snipt snippets)
+           (if (equal (car snipt) sym)
+               (progn (funcall (cdr snipt) (bounds-of-thing-at-point 'symbol)) (return t))))
+         (message "Replaced!")
+       (message "Not found")))))
+
+;; (global-unset-key (kbd "C-t"))
+;; (global-set-key (kbd "C-t") 'run-snippet)
+;; (eval-after-load 'merlin-mode
+;;   (progn
+;;     (define-key merlin-mode-map (kbd "C-t") 'run-snippet)))
+
+
 (add-hook 'tuareg-mode-hook 'merlin-mode)
 (add-hook 'tuareg-mode-hook (lambda ()
                               (setq c-syntactic-indentation nil)
@@ -342,14 +393,15 @@ BUFFER may be either a buffer or its name (a string)."
   (progn
    (define-key merlin-mode-map (kbd "M-.") 'merlin-locate)
    (define-key merlin-mode-map (kbd "M-,") 'merlin-pop-stack)
-   (define-key merlin-mode-map (kbd "C-c C-z") 'merlin-clear-werrors)))
+   (define-key merlin-mode-map (kbd "C-c C-z") 'merlin-clear-werrors)
+   (define-key merlin-mode-map (kbd "C-t") 'run-snippet)))
 
 ;; (add-to-list 'load-path "/home/bogdan/.opam/4.02.3/share/emacs/site-lisp")
 
-(add-hook 'buffer-list-update-hook '(lambda ()
-  (setq ac-auto-start 3)
-  (setq ac-delay 0.2)
-  (setq ac-menu-height 20)))
+;; (add-hook 'buffer-list-update-hook '(lambda ()
+  ;; (setq ac-auto-start nil)
+  ;; (setq ac-delay 3600)
+  ;; (setq ac-menu-height 20)))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
