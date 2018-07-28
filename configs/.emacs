@@ -147,7 +147,7 @@ BUFFER may be either a buffer or its name (a string)."
 (global-set-key (kbd "S-<down>") '(lambda () "Next" (interactive) (scroll-up 5)))
 (global-set-key (kbd "C-`") 'other-window)
 (global-set-key (kbd "C-<tab>") 'auto-complete)
-(global-set-key "\t" 'auto-complete)
+;; (global-set-key "\t" 'auto-complete)
 (global-set-key (kbd "C-s") 'isearch-forward-regexp)
 (global-set-key (kbd "C-r") 'isearch-backward-regexp)
 (global-set-key (kbd "C-<PageUp>") 'beginning-of-buffer)
@@ -329,55 +329,47 @@ BUFFER may be either a buffer or its name (a string)."
 (require 'ocp-index)
 (require 'merlin)
 
-(defmacro make-snippet (name cmds)
-  `(cons ,name (lambda (bounds)
-      (let ((pos1 (car bounds))
-            (pos2 (cdr bounds)))
-        (delete-region pos1 pos2) ,@cmds))))
-(defun run-snippet ()
-  (interactive)
-  (cl-flet ((newline (x) (let ((cid (current-indentation))) (insert "\n") (indent-to (max 0 (+ cid x))))))
-   (let ((sym (thing-at-point 'symbol))
-         (snippets (list
-                    (make-snippet "let"
-                                  ((insert "let ")
-                                   (setq final-pos (point))
-                                   (insert " =  in")
-                                   (goto-char final-pos)))
-                    (make-snippet "bfun"
-                                  ((insert "begin fun ")
-                                   (setq final-pos (point))
-                                   (insert " ->")
-                                   (newline 2) (newline -2) (insert "end")
-                                   (goto-char final-pos)))
-                    (make-snippet "match"
-                                  ((insert "match ")
-                                   (setq final-pos (point))
-                                   (insert " with")
-                                   (newline 0) (insert "| ")
-                                   (newline 0) (insert "| ")
-                                   (goto-char final-pos)))
-                    (make-snippet "bmatch"
-                                  ((insert "begin match ")
-                                   (setq final-pos (point))
-                                   (insert " with")
-                                   (newline 0) (insert "| ")
-                                   (newline 0) (insert "| ")
-                                   (newline 0) (insert "end")
-                                   (goto-char final-pos)))
-                    )))
-     (if (dolist (snipt snippets)
-           (if (equal (car snipt) sym)
-               (progn (funcall (cdr snipt) (bounds-of-thing-at-point 'symbol)) (return t))))
-         (message "Replaced!")
-       (message "Not found")))))
+(defmacro defsnippets (id snippets)
+  `(defun ,id () (interactive)
+     (cl-flet ((newline (x)
+                      (let* ((cid (current-indentation))
+                             (n (max 0 (+ x cid (if (< (- (line-end-position) (line-beginning-position)) cid) -1 0))))) ;; shenanigans due to current-indentation returning +1 when line is blank
+                        (insert "\n") (indent-to n))))
+     (let ((sym (thing-at-point 'symbol))
+           (snippets (list ,@(mapcar #'(lambda (e) `(cons ,(car e) #'(lambda (bounds) (delete-region (car bounds) (cdr bounds)) ,@`,(cdr e)))) snippets))))
+       (if (dolist (snipt snippets)
+             (if (equal (car snipt) sym)
+                 (progn (funcall (cdr snipt) (bounds-of-thing-at-point 'symbol)) (return t))))
+           (message "Replaced!")
+         (message "Not found"))))))
 
-;; (global-unset-key (kbd "C-t"))
-;; (global-set-key (kbd "C-t") 'run-snippet)
-;; (eval-after-load 'merlin-mode
-;;   (progn
-;;     (define-key merlin-mode-map (kbd "C-t") 'run-snippet)))
-
+(defsnippets ocaml-snippets
+  (("let" .
+    ((insert "let ")
+     (setq final-pos (point))
+     (insert " =  in")
+     (goto-char final-pos)))
+   ("bfun" .
+    ((insert "begin fun ")
+     (setq final-pos (point))
+     (insert " ->")
+     (newline 2) (newline -2) (insert "end")
+     (goto-char final-pos)))
+   ("match" .
+    ((insert "match ")
+     (setq final-pos (point))
+     (insert " with")
+     (newline 0) (insert "| ")
+     (newline 0) (insert "| ")
+     (goto-char final-pos)))
+   ("bmatch" .
+    ((insert "begin match ")
+     (setq final-pos (point))
+     (insert " with")
+     (newline 0) (insert "| ")
+     (newline 0) (insert "| ")
+     (newline 0) (insert "end")
+     (goto-char final-pos)))))
 
 (add-hook 'tuareg-mode-hook 'merlin-mode)
 (add-hook 'tuareg-mode-hook (lambda ()
@@ -394,7 +386,7 @@ BUFFER may be either a buffer or its name (a string)."
    (define-key merlin-mode-map (kbd "M-.") 'merlin-locate)
    (define-key merlin-mode-map (kbd "M-,") 'merlin-pop-stack)
    (define-key merlin-mode-map (kbd "C-c C-z") 'merlin-clear-werrors)
-   (define-key merlin-mode-map (kbd "C-t") 'run-snippet)))
+   (define-key merlin-mode-map (kbd "C-t") 'ocaml-snippets)))
 
 ;; (add-to-list 'load-path "/home/bogdan/.opam/4.02.3/share/emacs/site-lisp")
 
