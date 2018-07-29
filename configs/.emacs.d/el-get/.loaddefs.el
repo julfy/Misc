@@ -3,228 +3,377 @@
 ;;; Code:
 
 
-;;;### (autoloads (cider-connect cider-jack-in cider-version) "cider/cider"
-;;;;;;  "cider/cider.el" (21906 33525 528015 854000))
-;;; Generated autoloads from cider/cider.el
+;;;### (autoloads nil "bash-completion/bash-completion" "bash-completion/bash-completion.el"
+;;;;;;  (23389 7707 200047 635000))
+;;; Generated autoloads from bash-completion/bash-completion.el
 
-(autoload 'cider-version "cider/cider" "\
-Display CIDER's version.
+(autoload 'bash-completion-setup "bash-completion/bash-completion" "\
+Register bash completion for the shell buffer and shell command line.
 
-\(fn)" t nil)
+This function adds `bash-completion-dynamic-complete' to the completion
+function list of shell mode, `shell-dynamic-complete-functions'.
 
-(autoload 'cider-jack-in "cider/cider" "\
-Start a nREPL server for the current project and connect to it.
-If PROMPT-PROJECT is t, then prompt for the project for which to
-start the server.
+This function is convenient, but it might not be the best way of enabling
+bash completion in your .emacs file because it forces you to load the module
+before it is needed. For an autoload version, add:
 
-\(fn &optional PROMPT-PROJECT)" t nil)
+  (autoload 'bash-completion-dynamic-complete \"bash-completion\"
+    \"BASH completion hook\")
+  (add-hook 'shell-dynamic-complete-functions
+  	  'bash-completion-dynamic-complete)
 
-(autoload 'cider-connect "cider/cider" "\
-Connect to an nREPL server identified by HOST and PORT.
-Create REPL buffer and start an nREPL client connection.
+\(fn)" nil nil)
 
-\(fn HOST PORT)" t nil)
+(autoload 'bash-completion-dynamic-complete "bash-completion/bash-completion" "\
+Return the completion table for bash command at point.
 
-(eval-after-load 'clojure-mode '(progn (define-key clojure-mode-map (kbd "C-c M-j") #'cider-jack-in) (define-key clojure-mode-map (kbd "C-c M-c") #'cider-connect)))
+This function is meant to be added into
+`shell-dynamic-complete-functions'.  It uses `comint' to figure
+out what the current command is and returns a completion table or
+nil if no completions available.
 
-;;;***
-
-;;;### (autoloads (cider-apropos-documentation cider-apropos) "cider/cider-apropos"
-;;;;;;  "cider/cider-apropos.el" (21906 33525 525015 797000))
-;;; Generated autoloads from cider/cider-apropos.el
+When doing completion outside of a comint buffer, call
+`bash-completion-dynamic-complete-nocomint' instead.
 
-(autoload 'cider-apropos "cider/cider-apropos" "\
-Show all symbols whose names match QUERY, a regular expression.
-The search may be limited to the namespace NS, and may optionally search doc
-strings, include private vars, and be case sensitive.
+\(fn)" nil nil)
 
-\(fn QUERY &optional NS DOCS-P PRIVATES-P CASE-SENSITIVE-P)" t nil)
+(autoload 'bash-completion-dynamic-complete-nocomint "bash-completion/bash-completion" "\
+Return completion information for bash command at an arbitrary position.
 
-(autoload 'cider-apropos-documentation "cider/cider-apropos" "\
-Shortcut for (cider-apropos <query> nil t).
+The bash command to be completed begins at COMP-START in the
+current buffer. COMP-POS is the point where completion should
+happen.
 
-\(fn)" t nil)
+This function is meant to be usable even in non comint buffers.
+It is meant to be called directly from any completion engine.
 
-;;;***
-
-;;;### (autoloads (cider-browse-ns-all cider-browse-ns) "cider/cider-browse-ns"
-;;;;;;  "cider/cider-browse-ns.el" (21906 33525 525015 797000))
-;;; Generated autoloads from cider/cider-browse-ns.el
+Returns (list stub-start stub-end completions) with
+ - stub-start, the position at which the completed region starts
+ - stub-end, the position at which the completed region ends
+ - completions, a possibly empty list of completion candidates
+   or a function, if DYNAMIC-TABLE is non-nil, a lambda such as the one
+   returned by `completion-table-dynamic'
 
-(autoload 'cider-browse-ns "cider/cider-browse-ns" "\
-List all NAMESPACE's vars in BUFFER.
+\(fn COMP-START COMP-POS &optional DYNAMIC-TABLE)" nil nil)
 
-\(fn NAMESPACE)" t nil)
+(autoload 'bash-completion-reset "bash-completion/bash-completion" "\
+Force the next completion command to start with a fresh BASH process.
 
-(autoload 'cider-browse-ns-all "cider/cider-browse-ns" "\
-List all loaded namespaces in BUFFER.
+This function kills any existing BASH completion process. This
+way, the next time BASH completion is requested, a new process
+will be created with the latest configuration. The BASH
+completion process that will be killed depends on the
+default-directory of the buffer where the command is executed.
 
-\(fn)" t nil)
-
-;;;***
-
-;;;### (autoloads (cider-open-classpath-entry cider-classpath) "cider/cider-classpath"
-;;;;;;  "cider/cider-classpath.el" (21906 33525 525015 797000))
-;;; Generated autoloads from cider/cider-classpath.el
-
-(autoload 'cider-classpath "cider/cider-classpath" "\
-List all classpath entries.
-
-\(fn)" t nil)
-
-(autoload 'cider-open-classpath-entry "cider/cider-classpath" "\
-Open a classpath entry.
+Call this method if you have updated your .bashrc or any bash init scripts
+and would like bash completion in Emacs to take these changes into account.
 
 \(fn)" t nil)
 
 ;;;***
 
-;;;### (autoloads (cider-debug-defun-at-point) "cider/cider-debug"
-;;;;;;  "cider/cider-debug.el" (21906 33525 525015 797000))
-;;; Generated autoloads from cider/cider-debug.el
+;;;### (autoloads nil "company-mode/company" "company-mode/company.el"
+;;;;;;  (23389 13164 492984 392000))
+;;; Generated autoloads from company-mode/company.el
 
-(autoload 'cider-debug-defun-at-point "cider/cider-debug" "\
-Instrument the top-level expression at point.
-If it is a defn, dispatch the instrumented definition.  Otherwise,
-immediately evaluate the instrumented expression.
+(autoload 'company-mode "company-mode/company" "\
+\"complete anything\"; is an in-buffer completion framework.
+Completion starts automatically, depending on the values
+`company-idle-delay' and `company-minimum-prefix-length'.
 
-While debugged code is being evaluated, the user is taken through the
-source code and displayed the value of various expressions.  At each step,
-a number of keys will be prompted to the user.
+Completion can be controlled with the commands:
+`company-complete-common', `company-complete-selection', `company-complete',
+`company-select-next', `company-select-previous'.  If these commands are
+called before `company-idle-delay', completion will also start.
 
-\(fn)" t nil)
+Completions can be searched with `company-search-candidates' or
+`company-filter-candidates'.  These can be used while completion is
+inactive, as well.
 
-;;;***
-
-;;;### (autoloads (cider-grimoire cider-grimoire-web) "cider/cider-grimoire"
-;;;;;;  "cider/cider-grimoire.el" (21906 33525 526015 816000))
-;;; Generated autoloads from cider/cider-grimoire.el
+The completion data is retrieved using `company-backends' and displayed
+using `company-frontends'.  If you want to start a specific backend, call
+it interactively or use `company-begin-backend'.
 
-(autoload 'cider-grimoire-web "cider/cider-grimoire" "\
-Open grimoire documentation in the default web browser.
+By default, the completions list is sorted alphabetically, unless the
+backend chooses otherwise, or `company-transformers' changes it later.
 
-Prompts for the symbol to use, or uses the symbol at point, depending on
-the value of `cider-prompt-for-symbol'. With prefix arg ARG, does the
-opposite of what that option dictates.
+regular keymap (`company-mode-map'):
+
+\\{company-mode-map}
+keymap during active completions (`company-active-map'):
+
+\\{company-active-map}
 
 \(fn &optional ARG)" t nil)
 
-(autoload 'cider-grimoire "cider/cider-grimoire" "\
-Open grimoire documentation in a popup buffer.
+(defvar global-company-mode nil "\
+Non-nil if Global-Company mode is enabled.
+See the command `global-company-mode' for a description of this minor mode.
+Setting this variable directly does not take effect;
+either customize it (see the info node `Easy Customization')
+or call the function `global-company-mode'.")
 
-Prompts for the symbol to use, or uses the symbol at point, depending on
-the value of `cider-prompt-for-symbol'. With prefix arg ARG, does the
-opposite of what that option dictates.
+(custom-autoload 'global-company-mode "company-mode/company" nil)
 
-\(fn &optional ARG)" t nil)
+(autoload 'global-company-mode "company-mode/company" "\
+Toggle Company mode in all buffers.
+With prefix ARG, enable Global-Company mode if ARG is positive;
+otherwise, disable it.  If called from Lisp, enable the mode if
+ARG is omitted or nil.
 
-;;;***
-
-;;;### (autoloads (cider-inspect) "cider/cider-inspector" "cider/cider-inspector.el"
-;;;;;;  (21906 33525 526015 816000))
-;;; Generated autoloads from cider/cider-inspector.el
-
-(autoload 'cider-inspect "cider/cider-inspector" "\
-Eval the string EXPRESSION and inspect the result.
-
-\(fn EXPRESSION)" t nil)
-
-;;;***
-
-;;;### (autoloads (cider-macroexpand-all cider-macroexpand-1) "cider/cider-macroexpansion"
-;;;;;;  "cider/cider-macroexpansion.el" (21906 33525 527015 835000))
-;;; Generated autoloads from cider/cider-macroexpansion.el
-
-(autoload 'cider-macroexpand-1 "cider/cider-macroexpansion" "\
-Invoke 'macroexpand-1' on the expression preceding point.
-If invoked with a PREFIX argument, use 'macroexpand' instead of
-'macroexpand-1'.
-
-\(fn &optional PREFIX)" t nil)
-
-(autoload 'cider-macroexpand-all "cider/cider-macroexpansion" "\
-Invoke 'clojure.walk/macroexpand-all' on the expression preceding point.
-
-\(fn)" t nil)
-
-;;;***
-
-;;;### (autoloads (cider-mode cider-mode-line) "cider/cider-mode"
-;;;;;;  "cider/cider-mode.el" (21906 33525 527015 835000))
-;;; Generated autoloads from cider/cider-mode.el
-
-(defvar cider-mode-line '(:eval (format " cider[%s]" (cider--modeline-info))) "\
-Mode line lighter for `cider-mode'.
-
-The value of this variable is a mode line template as in
-`mode-line-format'.  See Info Node `(elisp)Mode Line Format' for
-details about mode line templates.
-
-Customize this variable to change how `cider-mode' displays its
-status in the mode line.  The default value displays the current connection.
-Set this variable to nil to disable the mode line
-entirely.")
-
-(custom-autoload 'cider-mode-line "cider/cider-mode" t)
-
-(autoload 'cider-mode "cider/cider-mode" "\
-Minor mode for REPL interaction from a Clojure buffer.
-
-\\{cider-mode-map}
+Company mode is enabled in all buffers where
+`company-mode-on' would do it.
+See `company-mode' for more information on Company mode.
 
 \(fn &optional ARG)" t nil)
 
-;;;***
-
-;;;### (autoloads (cider-scratch) "cider/cider-scratch" "cider/cider-scratch.el"
-;;;;;;  (21906 33525 527015 835000))
-;;; Generated autoloads from cider/cider-scratch.el
+(autoload 'company-manual-begin "company-mode/company" "\
 
-(autoload 'cider-scratch "cider/cider-scratch" "\
-Create a scratch buffer.
+
+\(fn)" t nil)
+
+(autoload 'company-complete "company-mode/company" "\
+Insert the common part of all candidates or the current selection.
+The first time this is called, the common part is inserted, the second
+time, or when the selection has been changed, the selected candidate is
+inserted.
 
 \(fn)" t nil)
 
 ;;;***
 
-;;;### (autoloads (cider-selector) "cider/cider-selector" "cider/cider-selector.el"
-;;;;;;  (21906 33525 527015 835000))
-;;; Generated autoloads from cider/cider-selector.el
+;;;### (autoloads nil "company-mode/company-abbrev" "company-mode/company-abbrev.el"
+;;;;;;  (23389 13164 488984 223000))
+;;; Generated autoloads from company-mode/company-abbrev.el
 
-(autoload 'cider-selector "cider/cider-selector" "\
-Select a new buffer by type, indicated by a single character.
-The user is prompted for a single character indicating the method by
-which to choose a new buffer.  The `?' character describes then
-available methods.  OTHER-WINDOW provides an optional target.
+(autoload 'company-abbrev "company-mode/company-abbrev" "\
+`company-mode' completion backend for abbrev.
 
-See `def-cider-selector-method' for defining new methods.
-
-\(fn &optional OTHER-WINDOW)" t nil)
+\(fn COMMAND &optional ARG &rest IGNORED)" t nil)
 
 ;;;***
 
-;;;### (autoloads (clojure-mode) "clojure-mode/clojure-mode" "clojure-mode/clojure-mode.el"
-;;;;;;  (21906 33511 894754 320000))
-;;; Generated autoloads from clojure-mode/clojure-mode.el
+;;;### (autoloads nil "company-mode/company-bbdb" "company-mode/company-bbdb.el"
+;;;;;;  (23389 13164 488984 223000))
+;;; Generated autoloads from company-mode/company-bbdb.el
 
-(autoload 'clojure-mode "clojure-mode/clojure-mode" "\
-Major mode for editing Clojure code.
+(autoload 'company-bbdb "company-mode/company-bbdb" "\
+`company-mode' completion backend for BBDB.
 
-\\{clojure-mode-map}
-
-\(fn)" t nil)
-
-(add-to-list 'auto-mode-alist '("\\.\\(clj[csx]?\\|dtm\\|edn\\)\\'" . clojure-mode))
-
-(add-to-list 'auto-mode-alist '("\\`build.boot\\'" . clojure-mode))
+\(fn COMMAND &optional ARG &rest IGNORE)" t nil)
 
 ;;;***
 
-;;;### (autoloads (el-get el-get-self-checksum el-get-checksum el-get-make-recipes
-;;;;;;  el-get-cd el-get-reinstall el-get-remove el-get-self-update
-;;;;;;  el-get-update-packages-of-type el-get-update-all el-get-update
-;;;;;;  el-get-install el-get-version) "el-get/el-get" "el-get/el-get.el"
-;;;;;;  (21815 36687 152343 799000))
+;;;### (autoloads nil "company-mode/company-css" "company-mode/company-css.el"
+;;;;;;  (23389 13164 488984 223000))
+;;; Generated autoloads from company-mode/company-css.el
+
+(autoload 'company-css "company-mode/company-css" "\
+`company-mode' completion backend for `css-mode'.
+
+\(fn COMMAND &optional ARG &rest IGNORED)" t nil)
+
+;;;***
+
+;;;### (autoloads nil "company-mode/company-dabbrev" "company-mode/company-dabbrev.el"
+;;;;;;  (23389 13164 492984 392000))
+;;; Generated autoloads from company-mode/company-dabbrev.el
+
+(autoload 'company-dabbrev "company-mode/company-dabbrev" "\
+dabbrev-like `company-mode' completion backend.
+
+\(fn COMMAND &optional ARG &rest IGNORED)" t nil)
+
+;;;***
+
+;;;### (autoloads nil "company-mode/company-dabbrev-code" "company-mode/company-dabbrev-code.el"
+;;;;;;  (23389 13164 488984 223000))
+;;; Generated autoloads from company-mode/company-dabbrev-code.el
+
+(autoload 'company-dabbrev-code "company-mode/company-dabbrev-code" "\
+dabbrev-like `company-mode' backend for code.
+The backend looks for all symbols in the current buffer that aren't in
+comments or strings.
+
+\(fn COMMAND &optional ARG &rest IGNORED)" t nil)
+
+;;;***
+
+;;;### (autoloads nil "company-mode/company-elisp" "company-mode/company-elisp.el"
+;;;;;;  (23389 13164 492984 392000))
+;;; Generated autoloads from company-mode/company-elisp.el
+
+(autoload 'company-elisp "company-mode/company-elisp" "\
+`company-mode' completion backend for Emacs Lisp.
+
+\(fn COMMAND &optional ARG &rest IGNORED)" t nil)
+
+;;;***
+
+;;;### (autoloads nil "company-mode/company-etags" "company-mode/company-etags.el"
+;;;;;;  (23389 13164 492984 392000))
+;;; Generated autoloads from company-mode/company-etags.el
+
+(autoload 'company-etags "company-mode/company-etags" "\
+`company-mode' completion backend for etags.
+
+\(fn COMMAND &optional ARG &rest IGNORED)" t nil)
+
+;;;***
+
+;;;### (autoloads nil "company-mode/company-files" "company-mode/company-files.el"
+;;;;;;  (23389 13164 492984 392000))
+;;; Generated autoloads from company-mode/company-files.el
+
+(autoload 'company-files "company-mode/company-files" "\
+`company-mode' completion backend existing file names.
+Completions works for proper absolute and relative files paths.
+File paths with spaces are only supported inside strings.
+
+\(fn COMMAND &optional ARG &rest IGNORED)" t nil)
+
+;;;***
+
+;;;### (autoloads nil "company-mode/company-gtags" "company-mode/company-gtags.el"
+;;;;;;  (23389 13164 492984 392000))
+;;; Generated autoloads from company-mode/company-gtags.el
+
+(autoload 'company-gtags "company-mode/company-gtags" "\
+`company-mode' completion backend for GNU Global.
+
+\(fn COMMAND &optional ARG &rest IGNORED)" t nil)
+
+;;;***
+
+;;;### (autoloads nil "company-mode/company-ispell" "company-mode/company-ispell.el"
+;;;;;;  (23389 13164 492984 392000))
+;;; Generated autoloads from company-mode/company-ispell.el
+
+(autoload 'company-ispell "company-mode/company-ispell" "\
+`company-mode' completion backend using Ispell.
+
+\(fn COMMAND &optional ARG &rest IGNORED)" t nil)
+
+;;;***
+
+;;;### (autoloads nil "company-mode/company-keywords" "company-mode/company-keywords.el"
+;;;;;;  (23389 13164 492984 392000))
+;;; Generated autoloads from company-mode/company-keywords.el
+
+(autoload 'company-keywords "company-mode/company-keywords" "\
+`company-mode' backend for programming language keywords.
+
+\(fn COMMAND &optional ARG &rest IGNORED)" t nil)
+
+;;;***
+
+;;;### (autoloads nil "company-mode/company-nxml" "company-mode/company-nxml.el"
+;;;;;;  (23389 13164 492984 392000))
+;;; Generated autoloads from company-mode/company-nxml.el
+
+(autoload 'company-nxml "company-mode/company-nxml" "\
+`company-mode' completion backend for `nxml-mode'.
+
+\(fn COMMAND &optional ARG &rest IGNORED)" t nil)
+
+;;;***
+
+;;;### (autoloads nil "company-mode/company-oddmuse" "company-mode/company-oddmuse.el"
+;;;;;;  (23389 13164 492984 392000))
+;;; Generated autoloads from company-mode/company-oddmuse.el
+
+(autoload 'company-oddmuse "company-mode/company-oddmuse" "\
+`company-mode' completion backend for `oddmuse-mode'.
+
+\(fn COMMAND &optional ARG &rest IGNORED)" t nil)
+
+;;;***
+
+;;;### (autoloads nil "company-mode/company-semantic" "company-mode/company-semantic.el"
+;;;;;;  (23389 13164 492984 392000))
+;;; Generated autoloads from company-mode/company-semantic.el
+
+(autoload 'company-semantic "company-mode/company-semantic" "\
+`company-mode' completion backend using CEDET Semantic.
+
+\(fn COMMAND &optional ARG &rest IGNORED)" t nil)
+
+;;;***
+
+;;;### (autoloads nil "company-mode/company-tempo" "company-mode/company-tempo.el"
+;;;;;;  (23389 13164 492984 392000))
+;;; Generated autoloads from company-mode/company-tempo.el
+
+(autoload 'company-tempo "company-mode/company-tempo" "\
+`company-mode' completion backend for tempo.
+
+\(fn COMMAND &optional ARG &rest IGNORED)" t nil)
+
+;;;***
+
+;;;### (autoloads nil "company-mode/company-tng" "company-mode/company-tng.el"
+;;;;;;  (23389 13164 492984 392000))
+;;; Generated autoloads from company-mode/company-tng.el
+
+(autoload 'company-tng-frontend "company-mode/company-tng" "\
+When the user changes the selection at least once, this
+frontend will display the candidate in the buffer as if it's
+already there and any key outside of `company-active-map' will
+confirm the selection and finish the completion.
+
+\(fn COMMAND)" nil nil)
+
+(autoload 'company-tng-configure-default "company-mode/company-tng" "\
+Applies the default configuration to enable company-tng.
+
+\(fn)" nil nil)
+
+;;;***
+
+;;;### (autoloads nil "company-mode/company-xcode" "company-mode/company-xcode.el"
+;;;;;;  (23389 13164 492984 392000))
+;;; Generated autoloads from company-mode/company-xcode.el
+
+(autoload 'company-xcode "company-mode/company-xcode" "\
+`company-mode' completion backend for Xcode projects.
+
+\(fn COMMAND &optional ARG &rest IGNORED)" t nil)
+
+;;;***
+
+;;;### (autoloads nil "company-mode/company-yasnippet" "company-mode/company-yasnippet.el"
+;;;;;;  (23389 13164 492984 392000))
+;;; Generated autoloads from company-mode/company-yasnippet.el
+
+(autoload 'company-yasnippet "company-mode/company-yasnippet" "\
+`company-mode' backend for `yasnippet'.
+
+This backend should be used with care, because as long as there are
+snippets defined for the current major mode, this backend will always
+shadow backends that come after it.  Recommended usages:
+
+* In a buffer-local value of `company-backends', grouped with a backend or
+  several that provide actual text completions.
+
+  (add-hook 'js-mode-hook
+            (lambda ()
+              (set (make-local-variable 'company-backends)
+                   '((company-dabbrev-code company-yasnippet)))))
+
+* After keyword `:with', grouped with other backends.
+
+  (push '(company-semantic :with company-yasnippet) company-backends)
+
+* Not in `company-backends', just bound to a key.
+
+  (global-set-key (kbd \"C-c y\") 'company-yasnippet)
+
+\(fn COMMAND &optional ARG &rest IGNORE)" t nil)
+
+;;;***
+
+;;;### (autoloads nil "el-get/el-get" "el-get/el-get.el" (23389 7372
+;;;;;;  249056 535000))
 ;;; Generated autoloads from el-get/el-get.el
 
 (autoload 'el-get-version "el-get/el-get" "\
@@ -323,15 +472,14 @@ already installed packages is considered.
 
 ;;;***
 
-;;;### (autoloads (el-get-bundle! el-get-bundle el-get-bundle-el-get)
-;;;;;;  "el-get/el-get-bundle" "el-get/el-get-bundle.el" (21815 36687
-;;;;;;  149343 740000))
+;;;### (autoloads nil "el-get/el-get-bundle" "el-get/el-get-bundle.el"
+;;;;;;  (23389 7372 249056 535000))
 ;;; Generated autoloads from el-get/el-get-bundle.el
 
 (autoload 'el-get-bundle-el-get "el-get/el-get-bundle" "\
 
 
-\(fn SRC)" nil nil)
+\(fn SRC SYNC)" nil nil)
 
 (autoload 'el-get-bundle "el-get/el-get-bundle" "\
 Install PACKAGE and run initialization FORM.
@@ -351,9 +499,14 @@ same.  If you wish to `require' more than one feature, then use
 `:features' property in FORM.
 
 The initialization FORM may start with a property list that
-describes a local recipe.  The FORM after the property list is
-treated as initialization code, which is actually an `:after'
-property of the local recipe.
+describes a local recipe.  The property list may include the keyword
+`:bundle-sync' with a value of either `t' or `nil' to request that
+`el-get-bundle' invoke `el-get' synchronously (respectively asynchronously).
+The keyword `:bundle-async' is the inverse of `:bundle-sync'.
+\(Note that the request to run el-get synchronously may not be respected in all
+circumstances: see the definition of `el-get-bundle-el-get' for details.)
+The FORM after the property list is treated as initialization code,
+which is actually an `:after' property of the local recipe.
 
 A copy of the initialization code is stored in a directory
 specified by `el-get-bundle-init-directory' and its byte-compiled
@@ -374,8 +527,27 @@ required.
 
 ;;;***
 
-;;;### (autoloads (el-get-list-packages) "el-get/el-get-list-packages"
-;;;;;;  "el-get/el-get-list-packages.el" (21815 36687 150343 759000))
+;;;### (autoloads nil "el-get/el-get-check" "el-get/el-get-check.el"
+;;;;;;  (23389 7372 249056 535000))
+;;; Generated autoloads from el-get/el-get-check.el
+
+(autoload 'el-get-check-recipe "el-get/el-get-check" "\
+Check the format of the recipe.
+Please run this command before sending a pull request.
+Usage: M-x el-get-check-recipe RET
+
+You can run this function from checker script like this:
+    test/check-recipe.el PATH/TO/RECIPE.rcp
+
+When used as a lisp function, FILE-OR-BUFFER must be a buffer
+object or a file path.
+
+\(fn FILE-OR-BUFFER)" t nil)
+
+;;;***
+
+;;;### (autoloads nil "el-get/el-get-list-packages" "el-get/el-get-list-packages.el"
+;;;;;;  (23389 7372 249056 535000))
 ;;; Generated autoloads from el-get/el-get-list-packages.el
 
 (autoload 'el-get-list-packages "el-get/el-get-list-packages" "\
@@ -385,122 +557,144 @@ Display a list of packages.
 
 ;;;***
 
-;;;### (autoloads (pkg-info-version-info pkg-info-package-version
-;;;;;;  pkg-info-defining-library-version pkg-info-defining-library-original-version
-;;;;;;  pkg-info-library-version pkg-info-library-original-version)
-;;;;;;  "pkg-info/pkg-info" "pkg-info/pkg-info.el" (21906 33519 970909
-;;;;;;  249000))
-;;; Generated autoloads from pkg-info/pkg-info.el
+;;;### (autoloads nil "emacs-racer/racer" "emacs-racer/racer.el"
+;;;;;;  (23389 13166 641074 792000))
+;;; Generated autoloads from emacs-racer/racer.el
 
-(autoload 'pkg-info-library-original-version "pkg-info/pkg-info" "\
-Get the original version in the header of LIBRARY.
+(autoload 'racer-find-definition "emacs-racer/racer" "\
+Run the racer find-definition command and process the results.
 
-The original version is stored in the X-Original-Version header.
-This header is added by the MELPA package archive to preserve
-upstream version numbers.
+\(fn)" t nil)
 
-LIBRARY is either a symbol denoting a named feature, or a library
-name as string.
+(autoload 'racer-find-definition-other-window "emacs-racer/racer" "\
+Run the racer find-definition command and process the results.
 
-If SHOW is non-nil, show the version in the minibuffer.
+\(fn)" t nil)
 
-Return the version from the header of LIBRARY as list.  Signal an
-error if the LIBRARY was not found or had no X-Original-Version
-header.
+(autoload 'racer-find-definition-other-frame "emacs-racer/racer" "\
+Run the racer find-definition command and process the results.
 
-See Info node `(elisp)Library Headers' for more information
-about library headers.
+\(fn)" t nil)
 
-\(fn LIBRARY &optional SHOW)" t nil)
+(autoload 'racer-mode "emacs-racer/racer" "\
+Minor mode for racer.
 
-(autoload 'pkg-info-library-version "pkg-info/pkg-info" "\
-Get the version in the header of LIBRARY.
-
-LIBRARY is either a symbol denoting a named feature, or a library
-name as string.
-
-If SHOW is non-nil, show the version in the minibuffer.
-
-Return the version from the header of LIBRARY as list.  Signal an
-error if the LIBRARY was not found or had no proper header.
-
-See Info node `(elisp)Library Headers' for more information
-about library headers.
-
-\(fn LIBRARY &optional SHOW)" t nil)
-
-(autoload 'pkg-info-defining-library-original-version "pkg-info/pkg-info" "\
-Get the original version of the library defining FUNCTION.
-
-The original version is stored in the X-Original-Version header.
-This header is added by the MELPA package archive to preserve
-upstream version numbers.
-
-If SHOW is non-nil, show the version in mini-buffer.
-
-This function is mainly intended to find the version of a major
-or minor mode, i.e.
-
-   (pkg-info-defining-library-version 'flycheck-mode)
-
-Return the version of the library defining FUNCTION.  Signal an
-error if FUNCTION is not a valid function, if its defining
-library was not found, or if the library had no proper version
-header.
-
-\(fn FUNCTION &optional SHOW)" t nil)
-
-(autoload 'pkg-info-defining-library-version "pkg-info/pkg-info" "\
-Get the version of the library defining FUNCTION.
-
-If SHOW is non-nil, show the version in mini-buffer.
-
-This function is mainly intended to find the version of a major
-or minor mode, i.e.
-
-   (pkg-info-defining-library-version 'flycheck-mode)
-
-Return the version of the library defining FUNCTION.  Signal an
-error if FUNCTION is not a valid function, if its defining
-library was not found, or if the library had no proper version
-header.
-
-\(fn FUNCTION &optional SHOW)" t nil)
-
-(autoload 'pkg-info-package-version "pkg-info/pkg-info" "\
-Get the version of an installed PACKAGE.
-
-If SHOW is non-nil, show the version in the minibuffer.
-
-Return the version as list, or nil if PACKAGE is not installed.
-
-\(fn PACKAGE &optional SHOW)" t nil)
-
-(autoload 'pkg-info-version-info "pkg-info/pkg-info" "\
-Obtain complete version info for LIBRARY and PACKAGE.
-
-LIBRARY is a symbol denoting a named feature, or a library name
-as string.  PACKAGE is a symbol denoting an ELPA package.  If
-omitted or nil, default to LIBRARY.
-
-If SHOW is non-nil, show the version in the minibuffer.
-
-When called interactively, prompt for LIBRARY.  When called
-interactively with prefix argument, prompt for PACKAGE as well.
-
-Return a string with complete version information for LIBRARY.
-This version information contains the version from the headers of
-LIBRARY, and the version of the installed PACKAGE, the LIBRARY is
-part of.  If PACKAGE is not installed, or if the PACKAGE version
-is the same as the LIBRARY version, do not include a package
-version.
-
-\(fn LIBRARY &optional PACKAGE SHOW)" t nil)
+\(fn &optional ARG)" t nil)
 
 ;;;***
 
-;;;### (autoloads nil "queue/queue" "queue/queue.el" (21906 33513
-;;;;;;  879792 401000))
+;;;### (autoloads nil "highlight-symbol/highlight-symbol" "highlight-symbol/highlight-symbol.el"
+;;;;;;  (23389 7755 88986 189000))
+;;; Generated autoloads from highlight-symbol/highlight-symbol.el
+
+(autoload 'highlight-symbol-mode "highlight-symbol/highlight-symbol" "\
+Minor mode that highlights the symbol under point throughout the buffer.
+Highlighting takes place after `highlight-symbol-idle-delay'.
+
+\(fn &optional ARG)" t nil)
+
+(defalias 'highlight-symbol-at-point 'highlight-symbol)
+
+(autoload 'highlight-symbol "highlight-symbol/highlight-symbol" "\
+Toggle highlighting of the symbol at point.
+This highlights or unhighlights the symbol at point using the first
+element in of `highlight-symbol-faces'.
+
+\(fn &optional SYMBOL)" t nil)
+
+(autoload 'highlight-symbol-remove-all "highlight-symbol/highlight-symbol" "\
+Remove symbol highlighting in buffer.
+
+\(fn)" t nil)
+
+(autoload 'highlight-symbol-list-all "highlight-symbol/highlight-symbol" "\
+List all symbols highlighted in the buffer.
+
+\(fn)" t nil)
+
+(autoload 'highlight-symbol-count "highlight-symbol/highlight-symbol" "\
+Print the number of occurrences of symbol at point.
+
+\(fn &optional SYMBOL MESSAGE-P)" t nil)
+
+(autoload 'highlight-symbol-next "highlight-symbol/highlight-symbol" "\
+Jump to the next location of the symbol at point within the buffer.
+
+\(fn)" t nil)
+
+(autoload 'highlight-symbol-prev "highlight-symbol/highlight-symbol" "\
+Jump to the previous location of the symbol at point within the buffer.
+
+\(fn)" t nil)
+
+(autoload 'highlight-symbol-next-in-defun "highlight-symbol/highlight-symbol" "\
+Jump to the next location of the symbol at point within the defun.
+
+\(fn)" t nil)
+
+(autoload 'highlight-symbol-prev-in-defun "highlight-symbol/highlight-symbol" "\
+Jump to the previous location of the symbol at point within the defun.
+
+\(fn)" t nil)
+
+(autoload 'highlight-symbol-nav-mode "highlight-symbol/highlight-symbol" "\
+Navigate occurrences of the symbol at point.
+
+When called interactively, toggle `highlight-symbol-nav-mode'.
+With prefix ARG, enable `highlight-symbol-nav-mode' if ARG is
+positive, otherwise disable it.
+
+When called from Lisp, enable `highlight-symbol-nav-mode' if ARG
+is omitted, nil or positive.  If ARG is `toggle', toggle
+`highlight-symbol-nav-mode'.  Otherwise behave as if called
+interactively.
+
+In `highlight-symbol-nav-mode' provide the following key bindings
+to navigate between occurrences of the symbol at point in the
+current buffer.
+
+\\{highlight-symbol-nav-mode-map}
+
+\(fn &optional ARG)" t nil)
+
+(autoload 'highlight-symbol-query-replace "highlight-symbol/highlight-symbol" "\
+Replace the symbol at point with REPLACEMENT.
+
+\(fn REPLACEMENT)" t nil)
+
+(autoload 'highlight-symbol-occur "highlight-symbol/highlight-symbol" "\
+Call `occur' with the symbol at point.
+Each line is displayed with NLINES lines before and after, or -NLINES
+before if NLINES is negative.
+
+\(fn &optional NLINES)" t nil)
+
+;;;***
+
+;;;### (autoloads nil "paredit/paredit" "paredit/paredit.el" (23389
+;;;;;;  11714 763781 846000))
+;;; Generated autoloads from paredit/paredit.el
+
+(autoload 'paredit-mode "paredit/paredit" "\
+Minor mode for pseudo-structurally editing Lisp code.
+With a prefix argument, enable Paredit Mode even if there are
+  unbalanced parentheses in the buffer.
+Paredit behaves badly if parentheses are unbalanced, so exercise
+  caution when forcing Paredit Mode to be enabled, and consider
+  fixing unbalanced parentheses instead.
+\\<paredit-mode-map>
+
+\(fn &optional ARG)" t nil)
+
+(autoload 'enable-paredit-mode "paredit/paredit" "\
+Turn on pseudo-structural editing of Lisp code.
+
+\(fn)" t nil)
+
+;;;***
+
+;;;### (autoloads nil "queue/queue" "queue/queue.el" (23389 4152
+;;;;;;  710956 789000))
 ;;; Generated autoloads from queue/queue.el
 
 (defalias 'make-queue 'queue-create "\
@@ -508,17 +702,336 @@ Create an empty queue data structure.")
 
 ;;;***
 
-;;;### (autoloads nil nil ("cider/cider-client.el" "cider/cider-doc.el"
-;;;;;;  "cider/cider-eldoc.el" "cider/cider-interaction.el" "cider/cider-repl.el"
-;;;;;;  "cider/cider-stacktrace.el" "cider/cider-test.el" "cider/cider-util.el"
-;;;;;;  "cider/nrepl-client.el" "clojure-mode/clojure-mode-extra-font-locking.el"
-;;;;;;  "dash/dash-functional.el" "dash/dash.el" "el-get/el-get-autoloading.el"
-;;;;;;  "el-get/el-get-build.el" "el-get/el-get-byte-compile.el"
+;;;### (autoloads nil "rainbow-delimiters/rainbow-delimiters" "rainbow-delimiters/rainbow-delimiters.el"
+;;;;;;  (23389 7954 308779 533000))
+;;; Generated autoloads from rainbow-delimiters/rainbow-delimiters.el
+
+(autoload 'rainbow-delimiters-mode "rainbow-delimiters/rainbow-delimiters" "\
+Highlight nested parentheses, brackets, and braces according to their depth.
+
+\(fn &optional ARG)" t nil)
+
+(autoload 'rainbow-delimiters-mode-enable "rainbow-delimiters/rainbow-delimiters" "\
+Enable `rainbow-delimiters-mode'.
+
+\(fn)" nil nil)
+
+(autoload 'rainbow-delimiters-mode-disable "rainbow-delimiters/rainbow-delimiters" "\
+Disable `rainbow-delimiters-mode'.
+
+\(fn)" nil nil)
+
+;;;***
+
+;;;### (autoloads nil "rust-mode/rust-mode" "rust-mode/rust-mode.el"
+;;;;;;  (23389 13161 560860 660000))
+;;; Generated autoloads from rust-mode/rust-mode.el
+
+(autoload 'rust-mode "rust-mode/rust-mode" "\
+Major mode for Rust code.
+
+\\{rust-mode-map}
+
+\(fn)" t nil)
+
+(add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-mode))
+
+;;;***
+
+;;;### (autoloads nil "tabbar/tabbar" "tabbar/tabbar.el" (23389 7440
+;;;;;;  370552 259000))
+;;; Generated autoloads from tabbar/tabbar.el
+
+(autoload 'tabbar-backward "tabbar/tabbar" "\
+Select the previous available tab.
+Depend on the setting of the option `tabbar-cycle-scope'.
+
+\(fn)" t nil)
+
+(autoload 'tabbar-forward "tabbar/tabbar" "\
+Select the next available tab.
+Depend on the setting of the option `tabbar-cycle-scope'.
+
+\(fn)" t nil)
+
+(autoload 'tabbar-backward-group "tabbar/tabbar" "\
+Go to selected tab in the previous available group.
+
+\(fn)" t nil)
+
+(autoload 'tabbar-forward-group "tabbar/tabbar" "\
+Go to selected tab in the next available group.
+
+\(fn)" t nil)
+
+(autoload 'tabbar-backward-tab "tabbar/tabbar" "\
+Select the previous visible tab.
+
+\(fn)" t nil)
+
+(autoload 'tabbar-forward-tab "tabbar/tabbar" "\
+Select the next visible tab.
+
+\(fn)" t nil)
+
+(autoload 'tabbar-press-home "tabbar/tabbar" "\
+Press the tab bar home button.
+That is, simulate a mouse click on that button.
+A numeric prefix ARG value of 2, or 3, respectively simulates a
+mouse-2, or mouse-3 click.  The default is a mouse-1 click.
+
+\(fn &optional ARG)" t nil)
+
+(autoload 'tabbar-press-scroll-left "tabbar/tabbar" "\
+Press the tab bar scroll-left button.
+That is, simulate a mouse click on that button.
+A numeric prefix ARG value of 2, or 3, respectively simulates a
+mouse-2, or mouse-3 click.  The default is a mouse-1 click.
+
+\(fn &optional ARG)" t nil)
+
+(autoload 'tabbar-press-scroll-right "tabbar/tabbar" "\
+Press the tab bar scroll-right button.
+That is, simulate a mouse click on that button.
+A numeric prefix ARG value of 2, or 3, respectively simulates a
+mouse-2, or mouse-3 click.  The default is a mouse-1 click.
+
+\(fn &optional ARG)" t nil)
+
+(autoload 'tabbar-mwheel-backward "tabbar/tabbar" "\
+Select the previous available tab.
+EVENT is the mouse event that triggered this command.
+Mouse-enabled equivalent of the command `tabbar-backward'.
+
+\(fn EVENT)" t nil)
+
+(autoload 'tabbar-mwheel-forward "tabbar/tabbar" "\
+Select the next available tab.
+EVENT is the mouse event that triggered this command.
+Mouse-enabled equivalent of the command `tabbar-forward'.
+
+\(fn EVENT)" t nil)
+
+(autoload 'tabbar-mwheel-backward-group "tabbar/tabbar" "\
+Go to selected tab in the previous available group.
+If there is only one group, select the previous visible tab.
+EVENT is the mouse event that triggered this command.
+Mouse-enabled equivalent of the command `tabbar-backward-group'.
+
+\(fn EVENT)" t nil)
+
+(autoload 'tabbar-mwheel-forward-group "tabbar/tabbar" "\
+Go to selected tab in the next available group.
+If there is only one group, select the next visible tab.
+EVENT is the mouse event that triggered this command.
+Mouse-enabled equivalent of the command `tabbar-forward-group'.
+
+\(fn EVENT)" t nil)
+
+(autoload 'tabbar-mwheel-backward-tab "tabbar/tabbar" "\
+Select the previous visible tab.
+EVENT is the mouse event that triggered this command.
+Mouse-enabled equivalent of the command `tabbar-backward-tab'.
+
+\(fn EVENT)" t nil)
+
+(autoload 'tabbar-mwheel-forward-tab "tabbar/tabbar" "\
+Select the next visible tab.
+EVENT is the mouse event that triggered this command.
+Mouse-enabled equivalent of the command `tabbar-forward-tab'.
+
+\(fn EVENT)" t nil)
+
+(autoload 'tabbar-mwheel-switch-tab "tabbar/tabbar" "\
+Select the next or previous tab according to EVENT.
+
+\(fn EVENT)" t nil)
+
+(autoload 'tabbar-mwheel-switch-group "tabbar/tabbar" "\
+Select the next or previous group of tabs according to EVENT.
+
+\(fn EVENT)" t nil)
+
+(autoload 'tabbar-local-mode "tabbar/tabbar" "\
+Toggle local display of the tab bar.
+With prefix argument ARG, turn on if positive, otherwise off.
+Returns non-nil if the new state is enabled.
+When turned on, if a local header line is shown, it is hidden to show
+the tab bar.  The tab bar is locally hidden otherwise.  When turned
+off, if a local header line is hidden or the tab bar is locally
+hidden, it is shown again.  Signal an error if Tabbar mode is off.
+
+\(fn &optional ARG)" t nil)
+
+(defvar tabbar-mode nil "\
+Non-nil if Tabbar mode is enabled.
+See the command `tabbar-mode' for a description of this minor mode.
+Setting this variable directly does not take effect;
+either customize it (see the info node `Easy Customization')
+or call the function `tabbar-mode'.")
+
+(custom-autoload 'tabbar-mode "tabbar/tabbar" nil)
+
+(autoload 'tabbar-mode "tabbar/tabbar" "\
+Toggle display of a tab bar in the header line.
+With prefix argument ARG, turn on if positive, otherwise off.
+Returns non-nil if the new state is enabled.
+
+\\{tabbar-mode-map}
+
+\(fn &optional ARG)" t nil)
+
+(defvar tabbar-mwheel-mode nil "\
+Non-nil if Tabbar-Mwheel mode is enabled.
+See the command `tabbar-mwheel-mode' for a description of this minor mode.
+Setting this variable directly does not take effect;
+either customize it (see the info node `Easy Customization')
+or call the function `tabbar-mwheel-mode'.")
+
+(custom-autoload 'tabbar-mwheel-mode "tabbar/tabbar" nil)
+
+(autoload 'tabbar-mwheel-mode "tabbar/tabbar" "\
+Toggle use of the mouse wheel to navigate through tabs or groups.
+With prefix argument ARG, turn on if positive, otherwise off.
+Returns non-nil if the new state is enabled.
+
+\\{tabbar-mwheel-mode-map}
+
+\(fn &optional ARG)" t nil)
+
+;;;***
+
+;;;### (autoloads nil "tuareg-mode/ocamldebug" "tuareg-mode/ocamldebug.el"
+;;;;;;  (23389 7439 290528 893000))
+;;; Generated autoloads from tuareg-mode/ocamldebug.el
+
+(autoload 'ocamldebug "tuareg-mode/ocamldebug" "\
+Run ocamldebug on program FILE in buffer *ocamldebug-FILE*.
+The directory containing FILE becomes the initial working directory
+and source-file directory for ocamldebug.  If you wish to change this, use
+the ocamldebug commands `cd DIR' and `directory'.
+
+\(fn PGM-PATH)" t nil)
+
+(defalias 'camldebug 'ocamldebug)
+
+;;;***
+
+;;;### (autoloads nil "tuareg-mode/tuareg" "tuareg-mode/tuareg.el"
+;;;;;;  (23389 7439 294528 980000))
+;;; Generated autoloads from tuareg-mode/tuareg.el
+(add-to-list 'auto-mode-alist '("\\.ml[ip]?\\'" . tuareg-mode))
+(add-to-list 'auto-mode-alist '("\\.eliomi?\\'" . tuareg-mode))
+(dolist (ext '(".cmo" ".cmx" ".cma" ".cmxa" ".cmi"
+               ".annot" ".cmt" ".cmti"))
+ (add-to-list 'completion-ignored-extensions ext))
+
+(autoload 'tuareg-mode "tuareg-mode/tuareg" "\
+Major mode for editing OCaml code.
+
+Dedicated to Emacs and XEmacs, version 21 and higher.  Provides
+automatic indentation and compilation interface.  Performs font/color
+highlighting using Font-Lock.  It is designed for OCaml but handles
+Caml Light as well.
+
+The Font-Lock minor-mode is used according to your customization
+options.
+
+You have better byte-compile tuareg.el.
+
+For customization purposes, you should use `tuareg-mode-hook'
+\(run for every file) or `tuareg-load-hook' (run once) and not patch
+the mode itself.  You should add to your configuration file something like:
+  (add-hook 'tuareg-mode-hook
+            (lambda ()
+               ... ; your customization code
+            ))
+For example you can change the indentation of some keywords, the
+`electric' flags, Font-Lock colors... Every customizable variable is
+documented, use `C-h-v' or look at the mode's source code.
+
+`dot-emacs.el' is a sample customization file for standard changes.
+You can append it to your `.emacs' or use it as a tutorial.
+
+`M-x ocamldebug' FILE starts the OCaml debugger ocamldebug on the executable
+FILE, with input and output in an Emacs buffer named *ocamldebug-FILE*.
+
+A Tuareg Interactive Mode to evaluate expressions in a REPL (aka toplevel) is
+included.  Type `M-x tuareg-run-ocaml' or simply `M-x run-ocaml' or see
+special-keys below.
+
+Short cuts for the Tuareg mode:
+\\{tuareg-mode-map}
+
+Short cuts for interactions with the REPL:
+\\{tuareg-interactive-mode-map}
+
+\(fn)" t nil)
+
+(autoload 'tuareg-run-ocaml "tuareg-mode/tuareg" "\
+Run an OCaml REPL process.  I/O via buffer `*OCaml*'.
+
+\(fn)" t nil)
+
+(defalias 'run-ocaml 'tuareg-run-ocaml)
+
+(add-to-list 'interpreter-mode-alist '("ocamlrun" . tuareg-mode))
+
+(add-to-list 'interpreter-mode-alist '("ocaml" . tuareg-mode))
+
+;;;***
+
+;;;### (autoloads nil "tuareg-mode/tuareg-dune" "tuareg-mode/tuareg-dune.el"
+;;;;;;  (23389 7439 294528 980000))
+;;; Generated autoloads from tuareg-mode/tuareg-dune.el
+
+(autoload 'tuareg-dune-mode "tuareg-mode/tuareg-dune" "\
+Major mode to edit dune files.
+
+\(fn)" t nil)
+
+(add-to-list 'auto-mode-alist '("\\(?:\\`\\|/\\)jbuild\\(?:\\.inc\\)?\\'" . tuareg-dune-mode))
+
+;;;***
+
+;;;### (autoloads nil "tuareg-mode/tuareg-menhir" "tuareg-mode/tuareg-menhir.el"
+;;;;;;  (23389 7439 294528 980000))
+;;; Generated autoloads from tuareg-mode/tuareg-menhir.el
+
+(add-to-list 'auto-mode-alist '("\\.mly\\'" . tuareg-menhir-mode))
+
+(autoload 'tuareg-menhir-mode "tuareg-mode/tuareg-menhir" "\
+Major mode to edit Menhir (and Ocamlyacc) files.
+
+\(fn)" t nil)
+
+;;;***
+
+;;;### (autoloads nil "tuareg-mode/tuareg-opam" "tuareg-mode/tuareg-opam.el"
+;;;;;;  (23389 7439 294528 980000))
+;;; Generated autoloads from tuareg-mode/tuareg-opam.el
+
+(autoload 'tuareg-opam-mode "tuareg-mode/tuareg-opam" "\
+Major mode to edit opam files.
+
+\(fn)" t nil)
+
+(add-to-list 'auto-mode-alist '("[./]opam_?\\'" . tuareg-opam-mode))
+
+;;;***
+
+;;;### (autoloads nil nil ("company-mode/company-capf.el" "company-mode/company-clang.el"
+;;;;;;  "company-mode/company-cmake.el" "company-mode/company-eclim.el"
+;;;;;;  "company-mode/company-template.el" "company-mode/company-tests.el"
+;;;;;;  "el-get/el-get-autoloading.el" "el-get/el-get-build.el" "el-get/el-get-byte-compile.el"
 ;;;;;;  "el-get/el-get-core.el" "el-get/el-get-custom.el" "el-get/el-get-dependencies.el"
 ;;;;;;  "el-get/el-get-install.el" "el-get/el-get-methods.el" "el-get/el-get-notify.el"
-;;;;;;  "el-get/el-get-recipes.el" "el-get/el-get-status.el" "epl/epl.el"
-;;;;;;  "queue/queue-autoloads.el" "queue/queue-pkg.el") (21906 33529
-;;;;;;  171217 14000))
+;;;;;;  "el-get/el-get-recipes.el" "el-get/el-get-status.el" "f/f.el"
+;;;;;;  "paredit/test.el" "pos-tip/pos-tip.el" "rainbow-delimiters/rainbow-delimiters-test.el"
+;;;;;;  "rust-mode/rust-mode-tests.el" "s/s.el" "tabbar/aquamacs-compat.el"
+;;;;;;  "tabbar/aquamacs-tabbar.el" "tabbar/aquamacs-tools.el" "tabbar/one-buffer-one-frame.el"
+;;;;;;  "tabbar/tabbar-window.el" "tuareg-mode/dot-emacs.el" "tuareg-mode/tuareg-site-file.el")
+;;;;;;  (23389 13168 537802 66000))
 
 ;;;***
 

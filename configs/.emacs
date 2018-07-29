@@ -1,7 +1,5 @@
 (setq-default bidi-display-reordering nil)
 
-(add-to-list 'load-path "~/emacs")
-
 (desktop-save-mode 1)
 
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
@@ -29,19 +27,17 @@
  '(custom-safe-themes
    (quote
     ("9132bcf10a0bb4a723c0ae8acbf80be53b661cbec6331bcbdd47d27cbfe9571b" default)))
- '(default-input-method "ukrainian-computer-ext")
  '(default-justification (quote full))
  '(diff-switches "-u")
  '(dired-guess-shell-alist-user (quote ((".*\\.djvu$" "djview ? &"))))
  '(dired-listing-switches "-alDh")
- '(electric-indent-mode nil)
  '(flyspell-default-dictionary "uk")
  '(font-lock-maximum-decoration t)
  '(font-lock-support-mode (quote jit-lock-mode))
  '(global-font-lock-mode t)
  '(global-hl-line-mode nil)
  '(global-rainbow-delimiters-mode t)
- '(grep-highlight-matches t)
+ '(grep-highlight-matches (quote auto))
  '(grep-use-null-device nil)
  '(haskell-literate-default (quote latex))
  '(highlight-symbol-mode t t)
@@ -165,11 +161,35 @@ BUFFER may be either a buffer or its name (a string)."
 (global-set-key (kbd "C-M-r") 'revert-buffer-no-confirm)
 (global-set-key (kbd "C-x C-k") 'kill-buffer-and-its-windows)
 
-(load-library "ukr-ext")
-
 (put 'downcase-region 'disabled nil)
 (add-to-list 'auto-mode-alist '("\\.d\\'" . c-mode))
 (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
+
+(add-to-list 'load-path "~/.emacs.d/packages")
+(add-to-list 'load-path "~/.emacs.d/el-get/el-get")
+
+(unless (require 'el-get nil t)
+  (url-retrieve
+   "https://github.com/dimitri/el-get/raw/master/el-get-install.el"
+   (lambda (s)
+     (end-of-buffer)
+     (eval-print-last-sexp))))
+
+(setq my-el-get-packages
+      '(tuareg-mode
+        tabbar
+        bash-completion
+        ;; bar-cursor 404 so just have own copy in .emacs.d now
+        rainbow-delimiters
+        paredit
+        rust-mode
+        emacs-racer ;; needs nightly
+        s ;; racer dep
+        f ;; racer dep
+        pos-tip ;; racer dep
+        ))
+
+(el-get 'sync my-el-get-packages)
 
 (require 'cc-mode)
 
@@ -207,6 +227,7 @@ BUFFER may be either a buffer or its name (a string)."
 
 (require 'bar-cursor)
 (bar-cursor-mode 10)
+(bar-cursor-set-cursor-type 'bar)
 
 (setq case-fold-search t)
 (defvar in-command nil)
@@ -242,10 +263,6 @@ BUFFER may be either a buffer or its name (a string)."
 ;enable bash auto completion
 (require 'bash-completion)
 (bash-completion-setup)
-
-;snippets
-;(require 'yasnippet)
-
 
 ;enable symbol highlight
 (require 'highlight-symbol)
@@ -285,15 +302,9 @@ BUFFER may be either a buffer or its name (a string)."
 ;disable menu-bar
 (menu-bar-mode -1)
 
-;ac-settings
-(add-hook 'buffer-list-update-hook '(lambda ()
-  (setq ac-auto-start 3)
-  (setq ac-delay 0.2)
-  (setq ac-menu-height 20)))
-
 ;enable rainbow parens
 (require 'rainbow-delimiters)
-(global-rainbow-delimiters-mode)
+(add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
 
 ;enable auto complete package
 (require 'auto-complete-config)
@@ -302,26 +313,6 @@ BUFFER may be either a buffer or its name (a string)."
 
 ;set default grep command
 (setq grep-command "ag --nogroup ")
-
-(add-to-list 'load-path "~/.emacs.d/el-get/el-get")
-
-(unless (require 'el-get nil t)
-  (url-retrieve
-   "https://github.com/dimitri/el-get/raw/master/el-get-install.el"
-   (lambda (s)
-     (end-of-buffer)
-     (eval-print-last-sexp))))
-
-(setq my-el-get-packages
-      '(tuareg-mode
-        rust-mode
-        emacs-racer
-        s ;; racer dep
-        f ;; racer dep
-        pos-tip ;; racer dep
-        ))
-
-(el-get 'sync my-el-get-packages)
 
 ;; (defun minimap-toggle ()
 ;;   "Toggle minimap"
@@ -337,7 +328,6 @@ BUFFER may be either a buffer or its name (a string)."
 
 ;; (global-set-key "\C-m" 'minimap-toggle)
 
-;; Rust settings
 (require 'rust-mode)
 (add-hook 'rust-mode-hook 'racer-mode)
 (add-hook 'racer-mode-hook 'eldoc-mode)
@@ -346,7 +336,6 @@ BUFFER may be either a buffer or its name (a string)."
   (progn
    (define-key rust-mode-map (kbd "C-c C-t") #'racer-describe)))
 
-;; OCaml settings
 (add-to-list 'auto-mode-alist '("\\.ml[ily]?$" . tuareg-mode))
 (add-to-list 'auto-mode-alist '("\\.topml$" . tuareg-mode))
 (add-to-list 'auto-mode-alist '("\\.atd$" . tuareg-mode))
@@ -414,6 +403,13 @@ BUFFER may be either a buffer or its name (a string)."
    (define-key merlin-mode-map (kbd "M-,") 'merlin-pop-stack)
    (define-key merlin-mode-map (kbd "C-c C-z") 'merlin-clear-werrors)
    (define-key merlin-mode-map (kbd "C-t") 'ocaml-snippets)))
+
+;; (add-to-list 'load-path "/home/bogdan/.opam/4.02.3/share/emacs/site-lisp")
+
+;; (add-hook 'buffer-list-update-hook '(lambda ()
+  ;; (setq ac-auto-start nil)
+  ;; (setq ac-delay 3600)
+  ;; (setq ac-menu-height 20)))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
