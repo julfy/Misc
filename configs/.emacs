@@ -179,14 +179,12 @@ BUFFER may be either a buffer or its name (a string)."
       '(tuareg-mode
         tabbar
         bash-completion
-        ;; bar-cursor 404 so just have own copy in .emacs.d now
+        ;; bar-cursor is 404 so just have own copy in .emacs.d now
         rainbow-delimiters
         paredit
         rust-mode
-        emacs-racer ;; needs nightly
-        s ;; racer dep
-        f ;; racer dep
-        pos-tip ;; racer dep
+        emacs-racer ;; needs nightly + see https://github.com/racer-rust/racer
+        s f pos-tip ;; racer deps
         ))
 
 (el-get 'sync my-el-get-packages)
@@ -345,21 +343,26 @@ BUFFER may be either a buffer or its name (a string)."
 (require 'ocp-index)
 (require 'merlin)
 
-(defmacro defsnippets (id snippets)
+(defmacro register-snippets (id snippets)
   `(defun ,id () (interactive)
-     (cl-flet ((newline (x)
-                      (let* ((cid (current-indentation))
-                             (n (max 0 (+ x cid (if (< (- (line-end-position) (line-beginning-position)) cid) -1 0))))) ;; shenanigans due to current-indentation returning +1 when line is blank
-                        (insert "\n") (indent-to n))))
+     (cl-flet
+      ((newline (x)
+       (insert "\n") (backward-char 1)
+       (let* ((cid (current-indentation))
+              ;; shenanigans due to current-indentation returning +1 when line is blank
+              (n (max 0 (+ x cid (if (< (- (line-end-position) (line-beginning-position)) cid) -1 0)))))
+         (insert "\n") (indent-to n) (delete-char 1))))
      (let ((sym (thing-at-point 'symbol))
-           (snippets (list ,@(mapcar #'(lambda (e) `(cons ,(car e) #'(lambda (bounds) (delete-region (car bounds) (cdr bounds)) ,@`,(cdr e)))) snippets))))
+           (snippets (list ,@(mapcar
+                              #'(lambda (e) `(cons ,(car e) #'(lambda (bounds) (delete-region (car bounds) (cdr bounds)) ,@`,(cdr e))))
+                              snippets))))
        (if (dolist (snipt snippets)
              (if (equal (car snipt) sym)
                  (progn (funcall (cdr snipt) (bounds-of-thing-at-point 'symbol)) (return t))))
-           (message "Replaced!")
+         (message "Replaced!")
          (message "Not found"))))))
 
-(defsnippets ocaml-snippets
+(register-snippets ocaml-snippets
   (("let" .
     ((insert "let ")
      (setq final-pos (point))
