@@ -69,7 +69,7 @@
  '(ispell-program-name "/usr/bin/aspell")
  '(jedi:server-command
    (quote
-    ("python3" "/home/bogdan/.emacs.d/el-get/jedi/jediepcserver.py")))
+    ("python3" "HOME/.emacs.d/el-get/jedi/jediepcserver.py"))) ;; HOME IS SPECIFIC!
  '(load-home-init-file t t)
  '(merlin-error-on-single-line t)
  '(merlin-locate-in-new-window (quote never))
@@ -115,13 +115,20 @@
        ("melpa" . "http://melpa.org/packages/")
        ("melpa-stable" . "https://stable.melpa.org/packages/")
        ("gnu" . "http://elpa.gnu.org/packages/")))
+(package-initialize)
 
-(unless (require 'el-get nil t)
-  (url-retrieve
-   "https://github.com/dimitri/el-get/raw/master/el-get-install.el"
-   (lambda (s)
-     (end-of-buffer)
-     (eval-print-last-sexp))))
+(unless (require 'el-get nil 'noerror)
+  (with-current-buffer
+      (url-retrieve-synchronously
+       "https://raw.githubusercontent.com/dimitri/el-get/master/el-get-install.el")
+    (goto-char (point-max))
+    (eval-print-last-sexp)))
+
+;; (url-retrieve
+;;  "https://raw.githubusercontent.com/dimitri/el-get/master/el-get-install.el"
+;;  (lambda (s)
+;;    (goto-char (point-max))
+;;    (eval-print-last-sexp)))
 
 (setq my-el-get-packages
       '(tuareg-mode
@@ -133,8 +140,7 @@
         emacs-racer ;; needs nightly + see https://github.com/racer-rust/racer
         s f pos-tip etags-u etags-select;; racer deps
         jedi
-        ;; flycheck adds marmalade to package-archives
-	))
+        ))
 
 (el-get 'sync my-el-get-packages)
 
