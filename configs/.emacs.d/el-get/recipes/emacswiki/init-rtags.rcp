@@ -1,0 +1,5 @@
+(:name init-rtags
+:auto-generated t
+:type emacswiki
+:description "Init for rtags"
+:website "https://raw.github.com/emacsmirror/emacswiki.org/master/init-rtags.el")

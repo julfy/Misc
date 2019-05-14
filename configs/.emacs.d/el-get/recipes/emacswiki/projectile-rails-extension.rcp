@@ -1,0 +1,5 @@
+(:name projectile-rails-extension
+:auto-generated t
+:type emacswiki
+:description "Some extension for projectile-rails"
+:website "https://raw.github.com/emacsmirror/emacswiki.org/master/projectile-rails-extension.el")

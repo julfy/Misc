@@ -1,0 +1,5 @@
+(:name find-define
+:auto-generated t
+:type emacswiki
+:description "Find function or variable definition."
+:website "https://raw.github.com/emacsmirror/emacswiki.org/master/find-define.el")

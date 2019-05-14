@@ -1,0 +1,5 @@
+(:name emmet-extension
+:auto-generated t
+:type emacswiki
+:description "Extension for emmet"
+:website "https://raw.github.com/emacsmirror/emacswiki.org/master/emmet-extension.el")

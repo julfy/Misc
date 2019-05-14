@@ -1,0 +1,5 @@
+(:name comment-edit
+:auto-generated t
+:type emacswiki
+:description "create/edit shell like comments"
+:website "https://raw.github.com/emacsmirror/emacswiki.org/master/comment-edit.el")

@@ -1,0 +1,5 @@
+(:name sql-upcase
+:auto-generated t
+:type emacswiki
+:description "Upcase SQL keywords"
+:website "https://raw.github.com/emacsmirror/emacswiki.org/master/sql-upcase.el")

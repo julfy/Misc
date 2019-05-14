@@ -1,8 +1,25 @@
 (setq-default bidi-display-reordering nil)
 
 (desktop-save-mode 1)
+(setq mouse-wheel-scroll-amount '(2))
+(setq mouse-wheel-progressive-speed nil)
 
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
+(add-hook 'prog-mode-hook 'global-visual-line-mode)
+
+;set default grep command
+(setq grep-command "ag --nogroup ")
+;disable welcome screen
+(setq inhibit-startup-message t)
+;disable menu-bar
+(menu-bar-mode -1)
+;remove toolbar
+(tool-bar-mode -1)
+;enable line numbers
+(global-linum-mode t)
+
+(put 'downcase-region 'disabled nil)
+(put 'erase-buffer 'disabled nil)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -50,6 +67,9 @@
       ("-B" "-d" "ukrainian")
       nil utf-8))))
  '(ispell-program-name "/usr/bin/aspell")
+ '(jedi:server-command
+   (quote
+    ("python3" "/home/bogdan/.emacs.d/el-get/jedi/jediepcserver.py")))
  '(load-home-init-file t t)
  '(merlin-error-on-single-line t)
  '(merlin-locate-in-new-window (quote never))
@@ -58,6 +78,7 @@
  '(ocp-index-override-auto-complete-defaults nil)
  '(paren-mode (quote paren) nil (paren))
  '(preview-image-type (quote png))
+ '(python-indent-guess-indent-offset nil)
  '(require-final-newline nil)
  '(safe-local-variable-values
    (quote
@@ -70,7 +91,6 @@
  '(show-paren-style (quote expression))
  '(spell-command "aspell")
  '(tab-width 4)
- '(tabbar-mode t)
  '(transient-mark-mode t)
  '(truncate-lines t)
  '(tuareg-begin-indent 0)
@@ -82,6 +102,43 @@
  '(undo-limit 2000000)
  '(w3m-default-display-inline-images t)
  '(w3m-key-binding (quote info)))
+
+;; PACKAGES ;;;;;;;;;;;;;;;;;;;
+
+(add-to-list 'load-path "~/.emacs.d/packages")
+(let ((default-directory  "~/.emacs.d/el-get/"))
+  (normal-top-level-add-subdirs-to-load-path))
+
+(require 'package)
+(setq package-archives
+      '(;; bad cert ("marmalade" . "http://marmalade-repo.org/packages/")
+       ("melpa" . "http://melpa.org/packages/")
+       ("melpa-stable" . "https://stable.melpa.org/packages/")
+       ("gnu" . "http://elpa.gnu.org/packages/")))
+
+(unless (require 'el-get nil t)
+  (url-retrieve
+   "https://github.com/dimitri/el-get/raw/master/el-get-install.el"
+   (lambda (s)
+     (end-of-buffer)
+     (eval-print-last-sexp))))
+
+(setq my-el-get-packages
+      '(tuareg-mode
+        bash-completion
+        ;; bar-cursor is 404 so just have own copy in .emacs.d now
+        rainbow-delimiters
+        paredit
+        rust-mode
+        emacs-racer ;; needs nightly + see https://github.com/racer-rust/racer
+        s f pos-tip etags-u etags-select;; racer deps
+        jedi
+        ;; flycheck adds marmalade to package-archives
+	))
+
+(el-get 'sync my-el-get-packages)
+
+(require 'cc-mode)
 
 (defun comment-or-uncomment-region-or-line ()
     "Comments or uncomments the region or the current line if there's no active region."
@@ -132,11 +189,97 @@ BUFFER may be either a buffer or its name (a string)."
     (when (interactive-p)
       (error "Cannot kill buffer.  Not a live buffer: `%s'" buffer))))
 
-(setq mouse-wheel-scroll-amount '(2))
-(setq mouse-wheel-progressive-speed nil)
+(defun init-utf ()
+  (interactive)
+  (set-language-environment 'utf-8)
+  (set-input-method 'cyrillic-jcuken)
+  (toggle-input-method))
 
-;custom keys
-(global-set-key [home] 'beginning-of-line-text)
+; smart HOME button. Really smart.
+(defun smart-beginning-of-line ()
+  "Move point to first non-whitespace character or beginning-of-line.
+  Move point to the first non-whitespace character on this line.
+  If point was already at that position, move point to beginning of line."
+  (interactive) ; Use  (interactive "^") in Emacs 23 to make shift-select work
+  (let ((oldpos (point)))
+    (back-to-indentation)
+    (and (= oldpos (point))
+         (beginning-of-line))))
+
+;; (ring-insert find-tag-marker-ring (point-marker))
+;; (pop-tag-mark)
+
+(require 'bar-cursor)
+(bar-cursor-mode 10)
+(bar-cursor-set-cursor-type 'bar)
+
+;; (global-set-key [\S-right] 'tabbar-forward)
+;; (global-set-key [\S-left] 'tabbar-backward)
+
+(setq case-fold-search t)
+(defvar in-command nil)
+(defvar out-com-input-method nil)
+
+(defun ask-before-closing ()
+  "Ask whether or not to close, and then close if y was pressed"
+  (interactive)
+  (if (y-or-n-p (format "Are you sure you want to exit Emacs? "))
+      (if (< emacs-major-version 22)
+          (save-buffers-kill-terminal)
+        (save-buffers-kill-emacs))
+    (message "Canceled exit")))
+
+(defmacro register-snippets (id snippets)
+  "Creates interactive function to activate snippets"
+  `(defun ,id ()
+     (interactive)
+     (cl-flet
+      ((newline (x)
+       (insert "\n") (backward-char 1)
+       (let* ((cid (current-indentation))
+              ;; shenanigans due to current-indentation returning +1 when line is blank
+              (n (max 0 (+ x cid (if (< (- (line-end-position) (line-beginning-position)) cid) -1 0)))))
+         (insert "\n") (indent-to n) (delete-char 1))))
+     (let ((sym (thing-at-point 'symbol))
+           (snippets (list ,@(mapcar
+                              #'(lambda (e) `(cons ,(car e) #'(lambda (bounds)
+                                                                (delete-region (car bounds) (cdr bounds)) ,@`,(cdr e))))
+                              snippets))))
+       (if (dolist (snipt snippets)
+             (if (equal (car snipt) sym)
+                 (progn (funcall (cdr snipt) (bounds-of-thing-at-point 'symbol)) (return t))))
+         (message "Replaced!")
+         (message "Not found"))))))
+
+(defun clear-werrors ()
+  "Clears all text overlay modifiers"
+  (interactive)
+  (mapc #'delete-overlay (overlays-in (point-min) (point-max)))
+  (message "Clear overlay") t)
+
+;; (defun esk-pretty-lambdas ()
+;;   (font-lock-add-keywords
+;;    nil `(("(?\\(lambda\\>\\)"
+;;           (0 (progn (compose-region (match-beginning 1) (match-end 1)
+;;                                     ,(make-char 'greek-iso8859-7 107))
+;;                     nil))))))
+;; (add-hook 'prog-mode-hook 'esk-pretty-lambdas)
+
+;; (defun minimap-toggle ()
+;;   "Toggle minimap"
+;;   (interactive)
+;;   (if (or (not (boundp 'minimap-exists))
+;; 	  (not minimap-exists))
+;;       (progn (minimap-create)
+;; 	     (setf minimap-exists t)
+;; 	     (set-frame-width (selected-frame) 100))
+;;     (progn (minimap-kill)
+;; 	   (setf minimap-exists nil)
+;; 	   (set-frame-width (selected-frame) 80))))
+
+;; custom keys
+(global-set-key [home] 'smart-beginning-of-line)
+;; (global-set-key [home] 'beginning-of-line-text)
 (global-set-key "\C-z" 'shell)
 (global-set-key (kbd "M-<up>") 'backward-paragraph)
 (global-set-key (kbd "M-<down>") 'forward-paragraph)
@@ -160,101 +303,6 @@ BUFFER may be either a buffer or its name (a string)."
 (global-set-key (kbd "C-<left>") 'backward-word)
 (global-set-key (kbd "C-M-r") 'revert-buffer-no-confirm)
 (global-set-key (kbd "C-x C-k") 'kill-buffer-and-its-windows)
-
-(put 'downcase-region 'disabled nil)
-(add-to-list 'auto-mode-alist '("\\.d\\'" . c-mode))
-(add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
-
-(add-to-list 'load-path "~/.emacs.d/packages")
-(add-to-list 'load-path "~/.emacs.d/el-get/el-get")
-
-(unless (require 'el-get nil t)
-  (url-retrieve
-   "https://github.com/dimitri/el-get/raw/master/el-get-install.el"
-   (lambda (s)
-     (end-of-buffer)
-     (eval-print-last-sexp))))
-
-(setq my-el-get-packages
-      '(tuareg-mode
-        tabbar
-        bash-completion
-        ;; bar-cursor is 404 so just have own copy in .emacs.d now
-        rainbow-delimiters
-        paredit
-        rust-mode
-        emacs-racer ;; needs nightly + see https://github.com/racer-rust/racer
-        s f pos-tip ;; racer deps
-        ))
-
-(el-get 'sync my-el-get-packages)
-
-(require 'cc-mode)
-
-(require 'tabbar)
-(tabbar-mode)
-
-;; (global-set-key "\C-\M-y" 'mark-sexp)
-;; (global-set-key [?\M-\C-'] 'kill-whole-line)
-;; (global-set-key [?\M-+] 'delete-pair)
-;; (global-set-key [C-backspace] 'c-hungry-backspace)
-;; (global-set-key [?\M-s] 'replace-string)
-;; (global-set-key [?\M-n] 'replace-regexp)
-;; (global-set-key [?\C-.] 'call-last-kbd-macro)
-(global-set-key [\S-right] 'tabbar-forward)
-(global-set-key [\S-left] 'tabbar-backward)
-
-(defun init-utf ()
-  (interactive)
-  (set-language-environment 'utf-8)
-  (set-input-method 'cyrillic-jcuken)
-  (toggle-input-method))
-
-; smart HOME button. Really smart.
-(defun smart-beginning-of-line ()
-  "Move point to first non-whitespace character or beginning-of-line.
-  Move point to the first non-whitespace character on this line.
-  If point was already at that position, move point to beginning of line."
-  (interactive) ; Use  (interactive "^") in Emacs 23 to make shift-select work
-  (let ((oldpos (point)))
-    (back-to-indentation)
-    (and (= oldpos (point))
-         (beginning-of-line))))
-
-(global-set-key [home] 'smart-beginning-of-line)
-
-(require 'bar-cursor)
-(bar-cursor-mode 10)
-(bar-cursor-set-cursor-type 'bar)
-
-(setq case-fold-search t)
-(defvar in-command nil)
-(defvar out-com-input-method nil)
-
-(defun ask-before-closing ()
-  "Ask whether or not to close, and then close if y was pressed"
-  (interactive)
-  (if (y-or-n-p (format "Are you sure you want to exit Emacs? "))
-      (if (< emacs-major-version 22)
-          (save-buffers-kill-terminal)
-        (save-buffers-kill-emacs))
-    (message "Canceled exit")))
-
-;; (defun esk-pretty-lambdas ()
-;;   (font-lock-add-keywords
-;;    nil `(("(?\\(lambda\\>\\)"
-;;           (0 (progn (compose-region (match-beginning 1) (match-end 1)
-;;                                     ,(make-char 'greek-iso8859-7 107))
-;;                     nil))))))
-;; (add-hook 'prog-mode-hook 'esk-pretty-lambdas)
-(add-hook 'prog-mode-hook 'global-visual-line-mode)
-
-;remove toolbar
-(tool-bar-mode -1)
-
-;enable line numbers
-(global-linum-mode t)
-
 (global-set-key [f5]'kmacro-start-macro-or-insert-counter)
 (global-set-key [f6]'kmacro-end-or-call-macro)
 
@@ -268,14 +316,22 @@ BUFFER may be either a buffer or its name (a string)."
 (global-set-key [f3] 'highlight-symbol-next)
 (global-set-key [(shift f3)] 'highlight-symbol-prev)
 (global-set-key [(meta f3)] 'highlight-symbol-query-replace)
-
 (add-hook 'prog-mode-hook 'highlight-symbol-mode)
+
+;enable rainbow parens
+(require 'rainbow-delimiters)
+(add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
+
+;enable auto complete package
+(require 'auto-complete-config)
+;; (add-to-list 'ac-dictionary-directories "~/emacs/ac-dict")
+;; (ac-config-default)
 (add-hook 'prog-mode-hook 'auto-complete-mode)
 
-;enable paredit
+;; (E)LISP ;;;;;;;;;;;;;;;;;;;;;;
 (autoload 'enable-paredit-mode "paredit" "Turn on pseudo-structural editing of Lisp code." t)
 (add-hook 'emacs-lisp-mode-hook                  #'enable-paredit-mode)
-(add-hook 'eval-expression-minibuffer-setup-hook #'enable-paredit-mode)
+;; (add-hook 'eval-expression-minibuffer-setup-hook #'enable-paredit-mode)
 (add-hook 'ielm-mode-hook                        #'enable-paredit-mode)
 (add-hook 'lisp-mode-hook                        #'enable-paredit-mode)
 (add-hook 'lisp-interaction-mode-hook            #'enable-paredit-mode)
@@ -294,37 +350,56 @@ BUFFER may be either a buffer or its name (a string)."
      (define-key paredit-mode-map (kbd "<C-right>") nil)
      ))
 
-;disable welcome screen
-(setq inhibit-startup-message t)
+;; C/C++ ;;;;;;;;;;;;;;;;;;;;;;;;;
+(add-to-list 'auto-mode-alist '("\\.d\\'" . c-mode))
+(add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
 
-;disable menu-bar
-(menu-bar-mode -1)
+;; PYTHON ;;;;;;;;;;;;;;;;;;;;;;;;
+(require 'python)
+(require 'jedi)
+(add-hook 'python-mode-hook 'jedi:setup)
+(setq jedi:complete-on-dot t)
+(define-key python-mode-map (kbd "M-.") 'jedi:goto-definition)
+(define-key python-mode-map (kbd "M-,") 'jedi:goto-definition-pop-marker)
 
-;enable rainbow parens
-(require 'rainbow-delimiters)
-(add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
+(require 'flycheck)
+(setq flycheck-python-pycompile-executable "python3")
+(flycheck-define-checker ;; need pip install mypy
+    python-mypy ""
+    :command ("mypy"
+              "--follow-imports=skip"
+              "--ignore-missing-imports"
+              "--no-strict-optional"
+              ;; "--allow-redefinition"
+              ;; "--disallow-any-explicit"
+              "--check-untyped-defs"
+              "--disallow-untyped-defs"
+              "--python-version" "3.6"
+              source-original)
+    :error-patterns
+    ((error line-start (file-name) ":" line ": error:" (message) line-end))
+    :modes python-mode)
 
-;enable auto complete package
-(require 'auto-complete-config)
-;; (add-to-list 'ac-dictionary-directories "~/emacs/ac-dict")
-;; (ac-config-default)
+(add-to-list 'flycheck-checkers 'python-mypy t)
+(flycheck-add-next-checker 'python-pycompile 'python-mypy)
+(setq flycheck-check-syntax-automatically '(mode-enabled save))
+(add-hook 'python-mode-hook 'flycheck-mode)
+(define-key python-mode-map (kbd "C-c C-r") 'flycheck-buffer)
+(define-key python-mode-map (kbd "C-c C-z") 'flycheck-clear)
+(define-key python-mode-map (kbd "C-c C-x") 'flycheck-next-error)
 
-;set default grep command
-(setq grep-command "ag --nogroup ")
+;; RUST ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(require 'etags-u)
+(visit-tags-table "~/.emacs.d/TAGS")
+(add-hook 'c-mode-hook
+  '(lambda()
+     (etags-u-mode t)))
 
-;; (defun minimap-toggle ()
-;;   "Toggle minimap"
-;;   (interactive)
-;;   (if (or (not (boundp 'minimap-exists))
-;; 	  (not minimap-exists))
-;;       (progn (minimap-create)
-;; 	     (setf minimap-exists t)
-;; 	     (set-frame-width (selected-frame) 100))
-;;     (progn (minimap-kill)
-;; 	   (setf minimap-exists nil)
-;; 	   (set-frame-width (selected-frame) 80))))
-
-;; (global-set-key "\C-m" 'minimap-toggle)
+(defun create-tags (dir-name)
+     "Create tags file."
+     (interactive "DDirectory: ")
+     (eshell-command
+      (format "find %s -type f -name \"*.[ch]\" | etags -o %s -" dir-name tags-file-name)))
 
 (require 'rust-mode)
 (add-hook 'rust-mode-hook 'racer-mode)
@@ -332,35 +407,12 @@ BUFFER may be either a buffer or its name (a string)."
 
 (eval-after-load 'racer-mode
   (progn
-   (define-key rust-mode-map (kbd "C-c C-t") #'racer-describe)))
+    (define-key rust-mode-map (kbd "C-c C-t") #'racer-describe)))
 
+;; OCAML ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (add-to-list 'auto-mode-alist '("\\.ml[ily]?$" . tuareg-mode))
 (add-to-list 'auto-mode-alist '("\\.topml$" . tuareg-mode))
 (add-to-list 'auto-mode-alist '("\\.atd$" . tuareg-mode))
-
-(setq opam-share (substring (shell-command-to-string "opam config var share 2> /dev/null") 0 -1))
-(add-to-list 'load-path (concat opam-share "/emacs/site-lisp"))
-(require 'ocp-index)
-(require 'merlin)
-
-(defmacro register-snippets (id snippets)
-  `(defun ,id () (interactive)
-     (cl-flet
-      ((newline (x)
-       (insert "\n") (backward-char 1)
-       (let* ((cid (current-indentation))
-              ;; shenanigans due to current-indentation returning +1 when line is blank
-              (n (max 0 (+ x cid (if (< (- (line-end-position) (line-beginning-position)) cid) -1 0)))))
-         (insert "\n") (indent-to n) (delete-char 1))))
-     (let ((sym (thing-at-point 'symbol))
-           (snippets (list ,@(mapcar
-                              #'(lambda (e) `(cons ,(car e) #'(lambda (bounds) (delete-region (car bounds) (cdr bounds)) ,@`,(cdr e))))
-                              snippets))))
-       (if (dolist (snipt snippets)
-             (if (equal (car snipt) sym)
-                 (progn (funcall (cdr snipt) (bounds-of-thing-at-point 'symbol)) (return t))))
-         (message "Replaced!")
-         (message "Not found"))))))
 
 (register-snippets ocaml-snippets
   (("let" .
@@ -390,29 +442,24 @@ BUFFER may be either a buffer or its name (a string)."
      (newline 0) (insert "end")
      (goto-char final-pos)))))
 
+(setq opam-share (substring (shell-command-to-string "opam config var share 2> /dev/null") 0 -1))
+(add-to-list 'load-path (concat opam-share "/emacs/site-lisp"))
+;; (require 'ocp-index)
+(require 'merlin)
+
 (add-hook 'tuareg-mode-hook 'merlin-mode)
 (add-hook 'tuareg-mode-hook (lambda ()
                               (setq c-syntactic-indentation nil)
                               (electric-indent-local-mode -1)))
 
-(defun merlin-clear-werrors ()
-  (interactive)
-  (mapc #'delete-overlay (overlays-in (point-min) (point-max)))
-  (message "Clear overlay") t)
-
 (eval-after-load 'merlin-mode
   (progn
    (define-key merlin-mode-map (kbd "M-.") 'merlin-locate)
    (define-key merlin-mode-map (kbd "M-,") 'merlin-pop-stack)
-   (define-key merlin-mode-map (kbd "C-c C-z") 'merlin-clear-werrors)
+   (define-key merlin-mode-map (kbd "C-c C-z") 'clear-werrors)
    (define-key merlin-mode-map (kbd "C-t") 'ocaml-snippets)))
 
-;; (add-to-list 'load-path "/home/bogdan/.opam/4.02.3/share/emacs/site-lisp")
-
-;; (add-hook 'buffer-list-update-hook '(lambda ()
-  ;; (setq ac-auto-start nil)
-  ;; (setq ac-delay 3600)
-  ;; (setq ac-menu-height 20)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -427,6 +474,4 @@ BUFFER may be either a buffer or its name (a string)."
  '(rainbow-delimiters-depth-3-face ((t (:foreground "goldenrod"))))
  '(rainbow-delimiters-depth-4-face ((t (:foreground "gold"))))
  '(rainbow-delimiters-depth-5-face ((t (:foreground "dark khaki"))))
- '(rainbow-delimiters-unmatched-face ((t (:foreground "red"))))
- '(tabbar-default-face ((t (:inherit variable-pitch :background "gray72" :foreground "gray20" :height 0.8)))))
-(put 'erase-buffer 'disabled nil)
+ '(rainbow-delimiters-unmatched-face ((t (:foreground "red")))))

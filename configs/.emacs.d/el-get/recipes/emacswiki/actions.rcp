@@ -1,0 +1,5 @@
+(:name actions
+:auto-generated t
+:type emacswiki
+:description "actions utilities"
+:website "https://raw.github.com/emacsmirror/emacswiki.org/master/actions.el")

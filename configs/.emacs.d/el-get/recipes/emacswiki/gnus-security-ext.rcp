@@ -1,0 +1,5 @@
+(:name gnus-security-ext
+:auto-generated t
+:type emacswiki
+:description "Extra gnus functions for virus scanning, etc."
+:website "https://raw.github.com/emacsmirror/emacswiki.org/master/gnus-security-ext.el")

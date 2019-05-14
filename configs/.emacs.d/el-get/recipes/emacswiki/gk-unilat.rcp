@@ -1,0 +1,5 @@
+(:name gk-unilat
+:auto-generated t
+:type emacswiki
+:description "-- Unified input method for variants of the Latin alphabet."
+:website "https://raw.github.com/emacsmirror/emacswiki.org/master/gk-unilat.el")

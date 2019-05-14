@@ -1,0 +1,5 @@
+(:name replace-string-simulatenously
+:auto-generated t
+:type emacswiki
+:description "- replace several strings at the same time in the same region"
+:website "https://raw.github.com/emacsmirror/emacswiki.org/master/replace-string-simulatenously.el")

@@ -1,0 +1,5 @@
+(:name python-extension
+:auto-generated t
+:type emacswiki
+:description "Some useful functions for python-mode"
+:website "https://raw.github.com/emacsmirror/emacswiki.org/master/python-extension.el")

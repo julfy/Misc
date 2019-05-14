@@ -1,0 +1,5 @@
+(:name init-flycheck
+:auto-generated t
+:type emacswiki
+:description "Configuration for flycheck"
+:website "https://raw.github.com/emacsmirror/emacswiki.org/master/init-flycheck.el")

@@ -1,0 +1,5 @@
+(:name spin-markers
+:auto-generated t
+:type emacswiki
+:description "spin around a small set of markers"
+:website "https://raw.github.com/emacsmirror/emacswiki.org/master/spin-markers.el")

@@ -1,0 +1,5 @@
+(:name find-where
+:auto-generated t
+:type emacswiki
+:description "Find where something is true."
+:website "https://raw.github.com/emacsmirror/emacswiki.org/master/find-where.el")

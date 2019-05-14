@@ -1,0 +1,5 @@
+(:name init-emms
+:auto-generated t
+:type emacswiki
+:description "[[de:arabic]]"
+:website "https://raw.github.com/emacsmirror/emacswiki.org/master/init-emms.el")
