@@ -45,7 +45,9 @@
  '(custom-enabled-themes (quote (mydeef)))
  '(custom-safe-themes
    (quote
-    ("9132bcf10a0bb4a723c0ae8acbf80be53b661cbec6331bcbdd47d27cbfe9571b" default)))
+    ("cd090ea4e043c9d9b14810b564b6ac062949850e94fec7d76958af09f9c9a06d"
+     "9132bcf10a0bb4a723c0ae8acbf80be53b661cbec6331bcbdd47d27cbfe9571b"
+     default)))
  '(default-justification (quote full))
  '(diff-switches "-u")
  '(dired-guess-shell-alist-user (quote ((".*\\.djvu$" "djview ? &"))))
@@ -345,8 +347,8 @@ BUFFER may be either a buffer or its name (a string)."
 (add-hook 'prog-mode-hook 'auto-complete-mode)
 
 ;; (E)LISP ;;;;;;;;;;;;;;;;;;;;;;
-(autoload 'enable-paredit-mode "paredit" "Turn on pseudo-structural editing of Lisp code." t)
-(add-hook 'emacs-lisp-mode-hook                  #'enable-paredit-mode)
+;; (autoload 'enable-paredit-mode "paredit" "Turn on pseudo-structural editing of Lisp code." t)
+;; (add-hook 'emacs-lisp-mode-hook                  #'enable-paredit-mode)
 ;; (add-hook 'eval-expression-minibuffer-setup-hook #'enable-paredit-mode)
 (add-hook 'ielm-mode-hook                        #'enable-paredit-mode)
 (add-hook 'lisp-mode-hook                        #'enable-paredit-mode)
@@ -375,6 +377,7 @@ BUFFER may be either a buffer or its name (a string)."
 (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
 
 ;; PYTHON ;;;;;;;;;;;;;;;;;;;;;;;;
+;; reqs: pip mypy black
 (require 'python)
 (require 'jedi)
 (add-hook 'python-mode-hook 'jedi:setup)
@@ -383,29 +386,31 @@ BUFFER may be either a buffer or its name (a string)."
 (define-key python-mode-map (kbd "M-,") 'jedi:goto-definition-pop-marker)
 
 (require 'flycheck)
+(setq flycheck-checker-error-threshold 1000)
 (setq flycheck-python-pycompile-executable "python3")
-;; (setq flycheck-python-pylint-executable "yapf")
 (setq flycheck-python-flake8-executable "flake8")
 (flycheck-define-checker ;; need pip mypy
     python-mypy ""
+    ;; :working-directory (lambda (x) "")
     :command ("mypy"
+              "--show-error-codes"
               "--follow-imports=silent"
               "--ignore-missing-imports"
               ;; "--no-strict-optional"
-              "--allow-redefinition"
+              ;; "--allow-redefinition"
               ;; "--disallow-any-explicit"
               "--check-untyped-defs"
-              ;; "--disallow-untyped-defs"
-              "--python-version" "3.6"
+              "--disallow-untyped-defs"
+              ;; "--python-version" "3.6"
               source-original)
     :error-patterns
     ((error line-start (file-name) ":" line ": error:" (message) line-end))
     :modes python-mode)
 
-(flycheck-define-checker ;; need pip yapf
-    python-yapf ""
-    :command ("yapf"
-              "-d"
+(flycheck-define-checker ;; need pip black
+    python-black ""
+    :command ("black"
+              "--diff"
               source-original)
     :error-parser
     (lambda (output checker buffer)
@@ -415,7 +420,7 @@ BUFFER may be either a buffer or its name (a string)."
          (setq lnum-pos (string-match "^@@ -[0-9]+,[0-9]+ " output))
          (setq output (substring output (+ 4 lnum-pos)))
          (setq lnum-end (string-match ",[0-9]+ " output))
-         (setq lnum (+ 3 (string-to-number (substring output 0 lnum-end))))
+         (setq lnum (+ 5 (string-to-number (substring output 0 lnum-end))))
          (setq message (substring output (string-match "^-" output) (string-match "^@@ -" output)))
          (push (flycheck-error-new-at lnum 0 'warning message :checker checker :buffer buffer) errors))
         (nreverse errors)))
@@ -423,10 +428,10 @@ BUFFER may be either a buffer or its name (a string)."
 
 
 (add-to-list 'flycheck-checkers 'python-mypy t)
-(add-to-list 'flycheck-checkers 'python-yapf t)
+(add-to-list 'flycheck-checkers 'python-black t)
 (flycheck-add-next-checker 'python-pycompile 'python-flake8)
-(flycheck-add-next-checker 'python-flake8 'python-yapf)
-(flycheck-add-next-checker 'python-yapf 'python-mypy)
+(flycheck-add-next-checker 'python-flake8 'python-black)
+(flycheck-add-next-checker 'python-black 'python-mypy)
 (setq flycheck-check-syntax-automatically '(mode-enabled save))
 (add-hook 'python-mode-hook 'flycheck-mode)
 (define-key python-mode-map (kbd "C-c C-r") 'flycheck-buffer)
