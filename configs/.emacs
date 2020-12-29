@@ -7,6 +7,8 @@
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 (add-hook 'prog-mode-hook 'global-visual-line-mode)
 
+(set-face-attribute 'default nil :height 140)
+
 ;set default grep command
 (setq grep-command "ag --nogroup ")
 ;disable welcome screen
@@ -69,13 +71,16 @@
  '(ispell-program-name "/usr/bin/aspell")
  '(jedi:server-command
    (quote
-    ("python3" "HOME/.emacs.d/el-get/jedi/jediepcserver.py"))) ;; HOME IS SPECIFIC!
+    ("/usr/local/bin/python3" "/Users/bogdan.rybiy/.emacs.d/el-get/jedi/jediepcserver.py")))
  '(load-home-init-file t t)
  '(merlin-error-on-single-line t)
  '(merlin-locate-in-new-window (quote never))
  '(minimap-window-location (quote right))
  '(mmm-submode-decoration-level 0)
  '(ocp-index-override-auto-complete-defaults nil)
+ '(package-selected-packages
+   (quote
+    (jedi flycheck-pycheckers exec-path-from-shell elpygen elpy cider)))
  '(paren-mode (quote paren) nil (paren))
  '(preview-image-type (quote png))
  '(python-indent-guess-indent-offset nil)
@@ -115,7 +120,6 @@
        ("melpa" . "http://melpa.org/packages/")
        ("melpa-stable" . "https://stable.melpa.org/packages/")
        ("gnu" . "http://elpa.gnu.org/packages/")))
-(package-initialize)
 
 (unless (require 'el-get nil 'noerror)
   (with-current-buffer
@@ -124,11 +128,11 @@
     (goto-char (point-max))
     (eval-print-last-sexp)))
 
-;; (url-retrieve
-;;  "https://raw.githubusercontent.com/dimitri/el-get/master/el-get-install.el"
-;;  (lambda (s)
-;;    (goto-char (point-max))
-;;    (eval-print-last-sexp)))
+;;(url-retrieve
+;; "https://raw.githubusercontent.com/dimitri/el-get/master/el-get-install.el"
+;; (lambda (s)
+;;   (goto-char (point-max))
+;;   (eval-print-last-sexp)))
 
 (setq my-el-get-packages
       '(tuareg-mode
@@ -137,12 +141,16 @@
         rainbow-delimiters
         paredit
         rust-mode
-        emacs-racer ;; needs nightly + see https://github.com/racer-rust/racer
-        s f pos-tip etags-u etags-select;; racer deps
+        ;; emacs-racer ;; needs nightly + see https://github.com/racer-rust/racer
+        ;; s f pos-tip etags-u etags-select;; racer deps
         jedi
-        ))
+        ;; flycheck adds marmalade to package-archives
+	))
 
 (el-get 'sync my-el-get-packages)
+(package-initialize)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (require 'cc-mode)
 
@@ -285,8 +293,10 @@ BUFFER may be either a buffer or its name (a string)."
 
 ;; custom keys
 (global-set-key [home] 'smart-beginning-of-line)
+(global-set-key [end] 'end-of-line)
 ;; (global-set-key [home] 'beginning-of-line-text)
 (global-set-key "\C-z" 'shell)
+(global-set-key (kbd "C-n") '(lambda () (interactive) (message (buffer-file-name))))
 (global-set-key (kbd "M-<up>") 'backward-paragraph)
 (global-set-key (kbd "M-<down>") 'forward-paragraph)
 (global-set-key (kbd "S-<up>") '(lambda () "Previous" (interactive) (scroll-down 5)))
@@ -343,7 +353,7 @@ BUFFER may be either a buffer or its name (a string)."
 (add-hook 'lisp-interaction-mode-hook            #'enable-paredit-mode)
 (add-hook 'scheme-mode-hook                      #'enable-paredit-mode)
 
-;fix this stupid keybindings
+;fix these stupid keybindings
 (eval-after-load 'paredit
   '(progn
      (define-key paredit-mode-map (kbd "<C-M-left>") 'paredit-forward-barf-sexp)
@@ -355,6 +365,10 @@ BUFFER may be either a buffer or its name (a string)."
      (define-key paredit-mode-map (kbd "<C-left>") nil)
      (define-key paredit-mode-map (kbd "<C-right>") nil)
      ))
+
+(require 'exec-path-from-shell)
+(when (memq window-system '(mac ns))
+  (exec-path-from-shell-initialize))
 
 ;; C/C++ ;;;;;;;;;;;;;;;;;;;;;;;;;
 (add-to-list 'auto-mode-alist '("\\.d\\'" . c-mode))
@@ -370,24 +384,49 @@ BUFFER may be either a buffer or its name (a string)."
 
 (require 'flycheck)
 (setq flycheck-python-pycompile-executable "python3")
-(flycheck-define-checker ;; need pip install mypy
+;; (setq flycheck-python-pylint-executable "yapf")
+(setq flycheck-python-flake8-executable "flake8")
+(flycheck-define-checker ;; need pip mypy
     python-mypy ""
     :command ("mypy"
-              "--follow-imports=skip"
+              "--follow-imports=silent"
               "--ignore-missing-imports"
-              "--no-strict-optional"
-              ;; "--allow-redefinition"
+              ;; "--no-strict-optional"
+              "--allow-redefinition"
               ;; "--disallow-any-explicit"
               "--check-untyped-defs"
-              "--disallow-untyped-defs"
+              ;; "--disallow-untyped-defs"
               "--python-version" "3.6"
               source-original)
     :error-patterns
     ((error line-start (file-name) ":" line ": error:" (message) line-end))
     :modes python-mode)
 
+(flycheck-define-checker ;; need pip yapf
+    python-yapf ""
+    :command ("yapf"
+              "-d"
+              source-original)
+    :error-parser
+    (lambda (output checker buffer)
+      (let ((errors) (output output))
+        ;; parse diff format
+        (while (string-match "^@@ -[0-9]+,[0-9]+ " output)
+         (setq lnum-pos (string-match "^@@ -[0-9]+,[0-9]+ " output))
+         (setq output (substring output (+ 4 lnum-pos)))
+         (setq lnum-end (string-match ",[0-9]+ " output))
+         (setq lnum (+ 3 (string-to-number (substring output 0 lnum-end))))
+         (setq message (substring output (string-match "^-" output) (string-match "^@@ -" output)))
+         (push (flycheck-error-new-at lnum 0 'warning message :checker checker :buffer buffer) errors))
+        (nreverse errors)))
+    :modes python-mode)
+
+
 (add-to-list 'flycheck-checkers 'python-mypy t)
-(flycheck-add-next-checker 'python-pycompile 'python-mypy)
+(add-to-list 'flycheck-checkers 'python-yapf t)
+(flycheck-add-next-checker 'python-pycompile 'python-flake8)
+(flycheck-add-next-checker 'python-flake8 'python-yapf)
+(flycheck-add-next-checker 'python-yapf 'python-mypy)
 (setq flycheck-check-syntax-automatically '(mode-enabled save))
 (add-hook 'python-mode-hook 'flycheck-mode)
 (define-key python-mode-map (kbd "C-c C-r") 'flycheck-buffer)
@@ -448,22 +487,22 @@ BUFFER may be either a buffer or its name (a string)."
      (newline 0) (insert "end")
      (goto-char final-pos)))))
 
-(setq opam-share (substring (shell-command-to-string "opam config var share 2> /dev/null") 0 -1))
-(add-to-list 'load-path (concat opam-share "/emacs/site-lisp"))
+;; (setq opam-share (substring (shell-command-to-string "opam config var share 2> /dev/null") 0 -1))
+;; (add-to-list 'load-path (concat opam-share "/emacs/site-lisp"))
 ;; (require 'ocp-index)
-(require 'merlin)
+;; (require 'merlin)
 
-(add-hook 'tuareg-mode-hook 'merlin-mode)
-(add-hook 'tuareg-mode-hook (lambda ()
-                              (setq c-syntactic-indentation nil)
-                              (electric-indent-local-mode -1)))
+;; (add-hook 'tuareg-mode-hook 'merlin-mode)
+;; (add-hook 'tuareg-mode-hook (lambda ()
+                              ;; (setq c-syntactic-indentation nil)
+                              ;; (electric-indent-local-mode -1)))
 
-(eval-after-load 'merlin-mode
-  (progn
-   (define-key merlin-mode-map (kbd "M-.") 'merlin-locate)
-   (define-key merlin-mode-map (kbd "M-,") 'merlin-pop-stack)
-   (define-key merlin-mode-map (kbd "C-c C-z") 'clear-werrors)
-   (define-key merlin-mode-map (kbd "C-t") 'ocaml-snippets)))
+;; (eval-after-load 'merlin-mode
+  ;; (progn
+   ;; (define-key merlin-mode-map (kbd "M-.") 'merlin-locate)
+   ;; (define-key merlin-mode-map (kbd "M-,") 'merlin-pop-stack)
+   ;; (define-key merlin-mode-map (kbd "C-c C-z") 'clear-werrors)
+   ;; (define-key merlin-mode-map (kbd "C-t") 'ocaml-snippets)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
