@@ -16,8 +16,8 @@ HISTCONTROL=ignoreboth
 shopt -s histappend
 
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-HISTSIZE=1000
-HISTFILESIZE=2000
+HISTSIZE=10000
+HISTFILESIZE=20000
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
@@ -57,7 +57,7 @@ if [ -n "$force_color_prompt" ]; then
 fi
 
 if [ "$color_prompt" = yes ]; then
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]╭[\D{%d-%H:%M:%S}]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]:$?\n\[\033[01;32m\]╰╼\[\033[00m\] '
 else
     PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 fi
@@ -112,16 +112,21 @@ if ! shopt -oq posix; then
   fi
 fi
 
+bind '"\e[A": history-search-backward'
+bind '"\e[B": history-search-forward'
+
 bind '"\e[1;5C":forward-word'
 bind '"\e[1;5D":backward-word'
+
+export PATH="~/.cargo/bin:~/bin:~/.local/bin:${PATH}"
 
 # OPAM configuration
 . /home/bogdan/.opam/opam-init/init.sh > /dev/null 2> /dev/null || true
 
 eval `opam config env`
-. ~/.cargo/env
-export PATH="~/.cargo/bin:${PATH}"
 export EDITOR=/usr/bin/vim
 alias up="git fetch;git rebase"
 
-. /etc/bash_completion
+export PATH=$PATH:/usr/local/spark/bin
+
+# source "/home/bogdan/.redcmd/scripts/autocomp_func.sh"	#__redcmd_autocomp_user_script
