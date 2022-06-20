@@ -1,4 +1,7 @@
-((auto-complete status "installed" recipe
+((ac-capf status "required" recipe
+          (:name ac-capf :description "auto-complete source of completion-at-point." :type github :pkgname "emacsorphanage/ac-capf" :depends
+                 (auto-complete)))
+ (auto-complete status "installed" recipe
                 (:name auto-complete :website "https://github.com/auto-complete/auto-complete" :description "The most intelligent auto-completion extension." :type github :pkgname "auto-complete/auto-complete" :depends
                        (popup fuzzy)
                        :features auto-complete-config :post-init
@@ -12,7 +15,9 @@
                          (progn
                            (add-hook 'shell-dynamic-complete-functions 'bash-completion-dynamic-complete)
                            (add-hook 'shell-command-complete-functions 'bash-completion-dynamic-complete))))
- (cider status "installed" recipe
+ (cc-mode status "installed" recipe
+          (:name cc-mode :type hg :url "http://hg.code.sf.net/p/cc-mode/cc-mode" :description "Major mode for editing C and similar languages."))
+ (cider status "required" recipe
         (:name cider :description "CIDER is a Clojure IDE and REPL." :type github :pkgname "clojure-emacs/cider" :depends
                (dash queue clojure-mode pkg-info)))
  (cl-lib status "installed" recipe
@@ -54,7 +59,7 @@
               (el-get-envpath-prepend "PYTHONPATH" default-directory)
               :depends
               (company-mode find-file-in-project highlight-indentation pyvenv yasnippet s)))
- (emacs-racer status "installed" recipe
+ (emacs-racer status "required" recipe
               (:name emacs-racer :description "Racer support for Emacs" :type github :pkgname "racer-rust/emacs-racer" :depends
                      (rust-mode rust-racer company-mode dash s)
                      :prepare
@@ -64,10 +69,12 @@
              (deferred ctable)))
  (epl status "installed" recipe
       (:name epl :description "EPL provides a convenient high-level API for various package.el versions, and aims to overcome its most striking idiocies." :type github :pkgname "cask/epl"))
- (etags-select status "installed" recipe
+ (etags-select status "required" recipe
                (:type github :pkgname "emacsmirror/etags-select" :name etags-select :description "Select from multiple tags" :type emacsmirror :features etags-select))
- (etags-u status "installed" recipe
+ (etags-u status "required" recipe
           (:name etags-u :auto-generated t :type emacswiki :description "- (auto)updating TAGS file using etags" :website "https://raw.github.com/emacsmirror/emacswiki.org/master/etags-u.el"))
+ (exec-path-from-shell status "installed" recipe
+                       (:name exec-path-from-shell :website "https://github.com/purcell/exec-path-from-shell" :description "Emacs plugin for dynamic PATH loading" :type github :pkgname "purcell/exec-path-from-shell"))
  (f status "installed" recipe
     (:name f :website "https://github.com/rejeep/f.el" :description "Modern API for working with files and directories in Emacs" :depends
            (s dash)
@@ -81,13 +88,30 @@
         (:name fuzzy :website "https://github.com/auto-complete/fuzzy-el" :description "Fuzzy matching utilities for GNU Emacs" :type github :pkgname "auto-complete/fuzzy-el"))
  (highlight-indentation status "installed" recipe
                         (:name highlight-indentation :description "Function for highlighting indentation" :type git :url "https://github.com/antonj/Highlight-Indentation-for-Emacs"))
- (highlight-symbol status "installed" recipe
+ (highlight-symbol status "required" recipe
                    (:name highlight-symbol :description "Quickly highlight a symbol throughout the buffer and cycle through its locations." :type github :pkgname "nschum/highlight-symbol.el"))
+ (ht status "installed" recipe
+     (:name ht :website "https://github.com/Wilfred/ht.el" :description "The missing hash table utility library for Emacs." :type github :pkgname "Wilfred/ht.el"))
+ (hydra status "installed" recipe
+        (:name hydra :description "make Emacs bindings that stick around" :type github :depends
+               (cl-lib)
+               :pkgname "abo-abo/hydra"))
  (jedi status "installed" recipe
        (:name jedi :description "An awesome Python auto-completion for Emacs" :type github :pkgname "tkf/emacs-jedi" :submodule nil :depends
               (epc auto-complete python-environment)))
- (let-alist status "installed" recipe
+ (jinja2-mode status "installed" recipe
+              (:name jinja2-mode :description "Jinja2 mode for emacs" :website "http://paradoxxxzero.github.com/jinja2-mode/" :type github :pkgname "paradoxxxzero/jinja2-mode"))
+ (let-alist status "required" recipe
             (:name let-alist :description "Easily let-bind values of an assoc-list by their names." :builtin "25.0.50" :type elpa :website "https://elpa.gnu.org/packages/let-alist.html"))
+ (lsp-mode status "installed" recipe
+           (:name lsp-mode :website "https://github.com/emacs-lsp/lsp-mode" :description "Emacs client/library for the Language Server Protocol" :depends
+                  (dash f ht hydra spinner markdown-mode)
+                  :type github :pkgname "emacs-lsp/lsp-mode" :load-path
+                  ("." "clients")))
+ (markdown-mode status "installed" recipe
+                (:name markdown-mode :description "Major mode to edit Markdown files in Emacs" :website "http://jblevins.org/projects/markdown-mode/" :type github :pkgname "jrblevin/markdown-mode" :prepare
+                       (add-to-list 'auto-mode-alist
+                                    '("\\.\\(md\\|mdown\\|markdown\\)\\'" . markdown-mode))))
  (package status "installed" recipe
           (:name package :description "ELPA implementation (\"package.el\") from Emacs 24" :builtin "24" :type http :url "https://repo.or.cz/w/emacs.git/blob_plain/ba08b24186711eaeb3748f3d1f23e2c2d9ed0d09:/lisp/emacs-lisp/package.el" :features package :post-init
                  (progn
@@ -119,8 +143,7 @@
                            "http://"))
                         (archives
                          '(("melpa" . "melpa.org/packages/")
-                           ("gnu" . "elpa.gnu.org/packages/")
-                           ("marmalade" . "marmalade-repo.org/packages/"))))
+                           ("gnu" . "elpa.gnu.org/packages/"))))
                      (dolist
                          (archive archives)
                        (add-to-list 'package-archives
@@ -141,20 +164,27 @@
         (:name popup :website "https://github.com/auto-complete/popup-el" :description "Visual Popup Interface Library for Emacs" :type github :submodule nil :depends cl-lib :pkgname "auto-complete/popup-el"))
  (pos-tip status "installed" recipe
           (:name pos-tip :description "Show tooltip at point" :type github :pkgname "pitkali/pos-tip"))
+ (powerline status "installed" recipe
+            (:name powerline :website "https://github.com/milkypostman/powerline" :depends
+                   (cl-lib)
+                   :description "Powerline for Emacs" :type github :pkgname "milkypostman/powerline" :load-path "." :features powerline))
  (python-environment status "installed" recipe
                      (:name python-environment :description "Python virtualenv API for Emacs Lisp" :type github :pkgname "tkf/emacs-python-environment" :depends
                             (deferred)))
  (pyvenv status "installed" recipe
          (:name pyvenv :website "https://github.com/jorgenschaefer/pyvenv" :description "Python virtual environment interface for Emacs" :type github :pkgname "jorgenschaefer/pyvenv" :post-init
                 (el-get-envpath-prepend "PYTHONPATH" default-directory)))
- (queue status "installed" recipe
+ (queue status "required" recipe
         (:name queue :description "Queue data structure" :type elpa))
  (rainbow-delimiters status "installed" recipe
                      (:name rainbow-delimiters :website "https://github.com/Fanael/rainbow-delimiters#readme" :description "Color nested parentheses, brackets, and braces according to their depth." :type github :pkgname "Fanael/rainbow-delimiters"))
+ (rainbow-mode status "installed" recipe
+               (:name rainbow-mode :description "Colorize color names in buffers" :type elpa :prepare
+                      (autoload 'rainbow-turn-on "rainbow-mode")))
  (rtags status "required" recipe nil)
  (rust-mode status "installed" recipe
             (:name rust-mode :type github :pkgname "rust-lang/rust-mode" :description "Emacs mode for Rust"))
- (rust-racer status "installed" recipe
+ (rust-racer status "required" recipe
              (:name rust-racer :type github :pkgname "racer-rust/racer" :description "Rust code completion and code navigation" :build
                     '(("cargo" "+nightly" "build" "--release"))
                     :prepare
@@ -164,9 +194,13 @@
                     (add-hook 'racer-mode-hook #'eldoc-mode)))
  (s status "installed" recipe
     (:name s :description "The long lost Emacs string manipulation library." :type github :pkgname "magnars/s.el"))
- (seq status "installed" recipe
+ (scala-mode status "installed" recipe
+             (:name scala-mode :description "The definitive scala-mode for emacs" :type github :website "http://ensime.org" :pkgname "ensime/emacs-scala-mode"))
+ (seq status "required" recipe
       (:name seq :description "Sequence manipulation functions" :builtin "25" :type elpa :website "https://elpa.gnu.org/packages/seq.html"))
  (slime status "required" recipe nil)
+ (spinner status "installed" recipe
+          (:name spinner :description "Emacs mode-line spinner for operations in progress." :type github :pkgname "Bruce-Connor/spinner.el"))
  (tabbar status "required" recipe
          (:name tabbar :description "Display a tab bar in the header line." :type github :pkgname "dholm/tabbar" :lazy t))
  (tuareg-mode status "installed" recipe
@@ -182,5 +216,12 @@
                          (add-to-list 'completion-ignored-extensions ext))
                        (add-to-list 'auto-mode-alist
                                     '("\\.ml[iylp]?" . tuareg-mode)))))
+ (use-package status "required" recipe
+              (:name use-package :type github :description "A use-package declaration for simplifying your .emacs" :pkgname "jwiegley/use-package"))
+ (use-package-el-get status "required" recipe
+                     (:name use-package-el-get :description "el-get support for use-package" :type github :pkgname "edvorg/use-package-el-get" :features use-package-el-get :depends use-package :post-init
+                            (use-package-el-get-setup)))
+ (yaml-mode status "installed" recipe
+            (:name yaml-mode :description "Simple major mode to edit YAML file for emacs" :type github :pkgname "yoshiki/yaml-mode"))
  (yasnippet status "installed" recipe
             (:name yasnippet :website "https://github.com/capitaomorte/yasnippet.git" :description "YASnippet is a template system for Emacs." :type github :pkgname "capitaomorte/yasnippet" :compile "yasnippet.el" :submodule nil)))

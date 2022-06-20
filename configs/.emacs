@@ -7,7 +7,8 @@
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 (add-hook 'prog-mode-hook 'global-visual-line-mode)
 
-(set-face-attribute 'default nil :height 140)
+;; font size
+(set-face-attribute 'default nil :height 120)
 
 ;set default grep command
 (setq grep-command "ag --nogroup ")
@@ -17,8 +18,12 @@
 (menu-bar-mode -1)
 ;remove toolbar
 (tool-bar-mode -1)
+;remove window title
+(set-frame-parameter nil 'undecorated t)
 ;enable line numbers
 (global-linum-mode t)
+; transparency
+(add-to-list 'default-frame-alist '(alpha 50 50))
 
 (put 'downcase-region 'disabled nil)
 (put 'erase-buffer 'disabled nil)
@@ -28,90 +33,80 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(backup-directory-alist (\` (("." . "~/.emacs.d/backup"))))
- '(browse-url-browser-function (quote browse-url-generic))
- '(browse-url-generic-program "firefox")
- '(c-basic-offset 4)
- '(c-default-style
-   (quote
-    ((c-mode . "k&r")
-     (c++-mode . "k&r")
-     (java-mode . "java")
-     (other . "gnu"))))
+ '(backup-directory-alist `(("." . "~/.emacs.d/backup")))
  '(case-fold-search nil)
  '(column-number-mode t)
- '(compilation-scroll-output t)
  '(cua-mode t nil (cua-base))
- '(custom-enabled-themes (quote (mydeef)))
+ '(custom-enabled-themes '(my-theme))
  '(custom-safe-themes
-   (quote
-    ("cd090ea4e043c9d9b14810b564b6ac062949850e94fec7d76958af09f9c9a06d"
-     "9132bcf10a0bb4a723c0ae8acbf80be53b661cbec6331bcbdd47d27cbfe9571b"
-     default)))
- '(default-justification (quote full))
+   '("029af32f52d511323f36b803998fe6e8324caabe263c1ec2a878d771512cb07b" default))
  '(diff-switches "-u")
- '(dired-guess-shell-alist-user (quote ((".*\\.djvu$" "djview ? &"))))
- '(dired-listing-switches "-alDh")
  '(flyspell-default-dictionary "uk")
- '(font-lock-maximum-decoration t)
- '(font-lock-support-mode (quote jit-lock-mode))
- '(global-font-lock-mode t)
+ '(fringe-mode '(3 . 3) nil (fringe))
+ '(gc-cons-threshold (* 8 1024 1024))
  '(global-hl-line-mode nil)
  '(global-rainbow-delimiters-mode t)
- '(grep-highlight-matches (quote auto))
+ '(grep-highlight-matches 'auto)
  '(grep-use-null-device nil)
- '(haskell-literate-default (quote latex))
- '(highlight-symbol-mode t t)
- '(indent-tabs-mode nil)
- '(inferior-lisp-program "sbcl")
- '(initial-frame-alist (quote ((fullscreen . maximized))))
+ '(horizontal-scroll-bar-mode nil)
+ '(initial-frame-alist '((fullscreen . maximized)))
  '(ispell-local-dictionary-alist
-   (quote
-    (("ukrainian" "[йцукенгшщзхїфівапролджєячсмитьбю]" "[^йцукенгшщзхїфівапролджєячсмитьбю]" "[']" t
+   '(("ukrainian" "[йцукенгшщзхїфівапролджєячсмитьбю]" "[^йцукенгшщзхїфівапролджєячсмитьбю]" "[']" t
       ("-B" "-d" "ukrainian")
-      nil utf-8))))
+      nil utf-8)))
  '(ispell-program-name "/usr/bin/aspell")
  '(jedi:server-command
-   (quote
-    ("/usr/local/bin/python3" "/Users/bogdan.rybiy/.emacs.d/el-get/jedi/jediepcserver.py")))
- '(load-home-init-file t t)
+   '("/usr/bin/python3" expand-file-name "~/.emacs.d/el-get/jedi/jediepcserver.py"))
+ '(line-number-mode nil)
  '(merlin-error-on-single-line t)
- '(merlin-locate-in-new-window (quote never))
- '(minimap-window-location (quote right))
+ '(merlin-locate-in-new-window 'never)
+ '(minimap-window-location 'right)
  '(mmm-submode-decoration-level 0)
  '(ocp-index-override-auto-complete-defaults nil)
- '(package-selected-packages
-   (quote
-    (jedi flycheck-pycheckers exec-path-from-shell elpygen elpy cider)))
- '(paren-mode (quote paren) nil (paren))
- '(preview-image-type (quote png))
+ '(package-selected-packages '(rainbow-mode))
+ '(paren-mode 'paren nil (paren))
+ '(powerline-height nil)
+ '(preview-image-type 'png)
  '(python-indent-guess-indent-offset nil)
+ '(read-process-output-max (* 1024 1024) t)
  '(require-final-newline nil)
- '(safe-local-variable-values
-   (quote
-    ((make-backup-files . t)
-     (trim-versions-without-asking))))
- '(scalable-fonts-allowed nil)
- '(scroll-bar-mode (quote right))
- '(show-paren-delay 0)
- '(show-paren-mode t)
- '(show-paren-style (quote expression))
+ '(scroll-bar-mode nil)
+ '(size-indication-mode t)
  '(spell-command "aspell")
- '(tab-width 4)
- '(transient-mark-mode t)
- '(truncate-lines t)
  '(tuareg-begin-indent 0)
  '(tuareg-default-indent 2)
  '(tuareg-if-then-else-indent 0)
  '(tuareg-match-clause-indent 0)
  '(tuareg-match-when-indent 2)
  '(ude-url-browser "firefox")
- '(undo-limit 2000000)
+ '(visual-line-fringe-indicators '(nil nil))
  '(w3m-default-display-inline-images t)
- '(w3m-key-binding (quote info)))
+ '(w3m-key-binding 'info))
+
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(ebrowse-default ((t nil)))
+ '(ebrowse-progress ((t (:background "dark olive green"))))
+ '(ebrowse-root-class ((t (:foreground "deep sky blue" :weight bold))))
+ '(flycheck-fringe-error ((t (:stipple nil :background "red" :foreground "red"))))
+ '(flycheck-fringe-info ((t (:background "lawn green" :foreground "lawn green"))))
+ '(flycheck-fringe-warning ((t (:background "gold" :foreground "gold"))))
+ '(powerline-active0 ((t (:background "orange" :foreground "black"))))
+ '(powerline-active1 ((t (:background "gray15" :foreground "white"))))
+ '(powerline-active2 ((t (:background "grey40" :foreground "white"))))
+ '(powerline-inactive0 ((t (:background "tan4" :foreground "black"))))
+ '(rainbow-delimiters-depth-1-face ((t (:foreground "#f0c000"))))
+ '(rainbow-delimiters-depth-2-face ((t (:foreground "#c09000"))))
+ '(rainbow-delimiters-depth-3-face ((t (:foreground "#907000"))))
+ '(rainbow-delimiters-depth-4-face ((t (:foreground "#f0c000"))))
+ '(rainbow-delimiters-depth-5-face ((t (:foreground "#c09000"))))
+ '(rainbow-delimiters-depth-6-face ((t (:foreground "#907000"))))
+ '(rainbow-delimiters-unmatched-face ((t (:foreground "red")))))
 
 ;; PACKAGES ;;;;;;;;;;;;;;;;;;;
-
 (add-to-list 'load-path "~/.emacs.d/packages")
 (let ((default-directory  "~/.emacs.d/el-get/"))
   (normal-top-level-add-subdirs-to-load-path))
@@ -137,23 +132,78 @@
 ;;   (eval-print-last-sexp)))
 
 (setq my-el-get-packages
-      '(tuareg-mode
-        bash-completion
-        ;; bar-cursor is 404 so just have own copy in .emacs.d now
+      '(auto-complete
         rainbow-delimiters
+        rainbow-mode
+        cc-mode
         paredit
-        rust-mode
-        ;; emacs-racer ;; needs nightly + see https://github.com/racer-rust/racer
-        ;; s f pos-tip etags-u etags-select;; racer deps
+        powerline
+        tuareg-mode
+        yaml-mode
+        scala-mode
+        rust-mode lsp-mode company-mode ;; https://rust-analyzer.github.io/manual.html#installation
+        ;; rustic
+        exec-path-from-shell
         jedi
         ;; flycheck adds marmalade to package-archives
 	))
 
 (el-get 'sync my-el-get-packages)
 (package-initialize)
+;; MODELINE ;;;;;;;;;;;;;;;;;;;
 
+;modeline customize
+(require 'powerline)
+(setq-default mode-line-format
+              '("%e"
+                (:eval
+                 (let* ((active (powerline-selected-window-active))
+                        (mode-line-buffer-id (if active 'mode-line-buffer-id 'mode-line-buffer-id-inactive))
+                        (mode-line (if active 'mode-line 'mode-line-inactive))
+                        (face0 (if active 'powerline-active0 'powerline-inactive0))
+                        (face1 (if active 'powerline-active1 'powerline-inactive1))
+                        (face2 (if active 'powerline-active2 'powerline-inactive2))
+                        (separator-left (intern (format "powerline-%s-%s"
+                                                        (powerline-current-separator)
+                                                        (car powerline-default-separator-dir))))
+                        (separator-right (intern (format "powerline-%s-%s"
+                                                         (powerline-current-separator)
+                                                         (cdr powerline-default-separator-dir))))
+                        (lhs (list (powerline-raw (if (buffer-modified-p) "✸" " ") face0 'l)
+                                   ;; try 🖉 on emacs 28
+                                   (powerline-raw (if buffer-read-only "✕" "✎") face0 'l)
+                                   (powerline-raw mode-line-mule-info face0 'l)
+                                   (powerline-raw "%p /" face0 'l)
+                                   (powerline-buffer-size face0 'l)
+                                   (powerline-buffer-id `(mode-line-buffer-id ,face0) 'l)
+                                   (when (and (buffer-file-name (current-buffer)) vc-mode)
+                                     (powerline-raw (format " ⎇ %s "
+                                                            (replace-regexp-in-string
+                                                             (format "^\s*%s:?-?" (vc-backend buffer-file-name))
+                                                             ""
+                                                             vc-mode))
+                                                    face0 'l))
+                                   (funcall separator-left face0 face1)
+                                   (when (and (boundp 'erc-track-minor-mode) erc-track-minor-mode)
+                                     (powerline-raw erc-modified-channels-object face1 'l))
+                                   (powerline-major-mode face1 'l)
+                                   (powerline-process face1)
+                                   (powerline-minor-modes face1 'l)
+                                   (powerline-narrow face1 'l)
+                                   (powerline-raw " " face1)
+                                   (funcall separator-left face1 face2)
+                                   ))
+                        (rhs (list (powerline-raw global-mode-string face2 'r)
+                                   (funcall separator-right face2 face1)
+                                   (unless window-system
+                                     (powerline-raw (char-to-string #xe0a1) face1 'l))
+                                   (powerline-raw "%3c" face1 'r)
+                                   )))
+                   (concat (powerline-render lhs)
+                           (powerline-fill face2 (powerline-width rhs))
+                           (powerline-render rhs))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;
-
+(require 'lsp-mode)
 (require 'cc-mode)
 
 (defun comment-or-uncomment-region-or-line ()
@@ -205,11 +255,28 @@ BUFFER may be either a buffer or its name (a string)."
     (when (interactive-p)
       (error "Cannot kill buffer.  Not a live buffer: `%s'" buffer))))
 
+;; clean buffers that haven't been viewed for <delay> days
+(setq clean-buffer-list-delay-general 20)
+(setq clean-buffer-period (* 60 60 24))
+(run-with-timer
+ clean-buffer-period
+ clean-buffer-period
+ (lambda ()
+   (message "Cleaning buffers")
+   (clean-buffer-list)
+   ))
+
 (defun init-utf ()
   (interactive)
   (set-language-environment 'utf-8)
   (set-input-method 'cyrillic-jcuken)
   (toggle-input-method))
+
+;; gc when out of focus
+(add-function :after after-focus-change-function
+  (defun me/garbage-collect-maybe ()
+    (unless (frame-focus-state)
+      (garbage-collect))))
 
 ; smart HOME button. Really smart.
 (defun smart-beginning-of-line ()
@@ -297,19 +364,14 @@ BUFFER may be either a buffer or its name (a string)."
 (global-set-key [home] 'smart-beginning-of-line)
 (global-set-key [end] 'end-of-line)
 ;; (global-set-key [home] 'beginning-of-line-text)
-(global-set-key "\C-z" 'shell)
 (global-set-key (kbd "C-n") '(lambda () (interactive) (message (buffer-file-name))))
 (global-set-key (kbd "M-<up>") 'backward-paragraph)
 (global-set-key (kbd "M-<down>") 'forward-paragraph)
 (global-set-key (kbd "S-<up>") '(lambda () "Previous" (interactive) (scroll-down 5)))
 (global-set-key (kbd "S-<down>") '(lambda () "Next" (interactive) (scroll-up 5)))
 (global-set-key (kbd "C-`") 'other-window)
-(global-set-key (kbd "C-<tab>") 'auto-complete)
-;; (global-set-key "\t" 'auto-complete)
 (global-set-key (kbd "C-s") 'isearch-forward-regexp)
 (global-set-key (kbd "C-r") 'isearch-backward-regexp)
-(global-set-key (kbd "C-<PageUp>") 'beginning-of-buffer)
-(global-set-key (kbd "C-<PageDown>") 'end-of-buffer)
 (global-set-key (kbd "C-<Home>") 'backward-sexp)
 (global-set-key (kbd "C-<End>") 'forward-sexp)
 (global-set-key (kbd "C-;") 'comment-or-uncomment-region-or-line)
@@ -324,10 +386,6 @@ BUFFER may be either a buffer or its name (a string)."
 (global-set-key [f5]'kmacro-start-macro-or-insert-counter)
 (global-set-key [f6]'kmacro-end-or-call-macro)
 
-;enable bash auto completion
-(require 'bash-completion)
-(bash-completion-setup)
-
 ;enable symbol highlight
 (require 'highlight-symbol)
 (global-set-key [(control f3)] 'highlight-symbol-at-point)
@@ -336,21 +394,25 @@ BUFFER may be either a buffer or its name (a string)."
 (global-set-key [(meta f3)] 'highlight-symbol-query-replace)
 (add-hook 'prog-mode-hook 'highlight-symbol-mode)
 
+(require 'rainbow-mode)
+(add-hook 'prog-mode-hook 'rainbow-mode)
+
 ;enable rainbow parens
 (require 'rainbow-delimiters)
 (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
 
 ;enable auto complete package
 (require 'auto-complete-config)
-;; (add-to-list 'ac-dictionary-directories "~/emacs/ac-dict")
-;; (ac-config-default)
+;; (add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")
+(ac-config-default)
 (add-hook 'prog-mode-hook 'auto-complete-mode)
+(define-key ac-mode-map (kbd "C-<tab>") 'auto-complete)
 
 ;; (E)LISP ;;;;;;;;;;;;;;;;;;;;;;
 ;; (autoload 'enable-paredit-mode "paredit" "Turn on pseudo-structural editing of Lisp code." t)
 ;; (add-hook 'emacs-lisp-mode-hook                  #'enable-paredit-mode)
 ;; (add-hook 'eval-expression-minibuffer-setup-hook #'enable-paredit-mode)
-(add-hook 'ielm-mode-hook                        #'enable-paredit-mode)
+(add-hook 'ielm-mode-hook                    #'enable-paredit-mode)
 (add-hook 'lisp-mode-hook                        #'enable-paredit-mode)
 (add-hook 'lisp-interaction-mode-hook            #'enable-paredit-mode)
 (add-hook 'scheme-mode-hook                      #'enable-paredit-mode)
@@ -377,18 +439,21 @@ BUFFER may be either a buffer or its name (a string)."
 (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
 
 ;; PYTHON ;;;;;;;;;;;;;;;;;;;;;;;;
-;; reqs: pip mypy black
+;; reqs: pip mypy black virtualenv
 (require 'python)
 (require 'jedi)
+(jedi:install-server)
 (add-hook 'python-mode-hook 'jedi:setup)
 (setq jedi:complete-on-dot t)
 (define-key python-mode-map (kbd "M-.") 'jedi:goto-definition)
 (define-key python-mode-map (kbd "M-,") 'jedi:goto-definition-pop-marker)
+(define-key python-mode-map (kbd "C-<tab>") 'jedi:complete)
 
 (require 'flycheck)
 (setq flycheck-checker-error-threshold 1000)
 (setq flycheck-python-pycompile-executable "python3")
 (setq flycheck-python-flake8-executable "flake8")
+(setq flycheck-flake8-maximum-line-length 100)
 (flycheck-define-checker ;; need pip mypy
     python-mypy ""
     ;; :working-directory (lambda (x) "")
@@ -410,19 +475,34 @@ BUFFER may be either a buffer or its name (a string)."
 (flycheck-define-checker ;; need pip black
     python-black ""
     :command ("black"
+              "-S"
+              "-l" "100"
               "--diff"
               source-original)
     :error-parser
     (lambda (output checker buffer)
-      (let ((errors) (output output))
-        ;; parse diff format
-        (while (string-match "^@@ -[0-9]+,[0-9]+ " output)
-         (setq lnum-pos (string-match "^@@ -[0-9]+,[0-9]+ " output))
-         (setq output (substring output (+ 4 lnum-pos)))
-         (setq lnum-end (string-match ",[0-9]+ " output))
-         (setq lnum (+ 5 (string-to-number (substring output 0 lnum-end))))
-         (setq message (substring output (string-match "^-" output) (string-match "^@@ -" output)))
-         (push (flycheck-error-new-at lnum 0 'warning message :checker checker :buffer buffer) errors))
+      (let ((errors) (output output) (line-offset 0) (diff-offset 0) (collection-offset 0) (collection nil))
+        (dolist (line (cddr (split-string output "\n")))
+          (if (not (string-prefix-p "+" line))
+              (setq line-offset (+ 1 line-offset)))
+          (if (and (string-prefix-p "-" line) (= 0 collection-offset))
+              (setq collection-offset line-offset))
+          (if (string-prefix-p "+" line)
+              (progn
+                (if (= 0 collection-offset) (setq collection-offset line-offset))
+                (push line collection))
+            (if collection
+                (progn
+                  (push (flycheck-error-new-at
+                         (+ diff-offset collection-offset) 0 'warning
+                         (string-join (reverse collection) "\n") :checker checker :buffer buffer)
+                        errors)
+                  (setq collection-offset 0)
+                  (setq collection nil))))
+          (if (string-prefix-p "@@ -" line)
+              (progn
+                (setq diff-offset (string-to-number (substring line 4 (string-match ",[0-9]+ " line))))
+                (setq line-offset -1))))
         (nreverse errors)))
     :modes python-mode)
 
@@ -434,30 +514,38 @@ BUFFER may be either a buffer or its name (a string)."
 (flycheck-add-next-checker 'python-black 'python-mypy)
 (setq flycheck-check-syntax-automatically '(mode-enabled save))
 (add-hook 'python-mode-hook 'flycheck-mode)
+
+(register-snippets python-snippets
+  (("pdb" .
+    ((insert "import pdb; pdb.set_trace()")))
+   ("try" .
+    ((insert "try:")
+     (newline 4)
+     (setq final-pos (point)) (newline -4)
+     (insert "except Exception:")
+     (newline 4)
+     (goto-char final-pos)))
+   ))
+
 (define-key python-mode-map (kbd "C-c C-r") 'flycheck-buffer)
 (define-key python-mode-map (kbd "C-c C-z") 'flycheck-clear)
 (define-key python-mode-map (kbd "C-c C-x") 'flycheck-next-error)
+(define-key python-mode-map (kbd "C-t") 'python-snippets)
 
 ;; RUST ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(require 'etags-u)
-(visit-tags-table "~/.emacs.d/TAGS")
-(add-hook 'c-mode-hook
-  '(lambda()
-     (etags-u-mode t)))
-
-(defun create-tags (dir-name)
-     "Create tags file."
-     (interactive "DDirectory: ")
-     (eshell-command
-      (format "find %s -type f -name \"*.[ch]\" | etags -o %s -" dir-name tags-file-name)))
-
 (require 'rust-mode)
-(add-hook 'rust-mode-hook 'racer-mode)
-(add-hook 'racer-mode-hook 'eldoc-mode)
+(add-hook 'rust-mode-hook 'lsp-mode)
+(add-hook 'rust-mode-hook (lambda ()
+                            (auto-complete-mode -1)
+                            (setq lsp-diagnostic-package :none)
+                            (setq lsp-headerline-breadcrumb-enable nil)
+                            (setq lsp-lens-enable nil)
+                            (setq lsp-modeline-diagnostics-enable nil)
+                            (setq lsp-modeline-code-actions-enable nil)
+                            (lsp)))
 
-(eval-after-load 'racer-mode
-  (progn
-    (define-key rust-mode-map (kbd "C-c C-t") #'racer-describe)))
+(define-key rust-mode-map (kbd "C-<tab>") 'company-complete)
+(define-key rust-mode-map (kbd "C-d") 'lsp-describe-thing-at-point)
 
 ;; OCAML ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (add-to-list 'auto-mode-alist '("\\.ml[ily]?$" . tuareg-mode))
@@ -507,21 +595,6 @@ BUFFER may be either a buffer or its name (a string)."
    ;; (define-key merlin-mode-map (kbd "M-.") 'merlin-locate)
    ;; (define-key merlin-mode-map (kbd "M-,") 'merlin-pop-stack)
    ;; (define-key merlin-mode-map (kbd "C-c C-z") 'clear-werrors)
-   ;; (define-key merlin-mode-map (kbd "C-t") 'ocaml-snippets)))
+(define-key tuareg-mode-map (kbd "C-t") 'ocaml-snippets)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(ebrowse-default ((t nil)))
- '(ebrowse-progress ((t (:background "dark olive green"))))
- '(ebrowse-root-class ((t (:foreground "deep sky blue" :weight bold))))
- '(rainbow-delimiters-depth-1-face ((t (:foreground "sandy brown"))))
- '(rainbow-delimiters-depth-2-face ((t (:foreground "chocolate"))))
- '(rainbow-delimiters-depth-3-face ((t (:foreground "goldenrod"))))
- '(rainbow-delimiters-depth-4-face ((t (:foreground "gold"))))
- '(rainbow-delimiters-depth-5-face ((t (:foreground "dark khaki"))))
- '(rainbow-delimiters-unmatched-face ((t (:foreground "red")))))

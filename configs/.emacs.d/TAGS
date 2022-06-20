@@ -1,0 +1,968 @@
+
+/home/bogdan/work/openbci/OpenBCI_Cyton_Library/OpenBCI_32bit_Library_Definitions.h,10991
+#define _____OpenBCI_32bit_Library_Definitions_h11,243
+#define OPENBCI_BAUD_RATE 14,307
+#define OPENBCI_BAUD_RATE_BLE 15,340
+#define OPENBCI_BAUD_RATE_MIN_NO_AVG 16,375
+#define OPENBCI_BOP 19,442
+#define ADS_DRDY 22,514
+#define ADS_RST	23,564
+#define BOARD_ADS	24,609
+#define DAISY_ADS	25,656
+#define BOTH_ADS 26,709
+#define SD_SS 27,767
+#define LIS3DH_SS	28,818
+#define LIS3DH_DRDY 29,868
+#define OPENBCI_PIN_LED 31,972
+#define OPENBCI_PIN_PGC 32,999
+#define OPENBCI_PIN_SERIAL1_TX 35,1052
+#define OPENBCI_PIN_SERIAL1_RX 36,1086
+#define _WAKEUP 39,1171
+#define _STANDBY 40,1221
+#define _RESET 41,1265
+#define _START 42,1326
+#define _STOP 43,1393
+#define _RDATAC 44,1431
+#define _SDATAC 45,1515
+#define _RDATA 46,1570
+#define ADS_ID	49,1672
+#define ID_REG 50,1718
+#define CONFIG1 51,1772
+#define CONFIG2 52,1793
+#define CONFIG3 53,1814
+#define LOFF 54,1835
+#define CH1SET 55,1853
+#define CH2SET 56,1873
+#define CH3SET 57,1893
+#define CH4SET 58,1913
+#define CH5SET 59,1933
+#define CH6SET 60,1953
+#define CH7SET 61,1973
+#define CH8SET 62,1993
+#define BIAS_SENSP 63,2013
+#define BIAS_SENSN 64,2037
+#define LOFF_SENSP 65,2061
+#define LOFF_SENSN 66,2085
+#define LOFF_FLIP 67,2109
+#define LOFF_STATP 68,2132
+#define LOFF_STATN 69,2156
+#define GPIO 70,2180
+#define MISC1 71,2198
+#define MISC2 72,2217
+#define CONFIG4 73,2236
+#define OUTPUT_NOTHING 75,2258
+#define OUTPUT_8_CHAN 76,2295
+#define OUTPUT_16_CHAN 77,2349
+#define ON_BOARD	78,2399
+#define ON_DAISY	79,2458
+#define POWER_DOWN 81,2533
+#define GAIN_SET 82,2561
+#define INPUT_TYPE_SET 83,2589
+#define BIAS_SET 84,2617
+#define SRB2_SET 85,2645
+#define SRB1_SET 86,2673
+#define YES 87,2701
+#define NO 88,2726
+#define ADS_GAIN01 91,2770
+#define ADS_GAIN02 92,2810
+#define ADS_GAIN04 93,2850
+#define ADS_GAIN06 94,2890
+#define ADS_GAIN08 95,2930
+#define ADS_GAIN12 96,2970
+#define ADS_GAIN24 97,3010
+#define ADSINPUT_NORMAL 100,3071
+#define ADSINPUT_SHORTED 101,3112
+#define ADSINPUT_BIAS_MEAS 102,3153
+#define ADSINPUT_MVDD 103,3194
+#define ADSINPUT_TEMP 104,3235
+#define ADSINPUT_TESTSIG 105,3276
+#define ADSINPUT_BIAS_DRP 106,3317
+#define ADSINPUT_BIAL_DRN 107,3358
+#define ADSTESTSIG_AMP_1X 110,3450
+#define ADSTESTSIG_AMP_2X 111,3489
+#define ADSTESTSIG_PULSE_SLOW 112,3528
+#define ADSTESTSIG_PULSE_FAST 113,3571
+#define ADSTESTSIG_DCSIG 114,3614
+#define ADSTESTSIG_NOCHANGE 115,3652
+#define ADS1299_CONFIG1_DAISY 117,3694
+#define ADS1299_CONFIG1_DAISY_NOT 118,3737
+#define LOFF_MAG_6NA 121,3811
+#define LOFF_MAG_24NA 122,3852
+#define LOFF_MAG_6UA 123,3893
+#define LOFF_MAG_24UA 124,3934
+#define LOFF_FREQ_DC 125,3975
+#define LOFF_FREQ_7p8HZ 126,4016
+#define LOFF_FREQ_31p2HZ 127,4057
+#define LOFF_FREQ_FS_4 128,4098
+#define PCHAN 129,4139
+#define NCHAN 130,4157
+#define OFF 131,4175
+#define ON 132,4191
+#define ACTIVATE_SHORTED 135,4236
+#define ACTIVATE 136,4265
+#define DEACTIVATE 137,4286
+#define PCKT_START 139,4310
+#define PCKT_END 140,4375
+#define CLK_EN	143,4456
+#define READ_REG	146,4483
+#define READ_MULTI	147,4506
+#define STATUS_REG_AUX	149,4532
+#define OUT_ADC1_L	150,4613
+#define OUT_ADC1_H	151,4641
+#define OUT_ADC2_L	152,4669
+#define OUT_ADC2_H	153,4725
+#define OUT_ADC3_L	154,4753
+#define OUT_ADC3_H	155,4781
+#define INT_COUNTER_REG	156,4809
+#define WHO_AM_I	157,4844
+#define TMP_CFG_REG	158,4885
+#define CTRL_REG1	159,4965
+#define CTRL_REG2	160,5051
+#define CTRL_REG3	161,5101
+#define CTRL_REG4	162,5149
+#define CTRL_REG5	163,5241
+#define CTRL_REG6	164,5306
+#define REFERENCE	165,5336
+#define STATUS_REG2	166,5383
+#define OUT_X_L	167,5455
+#define OUT_X_H	168,5481
+#define OUT_Y_L	169,5507
+#define OUT_Y_H	170,5564
+#define OUT_Z_L	171,5590
+#define OUT_Z_H	172,5616
+#define FIFO_CTRL_REG	173,5642
+#define FIFO_SRC_REG	174,5712
+#define INT1_CFG	175,5744
+#define INT1_SOURCE	176,5796
+#define INT1_THS	177,5858
+#define INT1_DURATION	178,5899
+#define CLICK_CFG	179,5943
+#define CLICK_SRC	180,5984
+#define CLICK_THS	181,6023
+#define TIME_LIMIT	182,6061
+#define TIME_LATENCY	183,6103
+#define TIME_WINDOW	184,6142
+#define SCALE_2G	186,6187
+#define SCALE_4G	187,6247
+#define SCALE_8G	188,6307
+#define SCALE_16G	189,6367
+#define RATE_1HZ	190,6429
+#define RATE_10HZ	191,6514
+#define RATE_25HZ	192,6601
+#define RATE_50HZ	193,6688
+#define RATE_100HZ	194,6775
+#define RATE_200HZ	195,6864
+#define RATE_400HZ	196,6953
+#define RATE_1600HZ_LP	197,7042
+#define RATE_1250HZ_N	198,7125
+#define RATE_5000HZ_LP	199,7204
+#define ACCEL_AXIS_X 200,7287
+#define ACCEL_AXIS_Y 201,7326
+#define ACCEL_AXIS_Z 202,7365
+#define OPENBCI_CHANNEL_OFF_1 206,7453
+#define OPENBCI_CHANNEL_OFF_2 207,7487
+#define OPENBCI_CHANNEL_OFF_3 208,7521
+#define OPENBCI_CHANNEL_OFF_4 209,7555
+#define OPENBCI_CHANNEL_OFF_5 210,7589
+#define OPENBCI_CHANNEL_OFF_6 211,7623
+#define OPENBCI_CHANNEL_OFF_7 212,7657
+#define OPENBCI_CHANNEL_OFF_8 213,7691
+#define OPENBCI_CHANNEL_OFF_9 214,7725
+#define OPENBCI_CHANNEL_OFF_10 215,7759
+#define OPENBCI_CHANNEL_OFF_11 216,7794
+#define OPENBCI_CHANNEL_OFF_12 217,7829
+#define OPENBCI_CHANNEL_OFF_13 218,7864
+#define OPENBCI_CHANNEL_OFF_14 219,7899
+#define OPENBCI_CHANNEL_OFF_15 220,7934
+#define OPENBCI_CHANNEL_OFF_16 221,7969
+#define OPENBCI_CHANNEL_ON_1 224,8029
+#define OPENBCI_CHANNEL_ON_2 225,8062
+#define OPENBCI_CHANNEL_ON_3 226,8095
+#define OPENBCI_CHANNEL_ON_4 227,8128
+#define OPENBCI_CHANNEL_ON_5 228,8161
+#define OPENBCI_CHANNEL_ON_6 229,8194
+#define OPENBCI_CHANNEL_ON_7 230,8227
+#define OPENBCI_CHANNEL_ON_8 231,8260
+#define OPENBCI_CHANNEL_ON_9 232,8293
+#define OPENBCI_CHANNEL_ON_10 233,8326
+#define OPENBCI_CHANNEL_ON_11 234,8360
+#define OPENBCI_CHANNEL_ON_12 235,8394
+#define OPENBCI_CHANNEL_ON_13 236,8428
+#define OPENBCI_CHANNEL_ON_14 237,8462
+#define OPENBCI_CHANNEL_ON_15 238,8496
+#define OPENBCI_CHANNEL_ON_16 239,8530
+#define OPENBCI_TEST_SIGNAL_CONNECT_TO_DC 245,8708
+#define OPENBCI_TEST_SIGNAL_CONNECT_TO_GROUND 246,8765
+#define OPENBCI_TEST_SIGNAL_CONNECT_TO_PULSE_1X_FAST 247,8822
+#define OPENBCI_TEST_SIGNAL_CONNECT_TO_PULSE_1X_SLOW 248,8879
+#define OPENBCI_TEST_SIGNAL_CONNECT_TO_PULSE_2X_FAST 249,8936
+#define OPENBCI_TEST_SIGNAL_CONNECT_TO_PULSE_2X_SLOW 250,8993
+#define OPENBCI_CHANNEL_CMD_ADC_Normal 253,9083
+#define OPENBCI_CHANNEL_CMD_ADC_Shorted 254,9131
+#define OPENBCI_CHANNEL_CMD_ADC_BiasDRP 255,9179
+#define OPENBCI_CHANNEL_CMD_ADC_BiasDRN 256,9227
+#define OPENBCI_CHANNEL_CMD_ADC_BiasMethod 257,9275
+#define OPENBCI_CHANNEL_CMD_ADC_MVDD 258,9323
+#define OPENBCI_CHANNEL_CMD_ADC_Temp 259,9371
+#define OPENBCI_CHANNEL_CMD_ADC_TestSig 260,9419
+#define OPENBCI_CHANNEL_CMD_BIAS_INCLUDE 261,9467
+#define OPENBCI_CHANNEL_CMD_BIAS_REMOVE 262,9515
+#define OPENBCI_CHANNEL_CMD_CHANNEL_1 263,9563
+#define OPENBCI_CHANNEL_CMD_CHANNEL_2 264,9611
+#define OPENBCI_CHANNEL_CMD_CHANNEL_3 265,9659
+#define OPENBCI_CHANNEL_CMD_CHANNEL_4 266,9707
+#define OPENBCI_CHANNEL_CMD_CHANNEL_5 267,9755
+#define OPENBCI_CHANNEL_CMD_CHANNEL_6 268,9803
+#define OPENBCI_CHANNEL_CMD_CHANNEL_7 269,9851
+#define OPENBCI_CHANNEL_CMD_CHANNEL_8 270,9899
+#define OPENBCI_CHANNEL_CMD_CHANNEL_9 271,9947
+#define OPENBCI_CHANNEL_CMD_CHANNEL_10 272,9995
+#define OPENBCI_CHANNEL_CMD_CHANNEL_11 273,10043
+#define OPENBCI_CHANNEL_CMD_CHANNEL_12 274,10091
+#define OPENBCI_CHANNEL_CMD_CHANNEL_13 275,10139
+#define OPENBCI_CHANNEL_CMD_CHANNEL_14 276,10187
+#define OPENBCI_CHANNEL_CMD_CHANNEL_15 277,10235
+#define OPENBCI_CHANNEL_CMD_CHANNEL_16 278,10283
+#define OPENBCI_CHANNEL_CMD_GAIN_1 279,10331
+#define OPENBCI_CHANNEL_CMD_GAIN_2 280,10379
+#define OPENBCI_CHANNEL_CMD_GAIN_4 281,10427
+#define OPENBCI_CHANNEL_CMD_GAIN_6 282,10475
+#define OPENBCI_CHANNEL_CMD_GAIN_8 283,10523
+#define OPENBCI_CHANNEL_CMD_GAIN_12 284,10571
+#define OPENBCI_CHANNEL_CMD_GAIN_24 285,10619
+#define OPENBCI_CHANNEL_CMD_LATCH 286,10667
+#define OPENBCI_CHANNEL_CMD_POWER_OFF 287,10715
+#define OPENBCI_CHANNEL_CMD_POWER_ON 288,10763
+#define OPENBCI_CHANNEL_CMD_SET 289,10811
+#define OPENBCI_CHANNEL_CMD_SRB1_CONNECT 290,10859
+#define OPENBCI_CHANNEL_CMD_SRB1_DISCONNECT 291,10907
+#define OPENBCI_CHANNEL_CMD_SRB2_CONNECT 292,10955
+#define OPENBCI_CHANNEL_CMD_SRB2_DISCONNECT 293,11003
+#define OPENBCI_CHANNEL_DEFAULT_ALL_SET 296,11084
+#define OPENBCI_CHANNEL_DEFAULT_ALL_REPORT 297,11128
+#define OPENBCI_CHANNEL_IMPEDANCE_LATCH 300,11210
+#define OPENBCI_CHANNEL_IMPEDANCE_SET 301,11269
+#define OPENBCI_CHANNEL_IMPEDANCE_TEST_SIGNAL_APPLIED 302,11328
+#define OPENBCI_CHANNEL_IMPEDANCE_TEST_SIGNAL_APPLIED_NOT 303,11389
+#define OPENBCI_SD_LOG_FOR_HOUR_1 306,11476
+#define OPENBCI_SD_LOG_FOR_HOUR_2 307,11517
+#define OPENBCI_SD_LOG_FOR_HOUR_4 308,11558
+#define OPENBCI_SD_LOG_FOR_HOUR_12 309,11599
+#define OPENBCI_SD_LOG_FOR_HOUR_24 310,11640
+#define OPENBCI_SD_LOG_FOR_MIN_5 311,11681
+#define OPENBCI_SD_LOG_FOR_MIN_15 312,11722
+#define OPENBCI_SD_LOG_FOR_MIN_30 313,11763
+#define OPENBCI_SD_LOG_FOR_SEC_14 314,11804
+#define OPENBCI_SD_LOG_STOP 315,11845
+#define OPENBCI_STREAM_START 318,11913
+#define OPENBCI_STREAM_STOP 319,11947
+#define OPENBCI_MISC_QUERY_REGISTER_SETTINGS 322,12003
+#define OPENBCI_MISC_SOFT_RESET 323,12052
+#define OPENBCI_CHANNEL_MAX_NUMBER_8 326,12129
+#define OPENBCI_CHANNEL_MAX_NUMBER_16 327,12173
+#define OPENBCI_BOARD_MODE_SET 329,12218
+#define OPENBCI_GET_VERSION 331,12254
+#define OPENBCI_SAMPLE_RATE_SET 334,12310
+#define OPENBCI_INSERT_MARKER 337,12384
+#define OPENBCI_TIME_SET 340,12438
+#define OPENBCI_TIME_STOP 341,12467
+#define OPENBCI_WIFI_ATTACH 344,12516
+#define OPENBCI_WIFI_REMOVE 345,12548
+#define OPENBCI_WIFI_STATUS 346,12580
+#define OPENBCI_WIFI_RESET 347,12612
+#define OPENBCI_NUMBER_OF_CHANNELS_DAISY 350,12679
+#define OPENBCI_NUMBER_OF_CHANNELS_DEFAULT 351,12723
+#define OPENBCI_NUMBER_OF_BOARD_SETTINGS 354,12792
+#define OPENBCI_NUMBER_OF_CHANNEL_SETTINGS 355,12835
+#define OPENBCI_NUMBER_OF_LEAD_OFF_SETTINGS 356,12880
+#define OPENBCI_SAMPLE_RATE_125 359,12955
+#define OPENBCI_SAMPLE_RATE_250 360,12991
+#define MULTI_CHAR_COMMAND_TIMEOUT_MS 363,13069
+#define OPENBCI_PACKET_SIZE 366,13132
+#define OPENBCI_NUMBER_BYTES_PER_ADS_SAMPLE 368,13164
+#define OPENBCI_NUMBER_CHANNELS_PER_ADS_SAMPLE 369,13211
+#define OPENBCI_LEAD_OFF_DRIVE_AMPS 372,13301
+#define OPENBCI_LEAD_OFF_FREQUENCY_HZ 373,13349
+#define OPENBCI_TIME_OUT_MS_1 375,13391
+#define OPENBCI_TIME_OUT_MS_3 376,13423
+#define OPENBCI_NUMBER_OF_BYTES_SETTINGS_CHANNEL 378,13456
+#define OPENBCI_NUMBER_OF_BYTES_SETTINGS_LEAD_OFF 379,13507
+#define OPENBCI_NUMBER_OF_BYTES_AUX 381,13560
+#define OPENBCI_FIRMWARE_VERSION_V1 383,13599
+#define OPENBCI_FIRMWARE_VERSION_V2 384,13637
+#define OPENBCI_ADS_BYTES_PER_CHAN 386,13676
+#define OPENBCI_ADS_CHANS_PER_BOARD 387,13713
+#define BLE_BYTES_PER_PACKET 390,13782
+#define BLE_BYTES_PER_SAMPLE 391,13814
+#define BLE_SAMPLES_PER_PACKET 392,13845
+#define BLE_TOTAL_DATA_BYTES 393,13878
+#define BLE_RING_BUFFER_SIZE 394,13910
+
+/home/bogdan/work/openbci/OpenBCI_Cyton_Library/OpenBCI_32bit_Library.h,9949
+#define _____OpenBCI_32bit__6,55
+class OpenBCI_32bit_Library 16,291
+  typedef enum ACCEL_MODE OpenBCI_32bit_Library::ACCEL_MODE20,341
+    ACCEL_MODE_ON,OpenBCI_32bit_Library::ACCEL_MODE::ACCEL_MODE_ON21,369
+    ACCEL_MODE_OFFOpenBCI_32bit_Library::ACCEL_MODE::ACCEL_MODE_OFF22,388
+  typedef enum TIME_SYNC_MODE OpenBCI_32bit_Library::TIME_SYNC_MODE25,413
+    TIME_SYNC_MODE_ON,OpenBCI_32bit_Library::TIME_SYNC_MODE::TIME_SYNC_MODE_ON26,445
+    TIME_SYNC_MODE_OFFOpenBCI_32bit_Library::TIME_SYNC_MODE::TIME_SYNC_MODE_OFF27,468
+  typedef enum MARKER_MODE OpenBCI_32bit_Library::MARKER_MODE30,497
+    MARKER_MODE_ON,OpenBCI_32bit_Library::MARKER_MODE::MARKER_MODE_ON31,526
+    MARKER_MODE_OFFOpenBCI_32bit_Library::MARKER_MODE::MARKER_MODE_OFF32,546
+  typedef enum DEBUG_MODE OpenBCI_32bit_Library::DEBUG_MODE35,572
+    DEBUG_MODE_ON,OpenBCI_32bit_Library::DEBUG_MODE::DEBUG_MODE_ON36,600
+    DEBUG_MODE_OFFOpenBCI_32bit_Library::DEBUG_MODE::DEBUG_MODE_OFF37,619
+  typedef enum BOARD_MODE OpenBCI_32bit_Library::BOARD_MODE40,644
+    BOARD_MODE_DEFAULT,OpenBCI_32bit_Library::BOARD_MODE::BOARD_MODE_DEFAULT41,672
+    BOARD_MODE_DEBUG,OpenBCI_32bit_Library::BOARD_MODE::BOARD_MODE_DEBUG42,696
+    BOARD_MODE_ANALOG,OpenBCI_32bit_Library::BOARD_MODE::BOARD_MODE_ANALOG43,718
+    BOARD_MODE_DIGITAL,OpenBCI_32bit_Library::BOARD_MODE::BOARD_MODE_DIGITAL44,741
+    BOARD_MODE_MARKER,OpenBCI_32bit_Library::BOARD_MODE::BOARD_MODE_MARKER45,765
+    BOARD_MODE_BLE,OpenBCI_32bit_Library::BOARD_MODE::BOARD_MODE_BLE46,788
+    BOARD_MODE_END_OF_MODES OpenBCI_32bit_Library::BOARD_MODE::BOARD_MODE_END_OF_MODES47,808
+  typedef enum MULTI_CHAR_COMMAND OpenBCI_32bit_Library::MULTI_CHAR_COMMAND50,917
+    MULTI_CHAR_CMD_NONE,OpenBCI_32bit_Library::MULTI_CHAR_COMMAND::MULTI_CHAR_CMD_NONE51,953
+    MULTI_CHAR_CMD_PROCESSING_INCOMING_SETTINGS_CHANNEL,OpenBCI_32bit_Library::MULTI_CHAR_COMMAND::MULTI_CHAR_CMD_PROCESSING_INCOMING_SETTINGS_CHANNEL52,978
+    MULTI_CHAR_CMD_PROCESSING_INCOMING_SETTINGS_LEADOFF,OpenBCI_32bit_Library::MULTI_CHAR_COMMAND::MULTI_CHAR_CMD_PROCESSING_INCOMING_SETTINGS_LEADOFF53,1035
+    MULTI_CHAR_CMD_SERIAL_PASSTHROUGH,OpenBCI_32bit_Library::MULTI_CHAR_COMMAND::MULTI_CHAR_CMD_SERIAL_PASSTHROUGH54,1092
+    MULTI_CHAR_CMD_SETTINGS_BOARD_MODE,OpenBCI_32bit_Library::MULTI_CHAR_COMMAND::MULTI_CHAR_CMD_SETTINGS_BOARD_MODE55,1131
+    MULTI_CHAR_CMD_SETTINGS_SAMPLE_RATE,OpenBCI_32bit_Library::MULTI_CHAR_COMMAND::MULTI_CHAR_CMD_SETTINGS_SAMPLE_RATE56,1171
+    MULTI_CHAR_CMD_INSERT_MARKEROpenBCI_32bit_Library::MULTI_CHAR_COMMAND::MULTI_CHAR_CMD_INSERT_MARKER57,1212
+  typedef enum PACKET_TYPE OpenBCI_32bit_Library::PACKET_TYPE60,1251
+    PACKET_TYPE_ACCEL,OpenBCI_32bit_Library::PACKET_TYPE::PACKET_TYPE_ACCEL61,1280
+    PACKET_TYPE_RAW_AUX,OpenBCI_32bit_Library::PACKET_TYPE::PACKET_TYPE_RAW_AUX62,1303
+    PACKET_TYPE_USER_DEFINED,OpenBCI_32bit_Library::PACKET_TYPE::PACKET_TYPE_USER_DEFINED63,1328
+    PACKET_TYPE_ACCEL_TIME_SET,OpenBCI_32bit_Library::PACKET_TYPE::PACKET_TYPE_ACCEL_TIME_SET64,1358
+    PACKET_TYPE_ACCEL_TIME_SYNC,OpenBCI_32bit_Library::PACKET_TYPE::PACKET_TYPE_ACCEL_TIME_SYNC65,1390
+    PACKET_TYPE_RAW_AUX_TIME_SET,OpenBCI_32bit_Library::PACKET_TYPE::PACKET_TYPE_RAW_AUX_TIME_SET66,1423
+    PACKET_TYPE_RAW_AUX_TIME_SYNCOpenBCI_32bit_Library::PACKET_TYPE::PACKET_TYPE_RAW_AUX_TIME_SYNC67,1457
+  typedef enum SAMPLE_RATE OpenBCI_32bit_Library::SAMPLE_RATE70,1497
+    SAMPLE_RATE_16000,OpenBCI_32bit_Library::SAMPLE_RATE::SAMPLE_RATE_1600071,1526
+    SAMPLE_RATE_8000,OpenBCI_32bit_Library::SAMPLE_RATE::SAMPLE_RATE_800072,1549
+    SAMPLE_RATE_4000,OpenBCI_32bit_Library::SAMPLE_RATE::SAMPLE_RATE_400073,1571
+    SAMPLE_RATE_2000,OpenBCI_32bit_Library::SAMPLE_RATE::SAMPLE_RATE_200074,1593
+    SAMPLE_RATE_1000,OpenBCI_32bit_Library::SAMPLE_RATE::SAMPLE_RATE_100075,1615
+    SAMPLE_RATE_500,OpenBCI_32bit_Library::SAMPLE_RATE::SAMPLE_RATE_50076,1637
+    SAMPLE_RATE_250OpenBCI_32bit_Library::SAMPLE_RATE::SAMPLE_RATE_25077,1658
+    uint32_t  baudRate;OpenBCI_32bit_Library::baudRate82,1716
+    boolean   rx;OpenBCI_32bit_Library::rx83,1740
+    boolean   tx;OpenBCI_32bit_Library::tx84,1758
+  } SerialInfo;OpenBCI_32bit_Library::SerialInfo85,1776
+    boolean   rx;OpenBCI_32bit_Library::rx88,1812
+    boolean   tx;OpenBCI_32bit_Library::tx89,1830
+  } SpiInfo;OpenBCI_32bit_Library::SpiInfo90,1848
+    uint8_t sampleNumber;OpenBCI_32bit_Library::sampleNumber93,1881
+    uint8_t data[OpenBCI_32bit_Library::data94,1907
+    boolean ready;OpenBCI_32bit_Library::ready95,1947
+    boolean flushing;OpenBCI_32bit_Library::flushing96,1966
+    uint8_t bytesFlushed;OpenBCI_32bit_Library::bytesFlushed97,1988
+    uint8_t bytesLoaded;OpenBCI_32bit_Library::bytesLoaded98,2014
+  } BLE;OpenBCI_32bit_Library::BLE99,2039
+  boolean boardUseSRB1;OpenBCI_32bit_Library::boardUseSRB1231,7314
+  boolean daisyPresent;OpenBCI_32bit_Library::daisyPresent232,7396
+  boolean daisyUseSRB1;OpenBCI_32bit_Library::daisyUseSRB1233,7420
+  boolean streaming;OpenBCI_32bit_Library::streaming234,7444
+  boolean useInBias[OpenBCI_32bit_Library::useInBias235,7465
+  boolean useSRB2[OpenBCI_32bit_Library::useSRB2236,7601
+  boolean verbosity;OpenBCI_32bit_Library::verbosity237,7654
+  byte boardChannelDataRaw[OpenBCI_32bit_Library::boardChannelDataRaw239,7708
+  byte channelSettings[OpenBCI_32bit_Library::channelSettings240,7810
+  byte daisyChannelDataRaw[OpenBCI_32bit_Library::daisyChannelDataRaw241,7947
+  byte defaultChannelSettings[OpenBCI_32bit_Library::defaultChannelSettings242,8012
+  byte lastBoardDataRaw[OpenBCI_32bit_Library::lastBoardDataRaw243,8108
+  byte lastDaisyDataRaw[OpenBCI_32bit_Library::lastDaisyDataRaw244,8170
+  byte leadOffSettings[OpenBCI_32bit_Library::leadOffSettings245,8232
+  byte meanBoardDataRaw[OpenBCI_32bit_Library::meanBoardDataRaw246,8408
+  byte meanDaisyDataRaw[OpenBCI_32bit_Library::meanDaisyDataRaw247,8470
+  byte sampleCounter;OpenBCI_32bit_Library::sampleCounter248,8532
+  byte sampleCounterBLE;OpenBCI_32bit_Library::sampleCounterBLE249,8554
+  int ringBufBLEHead;OpenBCI_32bit_Library::ringBufBLEHead251,8580
+  int ringBufBLETail;OpenBCI_32bit_Library::ringBufBLETail252,8602
+  int boardChannelDataInt[OpenBCI_32bit_Library::boardChannelDataInt253,8624
+  int daisyChannelDataInt[OpenBCI_32bit_Library::daisyChannelDataInt254,8742
+  int lastBoardChannelDataInt[OpenBCI_32bit_Library::lastBoardChannelDataInt255,8860
+  int lastDaisyChannelDataInt[OpenBCI_32bit_Library::lastDaisyChannelDataInt256,8931
+  int meanBoardChannelDataInt[OpenBCI_32bit_Library::meanBoardChannelDataInt257,9002
+  int meanDaisyChannelDataInt[OpenBCI_32bit_Library::meanDaisyChannelDataInt258,9073
+  int numChannels;OpenBCI_32bit_Library::numChannels259,9144
+  short auxData[OpenBCI_32bit_Library::auxData261,9164
+  short axisData[OpenBCI_32bit_Library::axisData262,9208
+  unsigned long lastSampleTime;OpenBCI_32bit_Library::lastSampleTime264,9230
+  volatile boolean channelDataAvailable;OpenBCI_32bit_Library::channelDataAvailable266,9263
+  ACCEL_MODE curAccelMode;OpenBCI_32bit_Library::curAccelMode269,9316
+  BOARD_MODE curBoardMode;OpenBCI_32bit_Library::curBoardMode270,9343
+  DEBUG_MODE curDebugMode;OpenBCI_32bit_Library::curDebugMode271,9370
+  PACKET_TYPE curPacketType;OpenBCI_32bit_Library::curPacketType272,9397
+  SAMPLE_RATE curSampleRate;OpenBCI_32bit_Library::curSampleRate273,9426
+  TIME_SYNC_MODE curTimeSyncMode;OpenBCI_32bit_Library::curTimeSyncMode274,9455
+  BLE bufferBLE[OpenBCI_32bit_Library::bufferBLE277,9502
+  SerialInfo iSerial0;OpenBCI_32bit_Library::iSerial0280,9555
+  SerialInfo iSerial1;OpenBCI_32bit_Library::iSerial1281,9578
+  DSPI0 spi;OpenBCI_32bit_Library::spi284,9621
+  boolean commandFromSPI;OpenBCI_32bit_Library::commandFromSPI349,12186
+  boolean firstDataPacket;OpenBCI_32bit_Library::firstDataPacket350,12212
+  boolean isMultiCharCmd;OpenBCI_32bit_Library::isMultiCharCmd351,12239
+  boolean isRunning;OpenBCI_32bit_Library::isRunning352,12305
+  boolean settingBoardMode;OpenBCI_32bit_Library::settingBoardMode353,12326
+  boolean settingSampleRate;OpenBCI_32bit_Library::settingSampleRate354,12354
+  boolean newMarkerReceived;OpenBCI_32bit_Library::newMarkerReceived355,12383
+  byte    regData[OpenBCI_32bit_Library::regData356,12464
+  char    buffer[OpenBCI_32bit_Library::buffer357,12528
+  char    markerValue;OpenBCI_32bit_Library::markerValue358,12549
+  char    multiCharCommand;OpenBCI_32bit_Library::multiCharCommand359,12572
+  char    currentChannelSetting;OpenBCI_32bit_Library::currentChannelSetting360,12624
+  char    optionalArgBuffer5[OpenBCI_32bit_Library::optionalArgBuffer5361,12657
+  char    optionalArgBuffer6[OpenBCI_32bit_Library::optionalArgBuffer6362,12690
+  char    optionalArgBuffer7[OpenBCI_32bit_Library::optionalArgBuffer7363,12723
+  int     boardStat;OpenBCI_32bit_Library::boardStat364,12756
+  int     daisyStat;OpenBCI_32bit_Library::daisyStat365,12813
+  int     DRDYpinValue;OpenBCI_32bit_Library::DRDYpinValue366,12834
+  int     lastDRDYpinValue;OpenBCI_32bit_Library::lastDRDYpinValue367,12858
+  int     numberOfIncomingSettingsProcessedChannel;OpenBCI_32bit_Library::numberOfIncomingSettingsProcessedChannel368,12886
+  int     numberOfIncomingSettingsProcessedLeadOff;OpenBCI_32bit_Library::numberOfIncomingSettingsProcessedLeadOff369,12938
+  int     numberOfIncomingSettingsProcessedBoardType;OpenBCI_32bit_Library::numberOfIncomingSettingsProcessedBoardType370,12990
+  uint8_t optionalArgCounter;OpenBCI_32bit_Library::optionalArgCounter371,13044
+  unsigned long multiCharCmdTimeout;OpenBCI_32bit_Library::multiCharCmdTimeout372,13074
+  unsigned long timeOfLastRead;OpenBCI_32bit_Library::timeOfLastRead373,13171
+  unsigned long timeOfMultiByteMsgStart;OpenBCI_32bit_Library::timeOfMultiByteMsgStart374,13203
+
+../work/openbci/OpenBCI_Cyton_Library/OpenBCI_32bit_Library.cpp,10254
+OpenBCI_32bit_Library::OpenBCI_32bit_Library(16,473
+void OpenBCI_32bit_Library::begin(25,664
+void OpenBCI_32bit_Library::beginDebug(47,1682
+void OpenBCI_32bit_Library::beginDebug(52,1765
+boolean OpenBCI_32bit_Library::hasDataSerial0(73,2167
+boolean OpenBCI_32bit_Library::hasDataSerial1(92,2567
+char OpenBCI_32bit_Library::getCharSerial0(111,2970
+char OpenBCI_32bit_Library::getCharSerial1(120,3185
+boolean OpenBCI_32bit_Library::processChar(132,3577
+void OpenBCI_32bit_Library::startMultiCharCmdTimer(487,13402
+void OpenBCI_32bit_Library::endMultiCharCmdTimer(503,13761
+boolean OpenBCI_32bit_Library::checkMultiCharCmdTimer(514,14058
+void OpenBCI_32bit_Library::loop(535,14556
+char OpenBCI_32bit_Library::getMultiCharCommand(548,14757
+boolean OpenBCI_32bit_Library::processCharWifi(553,14843
+void OpenBCI_32bit_Library::useAccel(565,15157
+void OpenBCI_32bit_Library::useTimeStamp(575,15436
+boolean OpenBCI_32bit_Library::accelHasNewData(586,15790
+void OpenBCI_32bit_Library::accelUpdateAxisData(595,16001
+void OpenBCI_32bit_Library::accelWriteAxisDataSerial(603,16167
+void OpenBCI_32bit_Library::accelWriteAxisDataWifi(611,16343
+boolean OpenBCI_32bit_Library::boardBegin(621,16594
+void OpenBCI_32bit_Library::boardBeginADSInterrupt(639,16892
+boolean OpenBCI_32bit_Library::boardBeginDebug(653,17507
+boolean OpenBCI_32bit_Library::boardBeginDebug(663,17844
+void OpenBCI_32bit_Library::beginPinsAnalog(681,18152
+void OpenBCI_32bit_Library::beginPinsDebug(689,18296
+void OpenBCI_32bit_Library::beginPinsDefault(695,18435
+void OpenBCI_32bit_Library::beginPinsDigital(702,18602
+void OpenBCI_32bit_Library::beginSerial0(716,18847
+void OpenBCI_32bit_Library::beginSerial0(724,18967
+void OpenBCI_32bit_Library::beginSerial1(740,19457
+void OpenBCI_32bit_Library::beginSerial1(750,19791
+void OpenBCI_32bit_Library::endSerial0(764,20071
+void OpenBCI_32bit_Library::endSerial1(775,20246
+void OpenBCI_32bit_Library::boardReset(790,20649
+void OpenBCI_32bit_Library::sendEOT(815,21438
+void OpenBCI_32bit_Library::activateAllChannelsToTestCondition(821,21532
+void OpenBCI_32bit_Library::processIncomingBoardMode(850,22167
+void OpenBCI_32bit_Library::setBoardMode(889,22906
+void OpenBCI_32bit_Library::setSampleRate(929,23793
+const char *OpenBCI_32bit_Library::getSampleRate(OpenBCI_32bit_Library::getSampleRate935,23937
+const char *OpenBCI_32bit_Library::getBoardMode(OpenBCI_32bit_Library::getBoardMode957,24343
+void OpenBCI_32bit_Library::processIncomingSampleRate(977,24723
+void OpenBCI_32bit_Library::processInsertMarker(1049,26510
+void OpenBCI_32bit_Library::processIncomingChannelSettings(1065,26931
+void OpenBCI_32bit_Library::processIncomingLeadOffSettings(1198,31099
+void OpenBCI_32bit_Library::initialize(1314,34385
+void __USER_ISR ADS_DRDY_Service(1333,35038
+void OpenBCI_32bit_Library::initializeVariables(1342,35245
+void OpenBCI_32bit_Library::initializeSerialInfo(1378,36195
+void OpenBCI_32bit_Library::setSerialInfo(1383,36318
+void OpenBCI_32bit_Library::bufferBLEReset(1393,36514
+void OpenBCI_32bit_Library::bufferBLEReset(1405,36750
+void OpenBCI_32bit_Library::printAllRegisters(1413,36904
+void OpenBCI_32bit_Library::sendChannelData(1439,37464
+void OpenBCI_32bit_Library::sendChannelData(1449,37699
+void OpenBCI_32bit_Library::sendChannelDataSerialBLE(1510,39679
+void OpenBCI_32bit_Library::sendChannelDataSerial(1590,42064
+void OpenBCI_32bit_Library::sendChannelDataWifi(1631,43222
+void OpenBCI_32bit_Library::sendRawAuxWifi(1670,44350
+void OpenBCI_32bit_Library::sendTimeWithAccelSerial(1689,45088
+void OpenBCI_32bit_Library::sendTimeWithAccelWifi(1725,46285
+void OpenBCI_32bit_Library::setCurPacketType(1750,46921
+void OpenBCI_32bit_Library::sendTimeWithRawAuxSerial(1782,48039
+void OpenBCI_32bit_Library::writeAuxDataSerial(1789,48252
+void OpenBCI_32bit_Library::sendTimeWithRawAuxWifi(1802,48680
+void OpenBCI_32bit_Library::writeAuxDataWifi(1809,48905
+void OpenBCI_32bit_Library::zeroAuxData(1818,49190
+void OpenBCI_32bit_Library::writeTimeCurrent(1826,49327
+void OpenBCI_32bit_Library::writeTimeCurrentSerial(1835,49553
+void OpenBCI_32bit_Library::writeTimeCurrentWifi(1844,49774
+byte OpenBCI_32bit_Library::xfer(1854,50028
+void OpenBCI_32bit_Library::csLow(1862,50167
+void OpenBCI_32bit_Library::csHigh(1897,50913
+void OpenBCI_32bit_Library::initialize_ads(1928,51717
+void OpenBCI_32bit_Library::streamSafeChannelActivate(2002,54924
+void OpenBCI_32bit_Library::streamSafeChannelDeactivate(2027,55463
+void OpenBCI_32bit_Library::streamSafeLeadOffSetForChannel(2054,56181
+void OpenBCI_32bit_Library::streamSafeChannelSettingsForChannel(2080,56805
+void OpenBCI_32bit_Library::streamSafeReportAllChannelDefaults(2106,57497
+void OpenBCI_32bit_Library::streamSafeSetAllChannelsToDefault(2130,58014
+void OpenBCI_32bit_Library::streamSafeSetSampleRate(2154,58468
+uint8_t *OpenBCI_32bit_Library::getGains(OpenBCI_32bit_Library::getGains2177,58888
+void OpenBCI_32bit_Library::streamStart(2191,59206
+void OpenBCI_32bit_Library::streamStop(2211,59666
+boolean OpenBCI_32bit_Library::smellDaisy(2224,60004
+void OpenBCI_32bit_Library::removeDaisy(2241,60376
+void OpenBCI_32bit_Library::attachDaisy(2266,60756
+void OpenBCI_32bit_Library::resetADS(2293,61588
+void OpenBCI_32bit_Library::setChannelsToDefault(2316,62098
+void OpenBCI_32bit_Library::reportDefaultChannelSettings(2366,63648
+void OpenBCI_32bit_Library::writeChannelSettings(2537,71583
+void OpenBCI_32bit_Library::writeChannelSettings(2652,74745
+void OpenBCI_32bit_Library::deactivateChannel(2749,77662
+void OpenBCI_32bit_Library::activateChannel(2796,79286
+void OpenBCI_32bit_Library::changeChannelLeadOffDetect(2879,81642
+void OpenBCI_32bit_Library::changeChannelLeadOffDetect(2932,82786
+void OpenBCI_32bit_Library::configureLeadOffDetection(2979,83707
+void OpenBCI_32bit_Library::configureInternalTestSignal(3208,93578
+void OpenBCI_32bit_Library::changeInputType(3242,94593
+void OpenBCI_32bit_Library::startADS(3257,94882
+boolean OpenBCI_32bit_Library::isADSDataAvailable(3273,95321
+void OpenBCI_32bit_Library::updateChannelData(3279,95480
+void OpenBCI_32bit_Library::updateBoardData(3327,96564
+void OpenBCI_32bit_Library::updateBoardData(3332,96644
+void OpenBCI_32bit_Library::updateDaisyData(3403,98950
+void OpenBCI_32bit_Library::updateDaisyData(3415,99271
+void OpenBCI_32bit_Library::stopADS(3493,101422
+void OpenBCI_32bit_Library::printSerial(3502,101635
+void OpenBCI_32bit_Library::printSerial(3514,101804
+void OpenBCI_32bit_Library::printSerial(3526,101974
+void OpenBCI_32bit_Library::printSerial(3538,102162
+void OpenBCI_32bit_Library::printlnSerial(3549,102324
+void OpenBCI_32bit_Library::printlnSerial(3554,102398
+void OpenBCI_32bit_Library::printlnSerial(3560,102490
+void OpenBCI_32bit_Library::printlnSerial(3566,102581
+void OpenBCI_32bit_Library::printlnSerial(3572,102686
+void OpenBCI_32bit_Library::write(3578,102785
+void OpenBCI_32bit_Library::writeSerial(3584,102879
+void OpenBCI_32bit_Library::ADS_writeChannelData(3596,103033
+void OpenBCI_32bit_Library::ADS_writeChannelDataWifi(3603,103178
+void OpenBCI_32bit_Library::ADS_writeChannelDataAvgDaisy(3623,103527
+void OpenBCI_32bit_Library::ADS_writeChannelDataNoAvgDaisy(3656,104335
+void OpenBCI_32bit_Library::printADSregisters(3680,104985
+byte OpenBCI_32bit_Library::ADS_getDeviceID(3690,105411
+void OpenBCI_32bit_Library::WAKEUP(3704,105709
+void OpenBCI_32bit_Library::STANDBY(3712,105920
+void OpenBCI_32bit_Library::RESET(3719,106085
+void OpenBCI_32bit_Library::START(3727,106336
+void OpenBCI_32bit_Library::STOP(3734,106506
+void OpenBCI_32bit_Library::RDATAC(3741,106673
+void OpenBCI_32bit_Library::SDATAC(3748,106830
+void OpenBCI_32bit_Library::RDATA(3757,107104
+byte OpenBCI_32bit_Library::RREG(3814,108720
+void OpenBCI_32bit_Library::RREGS(3843,109687
+void OpenBCI_32bit_Library::WREG(3878,110696
+void OpenBCI_32bit_Library::WREGS(3896,111436
+void OpenBCI_32bit_Library::initialize_accel(3922,112388
+void OpenBCI_32bit_Library::enable_accel(3937,113172
+void OpenBCI_32bit_Library::disable_accel(3948,113587
+byte OpenBCI_32bit_Library::LIS3DH_getDeviceID(3954,113757
+boolean OpenBCI_32bit_Library::LIS3DH_DataAvailable(3959,113843
+boolean OpenBCI_32bit_Library::LIS3DH_DataReady(3967,114013
+void OpenBCI_32bit_Library::LIS3DH_writeAxisDataSerial(3982,114477
+void OpenBCI_32bit_Library::LIS3DH_writeAxisDataForAxisSerial(3991,114740
+void OpenBCI_32bit_Library::LIS3DH_writeAxisDataWifi(4000,115031
+void OpenBCI_32bit_Library::LIS3DH_writeAxisDataForAxisWifi(4008,115307
+void OpenBCI_32bit_Library::LIS3DH_zeroAxisData(4017,115603
+byte OpenBCI_32bit_Library::LIS3DH_read(4025,115721
+void OpenBCI_32bit_Library::LIS3DH_write(4035,116061
+int OpenBCI_32bit_Library::LIS3DH_read16(4043,116284
+int OpenBCI_32bit_Library::getX(4054,116828
+int OpenBCI_32bit_Library::getY(4059,116900
+int OpenBCI_32bit_Library::getZ(4064,116972
+void OpenBCI_32bit_Library::LIS3DH_updateAxisData(4069,117044
+void OpenBCI_32bit_Library::LIS3DH_readAllRegs(4076,117173
+void OpenBCI_32bit_Library::printRegisterName(4118,117976
+void OpenBCI_32bit_Library::printHex(4200,119442
+void OpenBCI_32bit_Library::printlnHex(4211,119647
+void OpenBCI_32bit_Library::printFailure(4217,119738
+void OpenBCI_32bit_Library::printSuccess(4222,119811
+void OpenBCI_32bit_Library::printAll(4227,119884
+void OpenBCI_32bit_Library::printAll(4237,120034
+void OpenBCI_32bit_Library::printlnAll(4247,120197
+void OpenBCI_32bit_Library::printlnAll(4259,120410
+char OpenBCI_32bit_Library::getChannelCommandForAsciiChar(4275,120824
+char OpenBCI_32bit_Library::getYesOrNoForAsciiChar(4322,122099
+char OpenBCI_32bit_Library::getGainForAsciiChar(4340,122533
+char OpenBCI_32bit_Library::getNumberForAsciiChar(4361,123020
+byte OpenBCI_32bit_Library::getDefaultChannelSettingForSetting(4379,123466
+char OpenBCI_32bit_Library::getDefaultChannelSettingForSettingAscii(4404,124045
+char OpenBCI_32bit_Library::getConstrainedChannelNumber(4421,124670
+char OpenBCI_32bit_Library::getTargetSSForConstrainedChannelNumber(4431,124993
+void OpenBCI_32bit_Library::resetChannelSettingsArrayToDefault(4449,125486
+void OpenBCI_32bit_Library::resetLeadOffArrayToDefault(4473,126836
+OpenBCI_32bit_Library board;4483,127122
+
+../work/openbci/OpenBCI_Cyton_Library/OpenBCI_32bit_Library.cpp,10254
+OpenBCI_32bit_Library::OpenBCI_32bit_Library(16,473
+void OpenBCI_32bit_Library::begin(25,664
+void OpenBCI_32bit_Library::beginDebug(47,1682
+void OpenBCI_32bit_Library::beginDebug(52,1765
+boolean OpenBCI_32bit_Library::hasDataSerial0(73,2167
+boolean OpenBCI_32bit_Library::hasDataSerial1(92,2567
+char OpenBCI_32bit_Library::getCharSerial0(111,2970
+char OpenBCI_32bit_Library::getCharSerial1(120,3185
+boolean OpenBCI_32bit_Library::processChar(132,3577
+void OpenBCI_32bit_Library::startMultiCharCmdTimer(487,13402
+void OpenBCI_32bit_Library::endMultiCharCmdTimer(503,13761
+boolean OpenBCI_32bit_Library::checkMultiCharCmdTimer(514,14058
+void OpenBCI_32bit_Library::loop(535,14556
+char OpenBCI_32bit_Library::getMultiCharCommand(548,14757
+boolean OpenBCI_32bit_Library::processCharWifi(553,14843
+void OpenBCI_32bit_Library::useAccel(565,15157
+void OpenBCI_32bit_Library::useTimeStamp(575,15436
+boolean OpenBCI_32bit_Library::accelHasNewData(586,15790
+void OpenBCI_32bit_Library::accelUpdateAxisData(595,16001
+void OpenBCI_32bit_Library::accelWriteAxisDataSerial(603,16167
+void OpenBCI_32bit_Library::accelWriteAxisDataWifi(611,16343
+boolean OpenBCI_32bit_Library::boardBegin(621,16594
+void OpenBCI_32bit_Library::boardBeginADSInterrupt(639,16892
+boolean OpenBCI_32bit_Library::boardBeginDebug(653,17507
+boolean OpenBCI_32bit_Library::boardBeginDebug(663,17844
+void OpenBCI_32bit_Library::beginPinsAnalog(681,18152
+void OpenBCI_32bit_Library::beginPinsDebug(689,18296
+void OpenBCI_32bit_Library::beginPinsDefault(695,18435
+void OpenBCI_32bit_Library::beginPinsDigital(702,18602
+void OpenBCI_32bit_Library::beginSerial0(716,18847
+void OpenBCI_32bit_Library::beginSerial0(724,18967
+void OpenBCI_32bit_Library::beginSerial1(740,19457
+void OpenBCI_32bit_Library::beginSerial1(750,19791
+void OpenBCI_32bit_Library::endSerial0(764,20071
+void OpenBCI_32bit_Library::endSerial1(775,20246
+void OpenBCI_32bit_Library::boardReset(790,20649
+void OpenBCI_32bit_Library::sendEOT(815,21438
+void OpenBCI_32bit_Library::activateAllChannelsToTestCondition(821,21532
+void OpenBCI_32bit_Library::processIncomingBoardMode(850,22167
+void OpenBCI_32bit_Library::setBoardMode(889,22906
+void OpenBCI_32bit_Library::setSampleRate(929,23793
+const char *OpenBCI_32bit_Library::getSampleRate(OpenBCI_32bit_Library::getSampleRate935,23937
+const char *OpenBCI_32bit_Library::getBoardMode(OpenBCI_32bit_Library::getBoardMode957,24343
+void OpenBCI_32bit_Library::processIncomingSampleRate(977,24723
+void OpenBCI_32bit_Library::processInsertMarker(1049,26510
+void OpenBCI_32bit_Library::processIncomingChannelSettings(1065,26931
+void OpenBCI_32bit_Library::processIncomingLeadOffSettings(1198,31099
+void OpenBCI_32bit_Library::initialize(1314,34385
+void __USER_ISR ADS_DRDY_Service(1333,35038
+void OpenBCI_32bit_Library::initializeVariables(1342,35245
+void OpenBCI_32bit_Library::initializeSerialInfo(1378,36195
+void OpenBCI_32bit_Library::setSerialInfo(1383,36318
+void OpenBCI_32bit_Library::bufferBLEReset(1393,36514
+void OpenBCI_32bit_Library::bufferBLEReset(1405,36750
+void OpenBCI_32bit_Library::printAllRegisters(1413,36904
+void OpenBCI_32bit_Library::sendChannelData(1439,37464
+void OpenBCI_32bit_Library::sendChannelData(1449,37699
+void OpenBCI_32bit_Library::sendChannelDataSerialBLE(1510,39679
+void OpenBCI_32bit_Library::sendChannelDataSerial(1590,42064
+void OpenBCI_32bit_Library::sendChannelDataWifi(1631,43222
+void OpenBCI_32bit_Library::sendRawAuxWifi(1670,44350
+void OpenBCI_32bit_Library::sendTimeWithAccelSerial(1689,45088
+void OpenBCI_32bit_Library::sendTimeWithAccelWifi(1725,46285
+void OpenBCI_32bit_Library::setCurPacketType(1750,46921
+void OpenBCI_32bit_Library::sendTimeWithRawAuxSerial(1782,48039
+void OpenBCI_32bit_Library::writeAuxDataSerial(1789,48252
+void OpenBCI_32bit_Library::sendTimeWithRawAuxWifi(1802,48680
+void OpenBCI_32bit_Library::writeAuxDataWifi(1809,48905
+void OpenBCI_32bit_Library::zeroAuxData(1818,49190
+void OpenBCI_32bit_Library::writeTimeCurrent(1826,49327
+void OpenBCI_32bit_Library::writeTimeCurrentSerial(1835,49553
+void OpenBCI_32bit_Library::writeTimeCurrentWifi(1844,49774
+byte OpenBCI_32bit_Library::xfer(1854,50028
+void OpenBCI_32bit_Library::csLow(1862,50167
+void OpenBCI_32bit_Library::csHigh(1897,50913
+void OpenBCI_32bit_Library::initialize_ads(1928,51717
+void OpenBCI_32bit_Library::streamSafeChannelActivate(2002,54924
+void OpenBCI_32bit_Library::streamSafeChannelDeactivate(2027,55463
+void OpenBCI_32bit_Library::streamSafeLeadOffSetForChannel(2054,56181
+void OpenBCI_32bit_Library::streamSafeChannelSettingsForChannel(2080,56805
+void OpenBCI_32bit_Library::streamSafeReportAllChannelDefaults(2106,57497
+void OpenBCI_32bit_Library::streamSafeSetAllChannelsToDefault(2130,58014
+void OpenBCI_32bit_Library::streamSafeSetSampleRate(2154,58468
+uint8_t *OpenBCI_32bit_Library::getGains(OpenBCI_32bit_Library::getGains2177,58888
+void OpenBCI_32bit_Library::streamStart(2191,59206
+void OpenBCI_32bit_Library::streamStop(2211,59666
+boolean OpenBCI_32bit_Library::smellDaisy(2224,60004
+void OpenBCI_32bit_Library::removeDaisy(2241,60376
+void OpenBCI_32bit_Library::attachDaisy(2266,60756
+void OpenBCI_32bit_Library::resetADS(2293,61588
+void OpenBCI_32bit_Library::setChannelsToDefault(2316,62098
+void OpenBCI_32bit_Library::reportDefaultChannelSettings(2366,63648
+void OpenBCI_32bit_Library::writeChannelSettings(2537,71583
+void OpenBCI_32bit_Library::writeChannelSettings(2652,74745
+void OpenBCI_32bit_Library::deactivateChannel(2749,77662
+void OpenBCI_32bit_Library::activateChannel(2796,79286
+void OpenBCI_32bit_Library::changeChannelLeadOffDetect(2879,81642
+void OpenBCI_32bit_Library::changeChannelLeadOffDetect(2932,82786
+void OpenBCI_32bit_Library::configureLeadOffDetection(2979,83707
+void OpenBCI_32bit_Library::configureInternalTestSignal(3208,93578
+void OpenBCI_32bit_Library::changeInputType(3242,94593
+void OpenBCI_32bit_Library::startADS(3257,94882
+boolean OpenBCI_32bit_Library::isADSDataAvailable(3273,95321
+void OpenBCI_32bit_Library::updateChannelData(3279,95480
+void OpenBCI_32bit_Library::updateBoardData(3327,96564
+void OpenBCI_32bit_Library::updateBoardData(3332,96644
+void OpenBCI_32bit_Library::updateDaisyData(3403,98950
+void OpenBCI_32bit_Library::updateDaisyData(3415,99271
+void OpenBCI_32bit_Library::stopADS(3493,101422
+void OpenBCI_32bit_Library::printSerial(3502,101635
+void OpenBCI_32bit_Library::printSerial(3514,101804
+void OpenBCI_32bit_Library::printSerial(3526,101974
+void OpenBCI_32bit_Library::printSerial(3538,102162
+void OpenBCI_32bit_Library::printlnSerial(3549,102324
+void OpenBCI_32bit_Library::printlnSerial(3554,102398
+void OpenBCI_32bit_Library::printlnSerial(3560,102490
+void OpenBCI_32bit_Library::printlnSerial(3566,102581
+void OpenBCI_32bit_Library::printlnSerial(3572,102686
+void OpenBCI_32bit_Library::write(3578,102785
+void OpenBCI_32bit_Library::writeSerial(3584,102879
+void OpenBCI_32bit_Library::ADS_writeChannelData(3596,103033
+void OpenBCI_32bit_Library::ADS_writeChannelDataWifi(3603,103178
+void OpenBCI_32bit_Library::ADS_writeChannelDataAvgDaisy(3623,103527
+void OpenBCI_32bit_Library::ADS_writeChannelDataNoAvgDaisy(3656,104335
+void OpenBCI_32bit_Library::printADSregisters(3680,104985
+byte OpenBCI_32bit_Library::ADS_getDeviceID(3690,105411
+void OpenBCI_32bit_Library::WAKEUP(3704,105709
+void OpenBCI_32bit_Library::STANDBY(3712,105920
+void OpenBCI_32bit_Library::RESET(3719,106085
+void OpenBCI_32bit_Library::START(3727,106336
+void OpenBCI_32bit_Library::STOP(3734,106506
+void OpenBCI_32bit_Library::RDATAC(3741,106673
+void OpenBCI_32bit_Library::SDATAC(3748,106830
+void OpenBCI_32bit_Library::RDATA(3757,107104
+byte OpenBCI_32bit_Library::RREG(3814,108720
+void OpenBCI_32bit_Library::RREGS(3843,109687
+void OpenBCI_32bit_Library::WREG(3878,110696
+void OpenBCI_32bit_Library::WREGS(3896,111436
+void OpenBCI_32bit_Library::initialize_accel(3922,112388
+void OpenBCI_32bit_Library::enable_accel(3937,113172
+void OpenBCI_32bit_Library::disable_accel(3948,113587
+byte OpenBCI_32bit_Library::LIS3DH_getDeviceID(3954,113757
+boolean OpenBCI_32bit_Library::LIS3DH_DataAvailable(3959,113843
+boolean OpenBCI_32bit_Library::LIS3DH_DataReady(3967,114013
+void OpenBCI_32bit_Library::LIS3DH_writeAxisDataSerial(3982,114477
+void OpenBCI_32bit_Library::LIS3DH_writeAxisDataForAxisSerial(3991,114740
+void OpenBCI_32bit_Library::LIS3DH_writeAxisDataWifi(4000,115031
+void OpenBCI_32bit_Library::LIS3DH_writeAxisDataForAxisWifi(4008,115307
+void OpenBCI_32bit_Library::LIS3DH_zeroAxisData(4017,115603
+byte OpenBCI_32bit_Library::LIS3DH_read(4025,115721
+void OpenBCI_32bit_Library::LIS3DH_write(4035,116061
+int OpenBCI_32bit_Library::LIS3DH_read16(4043,116284
+int OpenBCI_32bit_Library::getX(4054,116828
+int OpenBCI_32bit_Library::getY(4059,116900
+int OpenBCI_32bit_Library::getZ(4064,116972
+void OpenBCI_32bit_Library::LIS3DH_updateAxisData(4069,117044
+void OpenBCI_32bit_Library::LIS3DH_readAllRegs(4076,117173
+void OpenBCI_32bit_Library::printRegisterName(4118,117976
+void OpenBCI_32bit_Library::printHex(4200,119442
+void OpenBCI_32bit_Library::printlnHex(4211,119647
+void OpenBCI_32bit_Library::printFailure(4217,119738
+void OpenBCI_32bit_Library::printSuccess(4222,119811
+void OpenBCI_32bit_Library::printAll(4227,119884
+void OpenBCI_32bit_Library::printAll(4237,120034
+void OpenBCI_32bit_Library::printlnAll(4247,120197
+void OpenBCI_32bit_Library::printlnAll(4259,120410
+char OpenBCI_32bit_Library::getChannelCommandForAsciiChar(4275,120824
+char OpenBCI_32bit_Library::getYesOrNoForAsciiChar(4322,122099
+char OpenBCI_32bit_Library::getGainForAsciiChar(4340,122533
+char OpenBCI_32bit_Library::getNumberForAsciiChar(4361,123020
+byte OpenBCI_32bit_Library::getDefaultChannelSettingForSetting(4379,123466
+char OpenBCI_32bit_Library::getDefaultChannelSettingForSettingAscii(4404,124045
+char OpenBCI_32bit_Library::getConstrainedChannelNumber(4421,124670
+char OpenBCI_32bit_Library::getTargetSSForConstrainedChannelNumber(4431,124993
+void OpenBCI_32bit_Library::resetChannelSettingsArrayToDefault(4449,125486
+void OpenBCI_32bit_Library::resetLeadOffArrayToDefault(4473,126836
+OpenBCI_32bit_Library board;4483,127122
+
+../work/openbci/OpenBCI_Cyton_Library/OpenBCI_32bit_Library.cpp,10254
+OpenBCI_32bit_Library::OpenBCI_32bit_Library(16,473
+void OpenBCI_32bit_Library::begin(25,664
+void OpenBCI_32bit_Library::beginDebug(47,1682
+void OpenBCI_32bit_Library::beginDebug(52,1765
+boolean OpenBCI_32bit_Library::hasDataSerial0(73,2167
+boolean OpenBCI_32bit_Library::hasDataSerial1(92,2567
+char OpenBCI_32bit_Library::getCharSerial0(111,2970
+char OpenBCI_32bit_Library::getCharSerial1(120,3185
+boolean OpenBCI_32bit_Library::processChar(132,3577
+void OpenBCI_32bit_Library::startMultiCharCmdTimer(487,13402
+void OpenBCI_32bit_Library::endMultiCharCmdTimer(503,13761
+boolean OpenBCI_32bit_Library::checkMultiCharCmdTimer(514,14058
+void OpenBCI_32bit_Library::loop(535,14556
+char OpenBCI_32bit_Library::getMultiCharCommand(548,14757
+boolean OpenBCI_32bit_Library::processCharWifi(553,14843
+void OpenBCI_32bit_Library::useAccel(565,15157
+void OpenBCI_32bit_Library::useTimeStamp(575,15436
+boolean OpenBCI_32bit_Library::accelHasNewData(586,15790
+void OpenBCI_32bit_Library::accelUpdateAxisData(595,16001
+void OpenBCI_32bit_Library::accelWriteAxisDataSerial(603,16167
+void OpenBCI_32bit_Library::accelWriteAxisDataWifi(611,16343
+boolean OpenBCI_32bit_Library::boardBegin(621,16594
+void OpenBCI_32bit_Library::boardBeginADSInterrupt(639,16892
+boolean OpenBCI_32bit_Library::boardBeginDebug(653,17507
+boolean OpenBCI_32bit_Library::boardBeginDebug(663,17844
+void OpenBCI_32bit_Library::beginPinsAnalog(681,18152
+void OpenBCI_32bit_Library::beginPinsDebug(689,18296
+void OpenBCI_32bit_Library::beginPinsDefault(695,18435
+void OpenBCI_32bit_Library::beginPinsDigital(702,18602
+void OpenBCI_32bit_Library::beginSerial0(716,18847
+void OpenBCI_32bit_Library::beginSerial0(724,18967
+void OpenBCI_32bit_Library::beginSerial1(740,19457
+void OpenBCI_32bit_Library::beginSerial1(750,19791
+void OpenBCI_32bit_Library::endSerial0(764,20071
+void OpenBCI_32bit_Library::endSerial1(775,20246
+void OpenBCI_32bit_Library::boardReset(790,20649
+void OpenBCI_32bit_Library::sendEOT(815,21438
+void OpenBCI_32bit_Library::activateAllChannelsToTestCondition(821,21532
+void OpenBCI_32bit_Library::processIncomingBoardMode(850,22167
+void OpenBCI_32bit_Library::setBoardMode(889,22906
+void OpenBCI_32bit_Library::setSampleRate(929,23793
+const char *OpenBCI_32bit_Library::getSampleRate(OpenBCI_32bit_Library::getSampleRate935,23937
+const char *OpenBCI_32bit_Library::getBoardMode(OpenBCI_32bit_Library::getBoardMode957,24343
+void OpenBCI_32bit_Library::processIncomingSampleRate(977,24723
+void OpenBCI_32bit_Library::processInsertMarker(1049,26510
+void OpenBCI_32bit_Library::processIncomingChannelSettings(1065,26931
+void OpenBCI_32bit_Library::processIncomingLeadOffSettings(1198,31099
+void OpenBCI_32bit_Library::initialize(1314,34385
+void __USER_ISR ADS_DRDY_Service(1333,35038
+void OpenBCI_32bit_Library::initializeVariables(1342,35245
+void OpenBCI_32bit_Library::initializeSerialInfo(1378,36195
+void OpenBCI_32bit_Library::setSerialInfo(1383,36318
+void OpenBCI_32bit_Library::bufferBLEReset(1393,36514
+void OpenBCI_32bit_Library::bufferBLEReset(1405,36750
+void OpenBCI_32bit_Library::printAllRegisters(1413,36904
+void OpenBCI_32bit_Library::sendChannelData(1439,37464
+void OpenBCI_32bit_Library::sendChannelData(1449,37699
+void OpenBCI_32bit_Library::sendChannelDataSerialBLE(1510,39679
+void OpenBCI_32bit_Library::sendChannelDataSerial(1590,42064
+void OpenBCI_32bit_Library::sendChannelDataWifi(1631,43222
+void OpenBCI_32bit_Library::sendRawAuxWifi(1670,44350
+void OpenBCI_32bit_Library::sendTimeWithAccelSerial(1689,45088
+void OpenBCI_32bit_Library::sendTimeWithAccelWifi(1725,46285
+void OpenBCI_32bit_Library::setCurPacketType(1750,46921
+void OpenBCI_32bit_Library::sendTimeWithRawAuxSerial(1782,48039
+void OpenBCI_32bit_Library::writeAuxDataSerial(1789,48252
+void OpenBCI_32bit_Library::sendTimeWithRawAuxWifi(1802,48680
+void OpenBCI_32bit_Library::writeAuxDataWifi(1809,48905
+void OpenBCI_32bit_Library::zeroAuxData(1818,49190
+void OpenBCI_32bit_Library::writeTimeCurrent(1826,49327
+void OpenBCI_32bit_Library::writeTimeCurrentSerial(1835,49553
+void OpenBCI_32bit_Library::writeTimeCurrentWifi(1844,49774
+byte OpenBCI_32bit_Library::xfer(1854,50028
+void OpenBCI_32bit_Library::csLow(1862,50167
+void OpenBCI_32bit_Library::csHigh(1897,50913
+void OpenBCI_32bit_Library::initialize_ads(1928,51717
+void OpenBCI_32bit_Library::streamSafeChannelActivate(2002,54924
+void OpenBCI_32bit_Library::streamSafeChannelDeactivate(2027,55463
+void OpenBCI_32bit_Library::streamSafeLeadOffSetForChannel(2054,56181
+void OpenBCI_32bit_Library::streamSafeChannelSettingsForChannel(2080,56805
+void OpenBCI_32bit_Library::streamSafeReportAllChannelDefaults(2106,57497
+void OpenBCI_32bit_Library::streamSafeSetAllChannelsToDefault(2130,58014
+void OpenBCI_32bit_Library::streamSafeSetSampleRate(2154,58468
+uint8_t *OpenBCI_32bit_Library::getGains(OpenBCI_32bit_Library::getGains2177,58888
+void OpenBCI_32bit_Library::streamStart(2191,59206
+void OpenBCI_32bit_Library::streamStop(2211,59666
+boolean OpenBCI_32bit_Library::smellDaisy(2224,60004
+void OpenBCI_32bit_Library::removeDaisy(2241,60376
+void OpenBCI_32bit_Library::attachDaisy(2266,60756
+void OpenBCI_32bit_Library::resetADS(2293,61588
+void OpenBCI_32bit_Library::setChannelsToDefault(2316,62098
+void OpenBCI_32bit_Library::reportDefaultChannelSettings(2366,63648
+void OpenBCI_32bit_Library::writeChannelSettings(2537,71583
+void OpenBCI_32bit_Library::writeChannelSettings(2652,74745
+void OpenBCI_32bit_Library::deactivateChannel(2749,77662
+void OpenBCI_32bit_Library::activateChannel(2796,79286
+void OpenBCI_32bit_Library::changeChannelLeadOffDetect(2879,81642
+void OpenBCI_32bit_Library::changeChannelLeadOffDetect(2932,82786
+void OpenBCI_32bit_Library::configureLeadOffDetection(2979,83707
+void OpenBCI_32bit_Library::configureInternalTestSignal(3208,93578
+void OpenBCI_32bit_Library::changeInputType(3242,94593
+void OpenBCI_32bit_Library::startADS(3257,94882
+boolean OpenBCI_32bit_Library::isADSDataAvailable(3273,95321
+void OpenBCI_32bit_Library::updateChannelData(3279,95480
+void OpenBCI_32bit_Library::updateBoardData(3327,96564
+void OpenBCI_32bit_Library::updateBoardData(3332,96644
+void OpenBCI_32bit_Library::updateDaisyData(3403,98950
+void OpenBCI_32bit_Library::updateDaisyData(3415,99271
+void OpenBCI_32bit_Library::stopADS(3493,101422
+void OpenBCI_32bit_Library::printSerial(3502,101635
+void OpenBCI_32bit_Library::printSerial(3514,101804
+void OpenBCI_32bit_Library::printSerial(3526,101974
+void OpenBCI_32bit_Library::printSerial(3538,102162
+void OpenBCI_32bit_Library::printlnSerial(3549,102324
+void OpenBCI_32bit_Library::printlnSerial(3554,102398
+void OpenBCI_32bit_Library::printlnSerial(3560,102490
+void OpenBCI_32bit_Library::printlnSerial(3566,102581
+void OpenBCI_32bit_Library::printlnSerial(3572,102686
+void OpenBCI_32bit_Library::write(3578,102785
+void OpenBCI_32bit_Library::writeSerial(3584,102879
+void OpenBCI_32bit_Library::ADS_writeChannelData(3596,103033
+void OpenBCI_32bit_Library::ADS_writeChannelDataWifi(3603,103178
+void OpenBCI_32bit_Library::ADS_writeChannelDataAvgDaisy(3623,103527
+void OpenBCI_32bit_Library::ADS_writeChannelDataNoAvgDaisy(3656,104335
+void OpenBCI_32bit_Library::printADSregisters(3680,104985
+byte OpenBCI_32bit_Library::ADS_getDeviceID(3690,105411
+void OpenBCI_32bit_Library::WAKEUP(3704,105709
+void OpenBCI_32bit_Library::STANDBY(3712,105920
+void OpenBCI_32bit_Library::RESET(3719,106085
+void OpenBCI_32bit_Library::START(3727,106336
+void OpenBCI_32bit_Library::STOP(3734,106506
+void OpenBCI_32bit_Library::RDATAC(3741,106673
+void OpenBCI_32bit_Library::SDATAC(3748,106830
+void OpenBCI_32bit_Library::RDATA(3757,107104
+byte OpenBCI_32bit_Library::RREG(3814,108720
+void OpenBCI_32bit_Library::RREGS(3843,109687
+void OpenBCI_32bit_Library::WREG(3878,110696
+void OpenBCI_32bit_Library::WREGS(3896,111436
+void OpenBCI_32bit_Library::initialize_accel(3922,112388
+void OpenBCI_32bit_Library::enable_accel(3937,113172
+void OpenBCI_32bit_Library::disable_accel(3948,113587
+byte OpenBCI_32bit_Library::LIS3DH_getDeviceID(3954,113757
+boolean OpenBCI_32bit_Library::LIS3DH_DataAvailable(3959,113843
+boolean OpenBCI_32bit_Library::LIS3DH_DataReady(3967,114013
+void OpenBCI_32bit_Library::LIS3DH_writeAxisDataSerial(3982,114477
+void OpenBCI_32bit_Library::LIS3DH_writeAxisDataForAxisSerial(3991,114740
+void OpenBCI_32bit_Library::LIS3DH_writeAxisDataWifi(4000,115031
+void OpenBCI_32bit_Library::LIS3DH_writeAxisDataForAxisWifi(4008,115307
+void OpenBCI_32bit_Library::LIS3DH_zeroAxisData(4017,115603
+byte OpenBCI_32bit_Library::LIS3DH_read(4025,115721
+void OpenBCI_32bit_Library::LIS3DH_write(4035,116061
+int OpenBCI_32bit_Library::LIS3DH_read16(4043,116284
+int OpenBCI_32bit_Library::getX(4054,116828
+int OpenBCI_32bit_Library::getY(4059,116900
+int OpenBCI_32bit_Library::getZ(4064,116972
+void OpenBCI_32bit_Library::LIS3DH_updateAxisData(4069,117044
+void OpenBCI_32bit_Library::LIS3DH_readAllRegs(4076,117173
+void OpenBCI_32bit_Library::printRegisterName(4118,117976
+void OpenBCI_32bit_Library::printHex(4200,119442
+void OpenBCI_32bit_Library::printlnHex(4211,119647
+void OpenBCI_32bit_Library::printFailure(4217,119738
+void OpenBCI_32bit_Library::printSuccess(4222,119811
+void OpenBCI_32bit_Library::printAll(4227,119884
+void OpenBCI_32bit_Library::printAll(4237,120034
+void OpenBCI_32bit_Library::printlnAll(4247,120197
+void OpenBCI_32bit_Library::printlnAll(4259,120410
+char OpenBCI_32bit_Library::getChannelCommandForAsciiChar(4275,120824
+char OpenBCI_32bit_Library::getYesOrNoForAsciiChar(4322,122099
+char OpenBCI_32bit_Library::getGainForAsciiChar(4340,122533
+char OpenBCI_32bit_Library::getNumberForAsciiChar(4361,123020
+byte OpenBCI_32bit_Library::getDefaultChannelSettingForSetting(4379,123466
+char OpenBCI_32bit_Library::getDefaultChannelSettingForSettingAscii(4404,124045
+char OpenBCI_32bit_Library::getConstrainedChannelNumber(4421,124670
+char OpenBCI_32bit_Library::getTargetSSForConstrainedChannelNumber(4431,124993
+void OpenBCI_32bit_Library::resetChannelSettingsArrayToDefault(4449,125486
+void OpenBCI_32bit_Library::resetLeadOffArrayToDefault(4473,126836
+OpenBCI_32bit_Library board;4483,127122
+
+../work/datatron/cheatsheet,110
+aws ec2 authorize-security-group-ingress --group-id sg-08b4258a72f8c4f47 --ip-permissions IpProtocol=55,2693
