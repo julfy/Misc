@@ -1,5 +1,0 @@
-(:name projectile-speedbar
-:auto-generated t
-:type emacswiki
-:description "*summary:* [https://github.com/anshulverma/projectile-speedbar This package sits on top of speedbar and projectile and provides an easy to use and useful integration between the two.]"
-:website "https://raw.github.com/emacsmirror/emacswiki.org/master/projectile-speedbar.el")

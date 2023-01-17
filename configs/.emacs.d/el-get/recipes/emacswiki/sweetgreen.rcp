@@ -1,5 +1,0 @@
-(:name sweetgreen
-:auto-generated t
-:type emacswiki
-:description "Order Salads from sweetgreen.com"
-:website "https://raw.github.com/emacsmirror/emacswiki.org/master/sweetgreen.el")

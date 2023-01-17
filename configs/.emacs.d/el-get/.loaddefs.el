@@ -3,6 +3,98 @@
 ;;; Code:
 
 
+;;;### (autoloads nil "ace-window/ace-window" "ace-window/ace-window.el"
+;;;;;;  (0 0 0 0))
+;;; Generated autoloads from ace-window/ace-window.el
+
+(autoload 'ace-select-window "ace-window/ace-window" "\
+Ace select window." t nil)
+
+(autoload 'ace-delete-window "ace-window/ace-window" "\
+Ace delete window." t nil)
+
+(autoload 'ace-swap-window "ace-window/ace-window" "\
+Ace swap window." t nil)
+
+(autoload 'ace-delete-other-windows "ace-window/ace-window" "\
+Ace delete other windows." t nil)
+
+(autoload 'ace-display-buffer "ace-window/ace-window" "\
+Make `display-buffer' and `pop-to-buffer' select using `ace-window'.
+See sample config for `display-buffer-base-action' and `display-buffer-alist':
+https://github.com/abo-abo/ace-window/wiki/display-buffer.
+
+\(fn BUFFER ALIST)" nil nil)
+
+(autoload 'ace-window "ace-window/ace-window" "\
+Select a window.
+Perform an action based on ARG described below.
+
+By default, behaves like extended `other-window'.
+See `aw-scope' which extends it to work with frames.
+
+Prefixed with one \\[universal-argument], does a swap between the
+selected window and the current window, so that the selected
+buffer moves to current window (and current buffer moves to
+selected window).
+
+Prefixed with two \\[universal-argument]'s, deletes the selected
+window.
+
+\(fn ARG)" t nil)
+
+(defvar ace-window-display-mode nil "\
+Non-nil if Ace-Window-Display mode is enabled.
+See the `ace-window-display-mode' command
+for a description of this minor mode.
+Setting this variable directly does not take effect;
+either customize it (see the info node `Easy Customization')
+or call the function `ace-window-display-mode'.")
+
+(custom-autoload 'ace-window-display-mode "ace-window/ace-window" nil)
+
+(autoload 'ace-window-display-mode "ace-window/ace-window" "\
+Minor mode for showing the ace window key in the mode line.
+
+If called interactively, enable Ace-Window-Display mode if ARG is
+positive, and disable it if ARG is zero or negative.  If called
+from Lisp, also enable the mode if ARG is omitted or nil, and
+toggle it if ARG is `toggle'; disable the mode otherwise.
+
+\(fn &optional ARG)" t nil)
+
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "ace-window/ace-window" '("ace-window-mode" "aw-")))
+
+;;;***
+
+;;;### (autoloads nil "ace-window/ace-window-posframe" "ace-window/ace-window-posframe.el"
+;;;;;;  (0 0 0 0))
+;;; Generated autoloads from ace-window/ace-window-posframe.el
+
+(defvar ace-window-posframe-mode nil "\
+Non-nil if Ace-Window-Posframe mode is enabled.
+See the `ace-window-posframe-mode' command
+for a description of this minor mode.
+Setting this variable directly does not take effect;
+either customize it (see the info node `Easy Customization')
+or call the function `ace-window-posframe-mode'.")
+
+(custom-autoload 'ace-window-posframe-mode "ace-window/ace-window-posframe" nil)
+
+(autoload 'ace-window-posframe-mode "ace-window/ace-window-posframe" "\
+Minor mode for showing the ace window key with child frames.
+
+If called interactively, enable Ace-Window-Posframe mode if ARG
+is positive, and disable it if ARG is zero or negative.  If
+called from Lisp, also enable the mode if ARG is omitted or nil,
+and toggle it if ARG is `toggle'; disable the mode otherwise.
+
+\(fn &optional ARG)" t nil)
+
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "ace-window/ace-window-posframe" '("ace-window-posframe-" "aw-")))
+
+;;;***
+
 ;;;### (autoloads nil "auto-complete/auto-complete" "auto-complete/auto-complete.el"
 ;;;;;;  (0 0 0 0))
 ;;; Generated autoloads from auto-complete/auto-complete.el
@@ -53,6 +145,266 @@ See `auto-complete-mode' for more information on Auto-Complete mode.
 \(fn)" nil nil)
 
 (if (fboundp 'register-definition-prefixes) (register-definition-prefixes "auto-complete/auto-complete-config" '("ac-")))
+
+;;;***
+
+;;;### (autoloads nil "avy/avy" "avy/avy.el" (0 0 0 0))
+;;; Generated autoloads from avy/avy.el
+
+(autoload 'avy-process "avy/avy" "\
+Select one of CANDIDATES using `avy-read'.
+Use OVERLAY-FN to visualize the decision overlay.
+CLEANUP-FN should take no arguments and remove the effects of
+multiple OVERLAY-FN invocations.
+
+\(fn CANDIDATES &optional OVERLAY-FN CLEANUP-FN)" nil nil)
+
+(autoload 'avy-goto-char "avy/avy" "\
+Jump to the currently visible CHAR.
+The window scope is determined by `avy-all-windows' (ARG negates it).
+
+\(fn CHAR &optional ARG)" t nil)
+
+(autoload 'avy-goto-char-in-line "avy/avy" "\
+Jump to the currently visible CHAR in the current line.
+
+\(fn CHAR)" t nil)
+
+(autoload 'avy-goto-char-2 "avy/avy" "\
+Jump to the currently visible CHAR1 followed by CHAR2.
+The window scope is determined by `avy-all-windows'.
+When ARG is non-nil, do the opposite of `avy-all-windows'.
+BEG and END narrow the scope where candidates are searched.
+
+\(fn CHAR1 CHAR2 &optional ARG BEG END)" t nil)
+
+(autoload 'avy-goto-char-2-above "avy/avy" "\
+Jump to the currently visible CHAR1 followed by CHAR2.
+This is a scoped version of `avy-goto-char-2', where the scope is
+the visible part of the current buffer up to point.
+The window scope is determined by `avy-all-windows'.
+When ARG is non-nil, do the opposite of `avy-all-windows'.
+
+\(fn CHAR1 CHAR2 &optional ARG)" t nil)
+
+(autoload 'avy-goto-char-2-below "avy/avy" "\
+Jump to the currently visible CHAR1 followed by CHAR2.
+This is a scoped version of `avy-goto-char-2', where the scope is
+the visible part of the current buffer following point.
+The window scope is determined by `avy-all-windows'.
+When ARG is non-nil, do the opposite of `avy-all-windows'.
+
+\(fn CHAR1 CHAR2 &optional ARG)" t nil)
+
+(autoload 'avy-isearch "avy/avy" "\
+Jump to one of the current isearch candidates." t nil)
+
+(autoload 'avy-goto-word-0 "avy/avy" "\
+Jump to a word start.
+The window scope is determined by `avy-all-windows'.
+When ARG is non-nil, do the opposite of `avy-all-windows'.
+BEG and END narrow the scope where candidates are searched.
+
+\(fn ARG &optional BEG END)" t nil)
+
+(autoload 'avy-goto-whitespace-end "avy/avy" "\
+Jump to the end of a whitespace sequence.
+The window scope is determined by `avy-all-windows'.
+When ARG is non-nil, do the opposite of `avy-all-windows'.
+BEG and END narrow the scope where candidates are searched.
+
+\(fn ARG &optional BEG END)" t nil)
+
+(autoload 'avy-goto-word-1 "avy/avy" "\
+Jump to the currently visible CHAR at a word start.
+The window scope is determined by `avy-all-windows'.
+When ARG is non-nil, do the opposite of `avy-all-windows'.
+BEG and END narrow the scope where candidates are searched.
+When SYMBOL is non-nil, jump to symbol start instead of word start.
+
+\(fn CHAR &optional ARG BEG END SYMBOL)" t nil)
+
+(autoload 'avy-goto-word-1-above "avy/avy" "\
+Jump to the currently visible CHAR at a word start.
+This is a scoped version of `avy-goto-word-1', where the scope is
+the visible part of the current buffer up to point.
+The window scope is determined by `avy-all-windows'.
+When ARG is non-nil, do the opposite of `avy-all-windows'.
+
+\(fn CHAR &optional ARG)" t nil)
+
+(autoload 'avy-goto-word-1-below "avy/avy" "\
+Jump to the currently visible CHAR at a word start.
+This is a scoped version of `avy-goto-word-1', where the scope is
+the visible part of the current buffer following point.
+The window scope is determined by `avy-all-windows'.
+When ARG is non-nil, do the opposite of `avy-all-windows'.
+
+\(fn CHAR &optional ARG)" t nil)
+
+(autoload 'avy-goto-symbol-1 "avy/avy" "\
+Jump to the currently visible CHAR at a symbol start.
+The window scope is determined by `avy-all-windows'.
+When ARG is non-nil, do the opposite of `avy-all-windows'.
+
+\(fn CHAR &optional ARG)" t nil)
+
+(autoload 'avy-goto-symbol-1-above "avy/avy" "\
+Jump to the currently visible CHAR at a symbol start.
+This is a scoped version of `avy-goto-symbol-1', where the scope is
+the visible part of the current buffer up to point.
+The window scope is determined by `avy-all-windows'.
+When ARG is non-nil, do the opposite of `avy-all-windows'.
+
+\(fn CHAR &optional ARG)" t nil)
+
+(autoload 'avy-goto-symbol-1-below "avy/avy" "\
+Jump to the currently visible CHAR at a symbol start.
+This is a scoped version of `avy-goto-symbol-1', where the scope is
+the visible part of the current buffer following point.
+The window scope is determined by `avy-all-windows'.
+When ARG is non-nil, do the opposite of `avy-all-windows'.
+
+\(fn CHAR &optional ARG)" t nil)
+
+(autoload 'avy-goto-subword-0 "avy/avy" "\
+Jump to a word or subword start.
+The window scope is determined by `avy-all-windows' (ARG negates it).
+
+When PREDICATE is non-nil it's a function of zero parameters that
+should return true.
+
+BEG and END narrow the scope where candidates are searched.
+
+\(fn &optional ARG PREDICATE BEG END)" t nil)
+
+(autoload 'avy-goto-subword-1 "avy/avy" "\
+Jump to the currently visible CHAR at a subword start.
+The window scope is determined by `avy-all-windows' (ARG negates it).
+The case of CHAR is ignored.
+
+\(fn CHAR &optional ARG)" t nil)
+
+(autoload 'avy-goto-word-or-subword-1 "avy/avy" "\
+Forward to `avy-goto-subword-1' or `avy-goto-word-1'.
+Which one depends on variable `subword-mode'." t nil)
+
+(autoload 'avy-goto-line "avy/avy" "\
+Jump to a line start in current buffer.
+
+When ARG is 1, jump to lines currently visible, with the option
+to cancel to `goto-line' by entering a number.
+
+When ARG is 4, negate the window scope determined by
+`avy-all-windows'.
+
+Otherwise, forward to `goto-line' with ARG.
+
+\(fn &optional ARG)" t nil)
+
+(autoload 'avy-goto-line-above "avy/avy" "\
+Goto visible line above the cursor.
+OFFSET changes the distance between the closest key to the cursor and
+the cursor
+When BOTTOM-UP is non-nil, display avy candidates from top to bottom
+
+\(fn &optional OFFSET BOTTOM-UP)" t nil)
+
+(autoload 'avy-goto-line-below "avy/avy" "\
+Goto visible line below the cursor.
+OFFSET changes the distance between the closest key to the cursor and
+the cursor
+When BOTTOM-UP is non-nil, display avy candidates from top to bottom
+
+\(fn &optional OFFSET BOTTOM-UP)" t nil)
+
+(autoload 'avy-goto-end-of-line "avy/avy" "\
+Call `avy-goto-line' and move to the end of the line.
+
+\(fn &optional ARG)" t nil)
+
+(autoload 'avy-copy-line "avy/avy" "\
+Copy a selected line above the current line.
+ARG lines can be used.
+
+\(fn ARG)" t nil)
+
+(autoload 'avy-move-line "avy/avy" "\
+Move a selected line above the current line.
+ARG lines can be used.
+
+\(fn ARG)" t nil)
+
+(autoload 'avy-copy-region "avy/avy" "\
+Select two lines and copy the text between them to point.
+
+The window scope is determined by `avy-all-windows' or
+`avy-all-windows-alt' when ARG is non-nil.
+
+\(fn ARG)" t nil)
+
+(autoload 'avy-move-region "avy/avy" "\
+Select two lines and move the text between them above the current line." t nil)
+
+(autoload 'avy-kill-region "avy/avy" "\
+Select two lines and kill the region between them.
+
+The window scope is determined by `avy-all-windows' or
+`avy-all-windows-alt' when ARG is non-nil.
+
+\(fn ARG)" t nil)
+
+(autoload 'avy-kill-ring-save-region "avy/avy" "\
+Select two lines and save the region between them to the kill ring.
+The window scope is determined by `avy-all-windows'.
+When ARG is non-nil, do the opposite of `avy-all-windows'.
+
+\(fn ARG)" t nil)
+
+(autoload 'avy-kill-whole-line "avy/avy" "\
+Select line and kill the whole selected line.
+
+With a numerical prefix ARG, kill ARG line(s) starting from the
+selected line.  If ARG is negative, kill backward.
+
+If ARG is zero, kill the selected line but exclude the trailing
+newline.
+
+\\[universal-argument] 3 \\[avy-kil-whole-line] kill three lines
+starting from the selected line.  \\[universal-argument] -3
+
+\\[avy-kill-whole-line] kill three lines backward including the
+selected line.
+
+\(fn ARG)" t nil)
+
+(autoload 'avy-kill-ring-save-whole-line "avy/avy" "\
+Select line and save the whole selected line as if killed, but don’t kill it.
+
+This command is similar to `avy-kill-whole-line', except that it
+saves the line(s) as if killed, but does not kill it(them).
+
+With a numerical prefix ARG, kill ARG line(s) starting from the
+selected line.  If ARG is negative, kill backward.
+
+If ARG is zero, kill the selected line but exclude the trailing
+newline.
+
+\(fn ARG)" t nil)
+
+(autoload 'avy-setup-default "avy/avy" "\
+Setup the default shortcuts." nil nil)
+
+(autoload 'avy-goto-char-timer "avy/avy" "\
+Read one or many consecutive chars and jump to the first one.
+The window scope is determined by `avy-all-windows' (ARG negates it).
+
+\(fn &optional ARG)" t nil)
+
+(autoload 'avy-transpose-lines-in-region "avy/avy" "\
+Transpose lines in the active region." t nil)
+
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "avy/avy" '("avy-")))
 
 ;;;***
 
@@ -147,6 +499,64 @@ Call this method if you have updated your .bashrc or any bash init scripts
 and would like bash completion in Emacs to take these changes into account." t nil)
 
 (if (fboundp 'register-definition-prefixes) (register-definition-prefixes "bash-completion/bash-completion" '("bash-completion-")))
+
+;;;***
+
+;;;### (autoloads nil "bui/bui" "bui/bui.el" (0 0 0 0))
+;;; Generated autoloads from bui/bui.el
+
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "bui/bui" '("bui-define-")))
+
+;;;***
+
+;;;### (autoloads nil "bui/bui-button" "bui/bui-button.el" (0 0 0
+;;;;;;  0))
+;;; Generated autoloads from bui/bui-button.el
+
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "bui/bui-button" '("bui")))
+
+;;;***
+
+;;;### (autoloads nil "bui/bui-core" "bui/bui-core.el" (0 0 0 0))
+;;; Generated autoloads from bui/bui-core.el
+
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "bui/bui-core" '("bui-")))
+
+;;;***
+
+;;;### (autoloads nil "bui/bui-entry" "bui/bui-entry.el" (0 0 0 0))
+;;; Generated autoloads from bui/bui-entry.el
+
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "bui/bui-entry" '("bui-")))
+
+;;;***
+
+;;;### (autoloads nil "bui/bui-history" "bui/bui-history.el" (0 0
+;;;;;;  0 0))
+;;; Generated autoloads from bui/bui-history.el
+
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "bui/bui-history" '("bui-history")))
+
+;;;***
+
+;;;### (autoloads nil "bui/bui-info" "bui/bui-info.el" (0 0 0 0))
+;;; Generated autoloads from bui/bui-info.el
+
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "bui/bui-info" '("bui-info-")))
+
+;;;***
+
+;;;### (autoloads nil "bui/bui-list" "bui/bui-list.el" (0 0 0 0))
+;;; Generated autoloads from bui/bui-list.el
+
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "bui/bui-list" '("bui-list-")))
+
+;;;***
+
+;;;### (autoloads nil "bui/bui-utils" "bui/bui-utils.el" (0 0 0 0))
+;;; Generated autoloads from bui/bui-utils.el
+
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "bui/bui-utils" '("bui-")))
 
 ;;;***
 
@@ -2127,6 +2537,14 @@ Major mode for editing jinja2 files
 
 ;;;***
 
+;;;### (autoloads nil "lsp-mode/clients/lsp-astro" "lsp-mode/clients/lsp-astro.el"
+;;;;;;  (0 0 0 0))
+;;; Generated autoloads from lsp-mode/clients/lsp-astro.el
+
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "lsp-mode/clients/lsp-astro" '("lsp-astro--get-initialization-options")))
+
+;;;***
+
 ;;;### (autoloads nil "lsp-mode/clients/lsp-bash" "lsp-mode/clients/lsp-bash.el"
 ;;;;;;  (0 0 0 0))
 ;;; Generated autoloads from lsp-mode/clients/lsp-bash.el
@@ -2206,6 +2624,14 @@ Show a test tree and focus on it if IGNORE-FOCUS? is nil.
 ;;; Generated autoloads from lsp-mode/clients/lsp-dockerfile.el
 
 (if (fboundp 'register-definition-prefixes) (register-definition-prefixes "lsp-mode/clients/lsp-dockerfile" '("lsp-dockerfile-language-server-command")))
+
+;;;***
+
+;;;### (autoloads nil "lsp-mode/clients/lsp-dot" "lsp-mode/clients/lsp-dot.el"
+;;;;;;  (0 0 0 0))
+;;; Generated autoloads from lsp-mode/clients/lsp-dot.el
+
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "lsp-mode/clients/lsp-dot" '("lsp-dot--dot-ls-server-command")))
 
 ;;;***
 
@@ -2390,6 +2816,22 @@ Load all of the provided PROJECTS.
 
 ;;;***
 
+;;;### (autoloads nil "lsp-mode/clients/lsp-marksman" "lsp-mode/clients/lsp-marksman.el"
+;;;;;;  (0 0 0 0))
+;;; Generated autoloads from lsp-mode/clients/lsp-marksman.el
+
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "lsp-mode/clients/lsp-marksman" '("lsp-marksman-")))
+
+;;;***
+
+;;;### (autoloads nil "lsp-mode/clients/lsp-mint" "lsp-mode/clients/lsp-mint.el"
+;;;;;;  (0 0 0 0))
+;;; Generated autoloads from lsp-mode/clients/lsp-mint.el
+
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "lsp-mode/clients/lsp-mint" '("lsp-clients-mint-executable")))
+
+;;;***
+
 ;;;### (autoloads nil "lsp-mode/clients/lsp-nginx" "lsp-mode/clients/lsp-nginx.el"
 ;;;;;;  (0 0 0 0))
 ;;; Generated autoloads from lsp-mode/clients/lsp-nginx.el
@@ -2410,7 +2852,7 @@ Load all of the provided PROJECTS.
 ;;;;;;  (0 0 0 0))
 ;;; Generated autoloads from lsp-mode/clients/lsp-nix.el
 
-(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "lsp-mode/clients/lsp-nix" '("lsp-nix-server-path")))
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "lsp-mode/clients/lsp-nix" '("lsp-nix-")))
 
 ;;;***
 
@@ -2418,7 +2860,7 @@ Load all of the provided PROJECTS.
 ;;;;;;  (0 0 0 0))
 ;;; Generated autoloads from lsp-mode/clients/lsp-ocaml.el
 
-(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "lsp-mode/clients/lsp-ocaml" '("lsp-ocaml-l")))
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "lsp-mode/clients/lsp-ocaml" '("lsp-")))
 
 ;;;***
 
@@ -2426,7 +2868,7 @@ Load all of the provided PROJECTS.
 ;;;;;;  (0 0 0 0))
 ;;; Generated autoloads from lsp-mode/clients/lsp-openscad.el
 
-(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "lsp-mode/clients/lsp-openscad" '("lsp-openscad-server")))
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "lsp-mode/clients/lsp-openscad" '("lsp-openscad-")))
 
 ;;;***
 
@@ -2451,6 +2893,14 @@ Load all of the provided PROJECTS.
 ;;; Generated autoloads from lsp-mode/clients/lsp-php.el
 
 (if (fboundp 'register-definition-prefixes) (register-definition-prefixes "lsp-mode/clients/lsp-php" '("lsp-")))
+
+;;;***
+
+;;;### (autoloads nil "lsp-mode/clients/lsp-pls" "lsp-mode/clients/lsp-pls.el"
+;;;;;;  (0 0 0 0))
+;;; Generated autoloads from lsp-mode/clients/lsp-pls.el
+
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "lsp-mode/clients/lsp-pls" '("lsp-pls-")))
 
 ;;;***
 
@@ -2523,6 +2973,14 @@ Load all of the provided PROJECTS.
 ;;; Generated autoloads from lsp-mode/clients/lsp-rf.el
 
 (if (fboundp 'register-definition-prefixes) (register-definition-prefixes "lsp-mode/clients/lsp-rf" '("expand-start-command" "lsp-rf-language-server-" "parse-rf-language-server-")))
+
+;;;***
+
+;;;### (autoloads nil "lsp-mode/clients/lsp-ruby-syntax-tree" "lsp-mode/clients/lsp-ruby-syntax-tree.el"
+;;;;;;  (0 0 0 0))
+;;; Generated autoloads from lsp-mode/clients/lsp-ruby-syntax-tree.el
+
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "lsp-mode/clients/lsp-ruby-syntax-tree" '("lsp-ruby-syntax-tree-")))
 
 ;;;***
 
@@ -2924,10 +3382,18 @@ When prefix UPDATE? is t force installation even if the server is present.
 
 \(fn UPDATE\\=\\? &optional SERVER-ID)" t nil)
 
+(autoload 'lsp-uninstall-server "lsp-mode/lsp-mode" "\
+Delete a LSP server from `lsp-server-install-dir'.
+
+\(fn DIR)" t nil)
+
 (autoload 'lsp-update-server "lsp-mode/lsp-mode" "\
-Interactively update a server.
+Interactively update (reinstall) a server.
 
 \(fn &optional SERVER-ID)" t nil)
+
+(autoload 'lsp-update-servers "lsp-mode/lsp-mode" "\
+Update (reinstall) all installed servers." t nil)
 
 (autoload 'lsp-ensure-server "lsp-mode/lsp-mode" "\
 Ensure server SERVER-ID
@@ -2950,7 +3416,8 @@ Entry point that defers server startup until buffer is visible.
 This avoids overloading the server with many files when starting Emacs." nil nil)
 
 (autoload 'lsp-start-plain "lsp-mode/lsp-mode" "\
-Start `lsp-mode' using mininal configuration using the latest `melpa' version of the packages.
+Start `lsp-mode' using mininal configuration using the latest `melpa' version
+of the packages.
 
 In case the major-mode that you are using for " t nil)
 
@@ -3012,6 +3479,19 @@ mode otherwise.
 ;;;### (autoloads nil "lsp-mode/lsp-semantic-tokens" "lsp-mode/lsp-semantic-tokens.el"
 ;;;;;;  (0 0 0 0))
 ;;; Generated autoloads from lsp-mode/lsp-semantic-tokens.el
+
+(defvar-local semantic-token-modifier-cache (make-hash-table) "\
+A cache of modifier values to the selected fonts.
+This allows whole-bitmap lookup instead of checking each bit. The
+expectation is that usage of modifiers will tend to cluster, so
+we will not have the full range of possible usages, hence a
+tractable hash map.
+
+This is set as buffer-local. It should probably be shared in a
+given workspace/language-server combination.
+
+This cache should be flushed every time any modifier
+configuration changes.")
 
 (autoload 'lsp--semantic-tokens-initialize-buffer "lsp-mode/lsp-semantic-tokens" "\
 Initialize the buffer for semantic tokens.
@@ -3103,6 +3583,250 @@ Turn on pseudo-structural editing of Lisp code.
 \(fn)" t nil)
 
 (if (fboundp 'register-definition-prefixes) (register-definition-prefixes "paredit/paredit" '("paredit-" "?\\" "disable-paredit-mode")))
+
+;;;***
+
+;;;### (autoloads nil "pfuture/pfuture" "pfuture/pfuture.el" (0 0
+;;;;;;  0 0))
+;;; Generated autoloads from pfuture/pfuture.el
+
+(autoload 'pfuture-new "pfuture/pfuture" "\
+Create a new future process for command CMD.
+Any arguments after the command are interpreted as arguments to the command.
+This will return a process object with additional \\='stderr and \\='stdout
+properties, which can be read via (process-get process \\='stdout) and
+\(process-get process \\='stderr) or alternatively with
+\(pfuture-result process) or (pfuture-stderr process).
+
+Note that CMD must be a *sequence* of strings, meaning
+this is wrong: (pfuture-new \"git status\")
+this is right: (pfuture-new \"git\" \"status\")
+
+\(fn &rest CMD)" nil nil)
+
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "pfuture/pfuture" '("pfuture-")))
+
+;;;***
+
+;;;### (autoloads nil "posframe/posframe" "posframe/posframe.el"
+;;;;;;  (0 0 0 0))
+;;; Generated autoloads from posframe/posframe.el
+
+(autoload 'posframe-workable-p "posframe/posframe" "\
+Test posframe workable status." nil nil)
+
+(autoload 'posframe-show "posframe/posframe" "\
+Pop up a posframe to show STRING at POSITION.
+
+ (1) POSITION
+
+POSITION can be:
+1. An integer, meaning point position.
+2. A cons of two integers, meaning absolute X and Y coordinates.
+3. Other type, in which case the corresponding POSHANDLER should be
+   provided.
+
+ (2) POSHANDLER
+
+POSHANDLER is a function of one argument returning an actual
+position.  Its argument is a plist of the following form:
+
+  (:position xxx
+   :poshandler xxx
+   :font-height xxx
+   :font-width xxx
+   :posframe xxx
+   :posframe-width xxx
+   :posframe-height xxx
+   :posframe-buffer xxx
+   :parent-frame xxx
+   :parent-window-left xxx
+   :parent-window-top xxx
+   :parent-frame-width xxx
+   :parent-frame-height xxx
+   :parent-window xxx
+   :parent-window-width  xxx
+   :parent-window-height xxx
+   :mouse-x xxx
+   ;mouse-y xxx
+   :minibuffer-height xxx
+   :mode-line-height  xxx
+   :header-line-height xxx
+   :tab-line-height xxx
+   :x-pixel-offset xxx
+   :y-pixel-offset xxx)
+
+By default, poshandler is auto-selected based on the type of POSITION,
+but the selection can be overridden using the POSHANDLER argument.
+
+The builtin poshandler functions are listed below:
+
+1.  `posframe-poshandler-frame-center'
+2.  `posframe-poshandler-frame-top-center'
+3.  `posframe-poshandler-frame-top-left-corner'
+4.  `posframe-poshandler-frame-top-right-corner'
+5.  `posframe-poshandler-frame-bottom-center'
+6.  `posframe-poshandler-frame-bottom-left-corner'
+7.  `posframe-poshandler-frame-bottom-right-corner'
+8.  `posframe-poshandler-window-center'
+9.  `posframe-poshandler-window-top-center'
+10. `posframe-poshandler-window-top-left-corner'
+11. `posframe-poshandler-window-top-right-corner'
+12. `posframe-poshandler-window-bottom-center'
+13. `posframe-poshandler-window-bottom-left-corner'
+14. `posframe-poshandler-window-bottom-right-corner'
+15. `posframe-poshandler-point-top-left-corner'
+16. `posframe-poshandler-point-bottom-left-corner'
+17. `posframe-poshandler-point-bottom-left-corner-upward'
+18. `posframe-poshandler-point-window-center'
+19. `posframe-poshandler-point-frame-center'
+
+ (3) POSHANDLER-EXTRA-INFO
+
+POSHANDLER-EXTRA-INFO is a plist, which will prepend to the
+argument of poshandler function: `info', it will *OVERRIDE* the
+exist key in `info'.
+
+ (4) BUFFER-OR-NAME
+
+This posframe's buffer is BUFFER-OR-NAME, which can be a buffer
+or a name of a (possibly nonexistent) buffer.
+
+buffer name can prefix with space, for example \" *mybuffer*\", so
+the buffer name will hide for ibuffer and `list-buffers'.
+
+ (5) NO-PROPERTIES
+
+If NO-PROPERTIES is non-nil, The STRING's properties will
+be removed before being shown in posframe.
+
+ (6) HEIGHT, MAX-HEIGHT, MIN-HEIGHT, WIDTH, MAX-WIDTH and MIN-WIDTH
+
+These arguments are specified in the canonical character width
+and height of posframe, more details can be found in docstring of
+function `fit-frame-to-buffer',
+
+ (7) LEFT-FRINGE and RIGHT-FRINGE
+
+If LEFT-FRINGE or RIGHT-FRINGE is a number, left fringe or
+right fringe with be shown with the specified width.
+
+ (8) BORDER-WIDTH, BORDER-COLOR, INTERNAL-BORDER-WIDTH and INTERNAL-BORDER-COLOR
+
+By default, posframe shows no borders, but users can specify
+borders by setting BORDER-WIDTH to a positive number.  Border
+color can be specified by BORDER-COLOR.
+
+INTERNAL-BORDER-WIDTH and INTERNAL-BORDER-COLOR are same as
+BORDER-WIDTH and BORDER-COLOR, but do not suggest to use for the
+reason:
+
+   Add distinct controls for child frames' borders (Bug#45620)
+   http://git.savannah.gnu.org/cgit/emacs.git/commit/?id=ff7b1a133bfa7f2614650f8551824ffaef13fadc
+
+ (9) FONT, FOREGROUND-COLOR and BACKGROUND-COLOR
+
+Posframe's font as well as foreground and background colors are
+derived from the current frame by default, but can be overridden
+using the FONT, FOREGROUND-COLOR and BACKGROUND-COLOR arguments,
+respectively.
+
+ (10) RESPECT-HEADER-LINE and RESPECT-MODE-LINE
+
+By default, posframe will display no header-line, mode-line and
+tab-line.  In case a header-line, mode-line or tab-line is
+desired, users can set RESPECT-HEADER-LINE and RESPECT-MODE-LINE
+to t.
+
+ (11) INITIALIZE
+
+INITIALIZE is a function with no argument.  It will run when
+posframe buffer is first selected with `with-current-buffer'
+in `posframe-show', and only run once (for performance reasons).
+
+ (12) LINES-TRUNCATE
+
+If LINES-TRUNCATE is non-nil, then lines will truncate in the
+posframe instead of wrap.
+
+ (13) OVERRIDE-PARAMETERS
+
+OVERRIDE-PARAMETERS is very powful, *all* the valid frame parameters
+used by posframe's frame can be overridden by it.
+
+NOTE: some `posframe-show' arguments are not frame parameters, so they
+can not be overrided by this argument.
+
+ (14) TIMEOUT
+
+TIMEOUT can specify the number of seconds after which the posframe
+will auto-hide.
+
+ (15) REFRESH
+
+If REFRESH is a number, posframe's frame-size will be re-adjusted
+every REFRESH seconds.
+
+ (16) ACCEPT-FOCUS
+
+When ACCEPT-FOCUS is non-nil, posframe will accept focus.
+be careful, you may face some bugs when set it to non-nil.
+
+ (17) HIDEHANDLER
+
+HIDEHANDLER is a function, when it return t, posframe will be
+hide, this function has a plist argument:
+
+  (:posframe-buffer xxx
+   :posframe-parent-buffer xxx)
+
+The builtin hidehandler functions are listed below:
+
+1. `posframe-hidehandler-when-buffer-switch'
+
+ (18) REFPOSHANDLER
+
+REFPOSHANDLER is a function, a reference position (most is
+top-left of current frame) will be returned when call this
+function.
+
+when it is nil or it return nil, child-frame feature will be used
+and reference position will be deal with in Emacs.
+
+The user case I know at the moment is let ivy-posframe work well
+in EXWM environment (let posframe show on the other appliction
+window).
+
+         DO NOT USE UNLESS NECESSARY!!!
+
+An example parent frame poshandler function is:
+
+1. `posframe-refposhandler-xwininfo'
+
+ (19) Others
+
+You can use `posframe-delete-all' to delete all posframes.
+
+\(fn BUFFER-OR-NAME &key STRING POSITION POSHANDLER POSHANDLER-EXTRA-INFO WIDTH HEIGHT MAX-WIDTH MAX-HEIGHT MIN-WIDTH MIN-HEIGHT X-PIXEL-OFFSET Y-PIXEL-OFFSET LEFT-FRINGE RIGHT-FRINGE BORDER-WIDTH BORDER-COLOR INTERNAL-BORDER-WIDTH INTERNAL-BORDER-COLOR FONT FOREGROUND-COLOR BACKGROUND-COLOR RESPECT-HEADER-LINE RESPECT-MODE-LINE INITIALIZE NO-PROPERTIES KEEP-RATIO LINES-TRUNCATE OVERRIDE-PARAMETERS TIMEOUT REFRESH ACCEPT-FOCUS HIDEHANDLER REFPOSHANDLER &allow-other-keys)" nil nil)
+
+(autoload 'posframe-hide-all "posframe/posframe" "\
+Hide all posframe frames." t nil)
+
+(autoload 'posframe-delete-all "posframe/posframe" "\
+Delete all posframe frames and buffers." t nil)
+
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "posframe/posframe" '("posframe-")))
+
+;;;***
+
+;;;### (autoloads nil "posframe/posframe-benchmark" "posframe/posframe-benchmark.el"
+;;;;;;  (0 0 0 0))
+;;; Generated autoloads from posframe/posframe-benchmark.el
+
+(autoload 'posframe-benchmark "posframe/posframe-benchmark" "\
+Benchmark tool for posframe." t nil)
+
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "posframe/posframe-benchmark" '("posframe-benchmark-alist")))
 
 ;;;***
 
@@ -3288,6 +4012,216 @@ ARG is `toggle'; disable the mode otherwise.
 \(fn &optional ARG)" t nil)
 
 (if (fboundp 'register-definition-prefixes) (register-definition-prefixes "rainbow-mode/rainbow-mode" '("rainbow-")))
+
+;;;***
+
+;;;### (autoloads nil "request/request" "request/request.el" (0 0
+;;;;;;  0 0))
+;;; Generated autoloads from request/request.el
+
+(autoload 'request-response-header "request/request" "\
+Fetch the values of RESPONSE header field named FIELD-NAME.
+
+It returns comma separated values when the header has multiple
+field with the same name, as :RFC:`2616` specifies.
+
+Examples::
+
+  (request-response-header response
+                           \"content-type\") ; => \"text/html; charset=utf-8\"
+  (request-response-header response
+                           \"unknown-field\") ; => nil
+
+\(fn RESPONSE FIELD-NAME)" nil nil)
+
+(autoload 'request-response-headers "request/request" "\
+Return RESPONSE headers as an alist.
+I would have chosen a function name that wasn't so suggestive that
+`headers` is a member of the `request-response` struct, but
+as there's already precedent with `request-response-header', I
+hew to consistency.
+
+\(fn RESPONSE)" nil nil)
+
+(autoload 'request "request/request" "\
+Main entry requesting URL with property list SETTINGS as follow.
+
+==================== ========================================================
+Keyword argument      Explanation
+==================== ========================================================
+TYPE          (string)   type of request to make: POST/GET/PUT/DELETE
+PARAMS         (alist)   set \"?key=val\" part in URL
+DATA    (string/alist)   data to be sent to the server
+FILES          (alist)   files to be sent to the server (see below)
+PARSER        (symbol)   a function that reads current buffer and return data
+HEADERS        (alist)   additional headers to send with the request
+ENCODING      (symbol)   encoding for request body (utf-8 by default)
+SUCCESS     (function)   called on success
+ERROR       (function)   called on error
+COMPLETE    (function)   called on both success and error
+TIMEOUT       (number)   timeout in second
+STATUS-CODE    (alist)   map status code (int) to callback
+SYNC            (bool)   If non-nil, wait until request is done. Default is nil.
+==================== ========================================================
+
+
+* Callback functions
+
+Callback functions STATUS, ERROR, COMPLETE and `cdr\\='s in element of
+the alist STATUS-CODE take same keyword arguments listed below.  For
+forward compatibility, these functions must ignore unused keyword
+arguments (i.e., it\\='s better to use `&allow-other-keys\\=' [#]_).::
+
+    (CALLBACK                      ; SUCCESS/ERROR/COMPLETE/STATUS-CODE
+     :data          data           ; whatever PARSER function returns, or nil
+     :error-thrown  error-thrown   ; (ERROR-SYMBOL . DATA), or nil
+     :symbol-status symbol-status  ; success/error/timeout/abort/parse-error
+     :response      response       ; request-response object
+     ...)
+
+.. [#] `&allow-other-keys\\=' is a special \"markers\" available in macros
+   in the CL library for function definition such as `cl-defun\\=' and
+   `cl-function\\='.  Without this marker, you need to specify all arguments
+   to be passed.  This becomes problem when request.el adds new arguments
+   when calling callback functions.  If you use `&allow-other-keys\\='
+   (or manually ignore other arguments), your code is free from this
+   problem.  See info node `(cl) Argument Lists\\=' for more information.
+
+Arguments data, error-thrown, symbol-status can be accessed by
+`request-response-data\\=', `request-response-error-thrown\\=',
+`request-response-symbol-status\\=' accessors, i.e.::
+
+    (request-response-data RESPONSE)  ; same as data
+
+Response object holds other information which can be accessed by
+the following accessors:
+`request-response-status-code\\=',
+`request-response-url\\=' and
+`request-response-settings\\='
+
+* STATUS-CODE callback
+
+STATUS-CODE is an alist of the following format::
+
+    ((N-1 . CALLBACK-1)
+     (N-2 . CALLBACK-2)
+     ...)
+
+Here, N-1, N-2,... are integer status codes such as 200.
+
+
+* FILES
+
+FILES is an alist of the following format::
+
+    ((NAME-1 . FILE-1)
+     (NAME-2 . FILE-2)
+     ...)
+
+where FILE-N is a list of the form::
+
+    (FILENAME &key PATH BUFFER STRING MIME-TYPE)
+
+FILE-N can also be a string (path to the file) or a buffer object.
+In that case, FILENAME is set to the file name or buffer name.
+
+Example FILES argument::
+
+    `((\"passwd\"   . \"/etc/passwd\")                ; filename = passwd
+      (\"scratch\"  . ,(get-buffer \"*scratch*\"))    ; filename = *scratch*
+      (\"passwd2\"  . (\"password.txt\" :file \"/etc/passwd\"))
+      (\"scratch2\" . (\"scratch.txt\"  :buffer ,(get-buffer \"*scratch*\")))
+      (\"data\"     . (\"data.csv\"     :data \"1,2,3\\n4,5,6\\n\")))
+
+.. note:: FILES is implemented only for curl backend for now.
+   As furl.el_ supports multipart POST, it should be possible to
+   support FILES in pure elisp by making furl.el_ another backend.
+   Contributions are welcome.
+
+   .. _furl.el: https://code.google.com/p/furl-el/
+
+
+* PARSER function
+
+PARSER function takes no argument and it is executed in the
+buffer with HTTP response body.  The current position in the HTTP
+response buffer is at the beginning of the buffer.  As the HTTP
+header is stripped off, the cursor is actually at the beginning
+of the response body.  So, for example, you can pass `json-read\\='
+to parse JSON object in the buffer.  To fetch whole response as a
+string, pass `buffer-string\\='.
+
+When using `json-read\\=', it is useful to know that the returned
+type can be modified by `json-object-type\\=', `json-array-type\\=',
+`json-key-type\\=', `json-false\\=' and `json-null\\='.  See docstring of
+each function for what it does.  For example, to convert JSON
+objects to plist instead of alist, wrap `json-read\\=' by `lambda\\='
+like this.::
+
+    (request
+     \"https://...\"
+     :parser (lambda ()
+               (let ((json-object-type \\='plist))
+                 (json-read)))
+     ...)
+
+This is analogous to the `dataType\\=' argument of jQuery.ajax_.
+Only this function can access to the process buffer, which
+is killed immediately after the execution of this function.
+
+* SYNC
+
+Synchronous request is functional, but *please* don\\='t use it
+other than testing or debugging.  Emacs users have better things
+to do rather than waiting for HTTP request.  If you want a better
+way to write callback chains, use `request-deferred\\='.
+
+If you can\\='t avoid using it (e.g., you are inside of some hook
+which must return some value), make sure to set TIMEOUT to
+relatively small value.
+
+Due to limitation of `url-retrieve-synchronously\\=', response slots
+`request-response-error-thrown\\=', `request-response-history\\=' and
+`request-response-url\\=' are unknown (always nil) when using
+synchronous request with `url-retrieve\\=' backend.
+
+* Note
+
+API of `request\\=' is somewhat mixture of jQuery.ajax_ (Javascript)
+and requests.request_ (Python).
+
+.. _jQuery.ajax: https://api.jquery.com/jQuery.ajax/
+.. _requests.request: https://docs.python-requests.org
+
+\(fn URL &rest SETTINGS &key (PARAMS nil) (DATA nil) (HEADERS nil) (ENCODING \\='utf-8) (ERROR nil) (SYNC nil) (RESPONSE (make-request-response)) &allow-other-keys)" nil nil)
+
+(function-put 'request 'lisp-indent-function 'defun)
+
+(autoload 'request-untrampify-filename "request/request" "\
+Return FILE as the local file name.
+
+\(fn FILE)" nil nil)
+
+(autoload 'request-abort "request/request" "\
+Abort request for RESPONSE (the object returned by `request').
+Note that this function invoke ERROR and COMPLETE callbacks.
+Callbacks may not be called immediately but called later when
+associated process is exited.
+
+\(fn RESPONSE)" nil nil)
+
+(autoload 'request-auto-revert-notify-rm-watch "request/request" "\
+Backport of M. Engdegard's fix of `auto-revert-notify-rm-watch'." nil nil)
+
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "request/request" '("request-")))
+
+;;;***
+
+;;;### (autoloads nil "request/request-deferred" "request/request-deferred.el"
+;;;;;;  (0 0 0 0))
+;;; Generated autoloads from request/request-deferred.el
+
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "request/request-deferred" '("request-deferred")))
 
 ;;;***
 
@@ -3484,6 +4418,854 @@ this time, in which case it won't display at all.
 \(fn &optional TYPE-OR-OBJECT FPS DELAY)" nil nil)
 
 (if (fboundp 'register-definition-prefixes) (register-definition-prefixes "spinner/spinner" '("spinner-")))
+
+;;;***
+
+;;;### (autoloads nil "tree-mode/tree-mode" "tree-mode/tree-mode.el"
+;;;;;;  (0 0 0 0))
+;;; Generated autoloads from tree-mode/tree-mode.el
+
+(autoload 'tree-minor-mode "tree-mode/tree-mode" "\
+More keybindings for tree-widget.
+
+If called interactively, enable Tree minor mode if ARG is
+positive, and disable it if ARG is zero or negative.  If called
+from Lisp, also enable the mode if ARG is omitted or nil, and
+toggle it if ARG is `toggle'; disable the mode otherwise.
+
+\\{tree-mode-map}
+
+\(fn &optional ARG)" t nil)
+
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "tree-mode/tree-mode" '("tree-mode")))
+
+;;;***
+
+;;;### (autoloads nil "treemacs/src/elisp/treemacs" "treemacs/src/elisp/treemacs.el"
+;;;;;;  (0 0 0 0))
+;;; Generated autoloads from treemacs/src/elisp/treemacs.el
+
+(autoload 'treemacs-version "treemacs/src/elisp/treemacs" "\
+Return the `treemacs-version'." t nil)
+
+(autoload 'treemacs "treemacs/src/elisp/treemacs" "\
+Initialise or toggle treemacs.
+- If the treemacs window is visible hide it.
+- If a treemacs buffer exists, but is not visible show it.
+- If no treemacs buffer exists for the current frame create and show it.
+- If the workspace is empty additionally ask for the root path of the first
+  project to add.
+- With a prefix ARG launch treemacs and force it to select a workspace
+
+\(fn &optional ARG)" t nil)
+
+(autoload 'treemacs-select-directory "treemacs/src/elisp/treemacs" "\
+Select a directory to open in treemacs.
+This command will open *just* the selected directory in treemacs.  If there are
+other projects in the workspace they will be removed.
+
+To *add* a project to the current workspace use
+`treemacs-add-project-to-workspace' or
+`treemacs-add-and-display-current-project' instead." t nil)
+
+(autoload 'treemacs-find-file "treemacs/src/elisp/treemacs" "\
+Find and focus the current file in the treemacs window.
+If the current buffer has visits no file or with a prefix ARG ask for the
+file instead.
+Will show/create a treemacs buffers if it is not visible/does not exist.
+For the most part only useful when `treemacs-follow-mode' is not active.
+
+\(fn &optional ARG)" t nil)
+
+(autoload 'treemacs-find-tag "treemacs/src/elisp/treemacs" "\
+Find and move point to the tag at point in the treemacs view.
+Most likely to be useful when `treemacs-tag-follow-mode' is not active.
+
+Will ask to change the treemacs root if the file to find is not under the
+root.  If no treemacs buffer exists it will be created with the current file's
+containing directory as root.  Will do nothing if the current buffer is not
+visiting a file or Emacs cannot find any tags for the current file." t nil)
+
+(autoload 'treemacs-select-window "treemacs/src/elisp/treemacs" "\
+Select the treemacs window if it is visible.
+Bring it to the foreground if it is not visible.
+Initialise a new treemacs buffer as calling `treemacs' would if there is no
+treemacs buffer for this frame.
+
+In case treemacs is already selected behaviour will depend on
+`treemacs-select-when-already-in-treemacs'.
+
+A non-nil prefix ARG will also force a workspace switch.
+
+\(fn &optional ARG)" t nil)
+
+(autoload 'treemacs-show-changelog "treemacs/src/elisp/treemacs" "\
+Show the changelog of treemacs." t nil)
+
+(autoload 'treemacs-edit-workspaces "treemacs/src/elisp/treemacs" "\
+Edit your treemacs workspaces and projects as an `org-mode' file." t nil)
+
+(autoload 'treemacs-add-and-display-current-project-exclusively "treemacs/src/elisp/treemacs" "\
+Display the current project, and *only* the current project.
+Like `treemacs-add-and-display-current-project' this will add the current
+project to treemacs based on either projectile, the built-in project.el, or the
+current working directory.
+
+However the \\='exclusive\\=' part means that it will make the current project
+the only project, all other projects *will be removed* from the current
+workspace." t nil)
+
+(autoload 'treemacs-add-and-display-current-project "treemacs/src/elisp/treemacs" "\
+Open treemacs and add the current project root to the workspace.
+The project is determined first by projectile (if treemacs-projectile is
+installed), then by project.el, then by the current working directory.
+
+If the project is already registered with treemacs just move point to its root.
+An error message is displayed if the current buffer is not part of any project." t nil)
+
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "treemacs/src/elisp/treemacs" '("treemacs-version")))
+
+;;;***
+
+;;;### (autoloads nil "treemacs/src/elisp/treemacs-annotations" "treemacs/src/elisp/treemacs-annotations.el"
+;;;;;;  (0 0 0 0))
+;;; Generated autoloads from treemacs/src/elisp/treemacs-annotations.el
+
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "treemacs/src/elisp/treemacs-annotations" '("treemacs-")))
+
+;;;***
+
+;;;### (autoloads nil "treemacs/src/elisp/treemacs-async" "treemacs/src/elisp/treemacs-async.el"
+;;;;;;  (0 0 0 0))
+;;; Generated autoloads from treemacs/src/elisp/treemacs-async.el
+
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "treemacs/src/elisp/treemacs-async" '("treemacs-")))
+
+;;;***
+
+;;;### (autoloads nil "treemacs/src/elisp/treemacs-bookmarks" "treemacs/src/elisp/treemacs-bookmarks.el"
+;;;;;;  (0 0 0 0))
+;;; Generated autoloads from treemacs/src/elisp/treemacs-bookmarks.el
+
+(autoload 'treemacs-bookmark "treemacs/src/elisp/treemacs-bookmarks" "\
+Find a bookmark in treemacs.
+Only bookmarks marking either a file or a directory are offered for selection.
+Treemacs will try to find and focus the given bookmark's location, in a similar
+fashion to `treemacs-find-file'.
+
+With a prefix argument ARG treemacs will also open the bookmarked location.
+
+\(fn &optional ARG)" t nil)
+
+(autoload 'treemacs--bookmark-handler "treemacs/src/elisp/treemacs-bookmarks" "\
+Open Treemacs into a bookmark RECORD.
+
+\(fn RECORD)" nil nil)
+
+(autoload 'treemacs-add-bookmark "treemacs/src/elisp/treemacs-bookmarks" "\
+Add the current node to Emacs' list of bookmarks.
+For file and directory nodes their absolute path is saved.  Tag nodes
+additionally also save the tag's position.  A tag can only be bookmarked if the
+treemacs node is pointing to a valid buffer position." t nil)
+
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "treemacs/src/elisp/treemacs-bookmarks" '("treemacs--")))
+
+;;;***
+
+;;;### (autoloads nil "treemacs/src/elisp/treemacs-compatibility"
+;;;;;;  "treemacs/src/elisp/treemacs-compatibility.el" (0 0 0 0))
+;;; Generated autoloads from treemacs/src/elisp/treemacs-compatibility.el
+
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "treemacs/src/elisp/treemacs-compatibility" '("treemacs-")))
+
+;;;***
+
+;;;### (autoloads nil "treemacs/src/elisp/treemacs-core-utils" "treemacs/src/elisp/treemacs-core-utils.el"
+;;;;;;  (0 0 0 0))
+;;; Generated autoloads from treemacs/src/elisp/treemacs-core-utils.el
+
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "treemacs/src/elisp/treemacs-core-utils" '("treemacs-")))
+
+;;;***
+
+;;;### (autoloads nil "treemacs/src/elisp/treemacs-customization"
+;;;;;;  "treemacs/src/elisp/treemacs-customization.el" (0 0 0 0))
+;;; Generated autoloads from treemacs/src/elisp/treemacs-customization.el
+
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "treemacs/src/elisp/treemacs-customization" '("treemacs-")))
+
+;;;***
+
+;;;### (autoloads nil "treemacs/src/elisp/treemacs-diagnostics" "treemacs/src/elisp/treemacs-diagnostics.el"
+;;;;;;  (0 0 0 0))
+;;; Generated autoloads from treemacs/src/elisp/treemacs-diagnostics.el
+
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "treemacs/src/elisp/treemacs-diagnostics" '("treemacs-")))
+
+;;;***
+
+;;;### (autoloads nil "treemacs/src/elisp/treemacs-dom" "treemacs/src/elisp/treemacs-dom.el"
+;;;;;;  (0 0 0 0))
+;;; Generated autoloads from treemacs/src/elisp/treemacs-dom.el
+
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "treemacs/src/elisp/treemacs-dom" '("treemacs-")))
+
+;;;***
+
+;;;### (autoloads nil "treemacs/src/elisp/treemacs-extensions" "treemacs/src/elisp/treemacs-extensions.el"
+;;;;;;  (0 0 0 0))
+;;; Generated autoloads from treemacs/src/elisp/treemacs-extensions.el
+
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "treemacs/src/elisp/treemacs-extensions" '("treemacs-")))
+
+;;;***
+
+;;;### (autoloads nil "treemacs/src/elisp/treemacs-file-management"
+;;;;;;  "treemacs/src/elisp/treemacs-file-management.el" (0 0 0 0))
+;;; Generated autoloads from treemacs/src/elisp/treemacs-file-management.el
+
+(autoload 'treemacs-delete-file "treemacs/src/elisp/treemacs-file-management" "\
+Delete node at point.
+A delete action must always be confirmed.  Directories are deleted recursively.
+By default files are deleted by moving them to the trash.  With a prefix ARG
+they will instead be wiped irreversibly.
+
+\(fn &optional ARG)" t nil)
+
+(autoload 'treemacs-delete-marked-files "treemacs/src/elisp/treemacs-file-management" "\
+Delete all marked files.
+
+A delete action must always be confirmed.  Directories are deleted recursively.
+By default files are deleted by moving them to the trash.  With a prefix ARG
+they will instead be wiped irreversibly.
+
+For marking files see `treemacs-bulk-file-actions'.
+
+\(fn &optional ARG)" t nil)
+
+(autoload 'treemacs-move-file "treemacs/src/elisp/treemacs-file-management" "\
+Move file (or directory) at point.
+
+If the selected target is an existing directory the source file will be directly
+moved into this directory.  If the given target instead does not exist then it
+will be treated as the moved file's new name, meaning the original source file
+will be both moved and renamed." t nil)
+
+(autoload 'treemacs-copy-file "treemacs/src/elisp/treemacs-file-management" "\
+Copy file (or directory) at point.
+
+If the selected target is an existing directory the source file will be directly
+copied into this directory.  If the given target instead does not exist then it
+will be treated as the copied file's new name, meaning the original source file
+will be both copied and renamed." t nil)
+
+(autoload 'treemacs-move-marked-files "treemacs/src/elisp/treemacs-file-management" "\
+Move all marked files.
+
+For marking files see `treemacs-bulk-file-actions'." t nil)
+
+(autoload 'treemacs-copy-marked-files "treemacs/src/elisp/treemacs-file-management" "\
+Copy all marked files.
+
+For marking files see `treemacs-bulk-file-actions'." t nil)
+
+(autoload 'treemacs-rename-file "treemacs/src/elisp/treemacs-file-management" "\
+Rename the file/directory at point.
+
+Buffers visiting the renamed file or visiting a file inside the renamed
+directory and windows showing them will be reloaded.  The list of recent files
+will likewise be updated." t nil)
+
+(autoload 'treemacs-show-marked-files "treemacs/src/elisp/treemacs-file-management" "\
+Print a list of all files marked by treemacs." t nil)
+
+(autoload 'treemacs-mark-or-unmark-path-at-point "treemacs/src/elisp/treemacs-file-management" "\
+Mark or unmark the absolute path of the node at point." t nil)
+
+(autoload 'treemacs-reset-marks "treemacs/src/elisp/treemacs-file-management" "\
+Unmark all previously marked files in the current buffer." t nil)
+
+(autoload 'treemacs-delete-marked-paths "treemacs/src/elisp/treemacs-file-management" "\
+Delete all previously marked files." t nil)
+
+(autoload 'treemacs-bulk-file-actions "treemacs/src/elisp/treemacs-file-management" "\
+Activate the bulk file actions hydra.
+This interface allows to quickly (unmark) files, so as to copy, move or delete
+them in bulk.
+
+Note that marking files is *permanent*, files will stay marked until they are
+either manually unmarked or deleted.  You can show a list of all currently
+marked files with `treemacs-show-marked-files' or `s' in the hydra." t nil)
+
+(autoload 'treemacs-create-file "treemacs/src/elisp/treemacs-file-management" "\
+Create a new file.
+Enter first the directory to create the new file in, then the new file's name.
+The pre-selection for what directory to create in is based on the \"nearest\"
+path to point - the containing directory for tags and files or the directory
+itself, using $HOME when there is no path at or near point to grab." t nil)
+
+(autoload 'treemacs-create-dir "treemacs/src/elisp/treemacs-file-management" "\
+Create a new directory.
+Enter first the directory to create the new dir in, then the new dir's name.
+The pre-selection for what directory to create in is based on the \"nearest\"
+path to point - the containing directory for tags and files or the directory
+itself, using $HOME when there is no path at or near point to grab." t nil)
+
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "treemacs/src/elisp/treemacs-file-management" '("treemacs-")))
+
+;;;***
+
+;;;### (autoloads nil "treemacs/src/elisp/treemacs-filewatch-mode"
+;;;;;;  "treemacs/src/elisp/treemacs-filewatch-mode.el" (0 0 0 0))
+;;; Generated autoloads from treemacs/src/elisp/treemacs-filewatch-mode.el
+
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "treemacs/src/elisp/treemacs-filewatch-mode" '("treemacs-")))
+
+;;;***
+
+;;;### (autoloads nil "treemacs/src/elisp/treemacs-follow-mode" "treemacs/src/elisp/treemacs-follow-mode.el"
+;;;;;;  (0 0 0 0))
+;;; Generated autoloads from treemacs/src/elisp/treemacs-follow-mode.el
+
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "treemacs/src/elisp/treemacs-follow-mode" '("treemacs-")))
+
+;;;***
+
+;;;### (autoloads nil "treemacs/src/elisp/treemacs-fringe-indicator"
+;;;;;;  "treemacs/src/elisp/treemacs-fringe-indicator.el" (0 0 0
+;;;;;;  0))
+;;; Generated autoloads from treemacs/src/elisp/treemacs-fringe-indicator.el
+
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "treemacs/src/elisp/treemacs-fringe-indicator" '("treemacs-")))
+
+;;;***
+
+;;;### (autoloads nil "treemacs/src/elisp/treemacs-git-commit-diff-mode"
+;;;;;;  "treemacs/src/elisp/treemacs-git-commit-diff-mode.el" (0
+;;;;;;  0 0 0))
+;;; Generated autoloads from treemacs/src/elisp/treemacs-git-commit-diff-mode.el
+
+(defvar treemacs-git-commit-diff-mode nil "\
+Non-nil if Treemacs-Git-Commit-Diff mode is enabled.
+See the `treemacs-git-commit-diff-mode' command
+for a description of this minor mode.
+Setting this variable directly does not take effect;
+either customize it (see the info node `Easy Customization')
+or call the function `treemacs-git-commit-diff-mode'.")
+
+(custom-autoload 'treemacs-git-commit-diff-mode "treemacs/src/elisp/treemacs-git-commit-diff-mode" nil)
+
+(autoload 'treemacs-git-commit-diff-mode "treemacs/src/elisp/treemacs-git-commit-diff-mode" "\
+Minor mode to display commit differences for your git-tracked projects.
+
+If called interactively, enable Treemacs-Git-Commit-Diff mode if
+ARG is positive, and disable it if ARG is zero or negative.  If
+called from Lisp, also enable the mode if ARG is omitted or nil,
+and toggle it if ARG is `toggle'; disable the mode otherwise.
+
+When enabled treemacs will add an annotation next to every git project showing
+how many commits ahead or behind your current branch is compared to its remote
+counterpart.
+
+The difference will be shown using the format `↑x ↓y', where `x' and `y' are the
+numbers of commits a project is ahead or behind.  The numbers are determined
+based on the output of `git status -sb'.
+
+By default the annotation is only updated when manually updating a project with
+`treemacs-refresh'.  You can install `treemacs-magit' to enable automatic
+updates whenever you commit/fetch/rebase etc. in magit.
+
+Does not require `treemacs-git-mode' to be active.
+
+\(fn &optional ARG)" t nil)
+
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "treemacs/src/elisp/treemacs-git-commit-diff-mode" '("treemacs--")))
+
+;;;***
+
+;;;### (autoloads nil "treemacs/src/elisp/treemacs-header-line" "treemacs/src/elisp/treemacs-header-line.el"
+;;;;;;  (0 0 0 0))
+;;; Generated autoloads from treemacs/src/elisp/treemacs-header-line.el
+
+(defvar treemacs-indicate-top-scroll-mode nil "\
+Non-nil if Treemacs-Indicate-Top-Scroll mode is enabled.
+See the `treemacs-indicate-top-scroll-mode' command
+for a description of this minor mode.
+Setting this variable directly does not take effect;
+either customize it (see the info node `Easy Customization')
+or call the function `treemacs-indicate-top-scroll-mode'.")
+
+(custom-autoload 'treemacs-indicate-top-scroll-mode "treemacs/src/elisp/treemacs-header-line" nil)
+
+(autoload 'treemacs-indicate-top-scroll-mode "treemacs/src/elisp/treemacs-header-line" "\
+Minor mode which shows whether treemacs is scrolled all the way to the top.
+
+If called interactively, enable Treemacs-Indicate-Top-Scroll mode
+if ARG is positive, and disable it if ARG is zero or negative.
+If called from Lisp, also enable the mode if ARG is omitted or
+nil, and toggle it if ARG is `toggle'; disable the mode
+otherwise.
+
+When this mode is enabled the header line of the treemacs window will display
+whether the window's first line is visible or not.
+
+The strings used for the display are determined by
+`treemacs-header-scroll-indicators'.
+
+This mode makes use of `treemacs-user-header-line-format' - and thus
+`header-line-format' - and is therefore incompatible with other modifications to
+these options.
+
+\(fn &optional ARG)" t nil)
+
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "treemacs/src/elisp/treemacs-header-line" '("treemacs-")))
+
+;;;***
+
+;;;### (autoloads nil "treemacs/src/elisp/treemacs-hydras" "treemacs/src/elisp/treemacs-hydras.el"
+;;;;;;  (0 0 0 0))
+;;; Generated autoloads from treemacs/src/elisp/treemacs-hydras.el
+
+(autoload 'treemacs-common-helpful-hydra "treemacs/src/elisp/treemacs-hydras" "\
+Summon a helpful hydra to show you the treemacs keymap.
+
+This hydra will show the most commonly used keybinds for treemacs.  For the more
+advanced (probably rarely used keybinds) see `treemacs-advanced-helpful-hydra'.
+
+The keybinds shown in this hydra are not static, but reflect the actual
+keybindings currently in use (including evil mode).  If the hydra is unable to
+find the key a command is bound to it will show a blank instead." t nil)
+
+(autoload 'treemacs-advanced-helpful-hydra "treemacs/src/elisp/treemacs-hydras" "\
+Summon a helpful hydra to show you the treemacs keymap.
+
+This hydra will show the more advanced (rarely used) keybinds for treemacs.  For
+the more commonly used keybinds see `treemacs-common-helpful-hydra'.
+
+The keybinds shown in this hydra are not static, but reflect the actual
+keybindings currently in use (including evil mode).  If the hydra is unable to
+find the key a command is bound to it will show a blank instead." t nil)
+
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "treemacs/src/elisp/treemacs-hydras" '("treemacs-helpful-hydra")))
+
+;;;***
+
+;;;### (autoloads nil "treemacs/src/elisp/treemacs-icons" "treemacs/src/elisp/treemacs-icons.el"
+;;;;;;  (0 0 0 0))
+;;; Generated autoloads from treemacs/src/elisp/treemacs-icons.el
+
+(autoload 'treemacs-resize-icons "treemacs/src/elisp/treemacs-icons" "\
+Resize the current theme's icons to the given SIZE.
+
+If SIZE is \\='nil' the icons are not resized and will retain their default size
+of 22 pixels.
+
+There is only one size, the icons are square and the aspect ratio will be
+preserved when resizing them therefore width and height are the same.
+
+Resizing the icons only works if Emacs was built with ImageMagick support, or if
+using Emacs >= 27.1,which has native image resizing support.  If this is not the
+case this function will not have any effect.
+
+Custom icons are not taken into account, only the size of treemacs' own icons
+png are changed.
+
+\(fn SIZE)" t nil)
+
+(autoload 'treemacs-define-custom-icon "treemacs/src/elisp/treemacs-icons" "\
+Define a custom ICON for the current theme to use for FILE-EXTENSIONS.
+
+Note that treemacs has a very loose definition of what constitutes a file
+extension - it's either everything past the last period, or just the file's full
+name if there is no period.  This makes it possible to match file names like
+'.gitignore' and 'Makefile'.
+
+Additionally FILE-EXTENSIONS are also not case sensitive and will be stored in a
+down-cased state.
+
+\(fn ICON &rest FILE-EXTENSIONS)" nil nil)
+
+(autoload 'treemacs-define-custom-image-icon "treemacs/src/elisp/treemacs-icons" "\
+Same as `treemacs-define-custom-icon' but for image icons instead of strings.
+FILE is the path to an icon image (and not the actual icon string).
+FILE-EXTENSIONS are all the (not case-sensitive) file extensions the icon
+should be used for.
+
+\(fn FILE &rest FILE-EXTENSIONS)" nil nil)
+
+(autoload 'treemacs-map-icons-with-auto-mode-alist "treemacs/src/elisp/treemacs-icons" "\
+Remaps icons for EXTENSIONS according to `auto-mode-alist'.
+EXTENSIONS should be a list of file extensions such that they match the regex
+stored in `auto-mode-alist', for example \\='(\".cc\").
+MODE-ICON-ALIST is an alist that maps which mode from `auto-mode-alist' should
+be assigned which treemacs icon, for example
+`((c-mode . ,(treemacs-get-icon-value \"c\"))
+  (c++-mode . ,(treemacs-get-icon-value \"cpp\")))
+
+\(fn EXTENSIONS MODE-ICON-ALIST)" nil nil)
+
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "treemacs/src/elisp/treemacs-icons" '("treemacs-")))
+
+;;;***
+
+;;;### (autoloads nil "treemacs/src/elisp/treemacs-interface" "treemacs/src/elisp/treemacs-interface.el"
+;;;;;;  (0 0 0 0))
+;;; Generated autoloads from treemacs/src/elisp/treemacs-interface.el
+
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "treemacs/src/elisp/treemacs-interface" '("treemacs-")))
+
+;;;***
+
+;;;### (autoloads nil "treemacs/src/elisp/treemacs-logging" "treemacs/src/elisp/treemacs-logging.el"
+;;;;;;  (0 0 0 0))
+;;; Generated autoloads from treemacs/src/elisp/treemacs-logging.el
+
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "treemacs/src/elisp/treemacs-logging" '("treemacs-")))
+
+;;;***
+
+;;;### (autoloads nil "treemacs/src/elisp/treemacs-macros" "treemacs/src/elisp/treemacs-macros.el"
+;;;;;;  (0 0 0 0))
+;;; Generated autoloads from treemacs/src/elisp/treemacs-macros.el
+
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "treemacs/src/elisp/treemacs-macros" '("treemacs-")))
+
+;;;***
+
+;;;### (autoloads nil "treemacs/src/elisp/treemacs-mode" "treemacs/src/elisp/treemacs-mode.el"
+;;;;;;  (0 0 0 0))
+;;; Generated autoloads from treemacs/src/elisp/treemacs-mode.el
+
+(autoload 'treemacs-mode "treemacs/src/elisp/treemacs-mode" "\
+A major mode for displaying the file system in a tree layout.
+
+\(fn)" t nil)
+
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "treemacs/src/elisp/treemacs-mode" '("treemacs-")))
+
+;;;***
+
+;;;### (autoloads nil "treemacs/src/elisp/treemacs-mouse-interface"
+;;;;;;  "treemacs/src/elisp/treemacs-mouse-interface.el" (0 0 0 0))
+;;; Generated autoloads from treemacs/src/elisp/treemacs-mouse-interface.el
+
+(autoload 'treemacs-leftclick-action "treemacs/src/elisp/treemacs-mouse-interface" "\
+Move focus to the clicked line.
+Must be bound to a mouse click, or EVENT will not be supplied.
+
+\(fn EVENT)" t nil)
+
+(autoload 'treemacs-doubleclick-action "treemacs/src/elisp/treemacs-mouse-interface" "\
+Run the appropriate double-click action for the current node.
+In the default configuration this means to expand/collapse directories and open
+files and tags in the most recently used window.
+
+This function's exact configuration is stored in
+`treemacs-doubleclick-actions-config'.
+
+Must be bound to a mouse double click to properly handle a click EVENT.
+
+\(fn EVENT)" t nil)
+
+(autoload 'treemacs-single-click-expand-action "treemacs/src/elisp/treemacs-mouse-interface" "\
+A modified single-leftclick action that expands the clicked nodes.
+Can be bound to <mouse1> if you prefer to expand nodes with a single click
+instead of a double click.  Either way it must be bound to a mouse click, or
+EVENT will not be supplied.
+
+Clicking on icons will expand a file's tags, just like
+`treemacs-leftclick-action'.
+
+\(fn EVENT)" t nil)
+
+(autoload 'treemacs-dragleftclick-action "treemacs/src/elisp/treemacs-mouse-interface" "\
+Drag a file/dir node to be opened in a window.
+Must be bound to a mouse click, or EVENT will not be supplied.
+
+\(fn EVENT)" t nil)
+
+(autoload 'treemacs-define-doubleclick-action "treemacs/src/elisp/treemacs-mouse-interface" "\
+Define the behaviour of `treemacs-doubleclick-action'.
+Determines that a button with a given STATE should lead to the execution of
+ACTION.
+
+The list of possible states can be found in `treemacs-valid-button-states'.
+ACTION should be one of the `treemacs-visit-node-*' commands.
+
+\(fn STATE ACTION)" nil nil)
+
+(autoload 'treemacs-node-buffer-and-position "treemacs/src/elisp/treemacs-mouse-interface" "\
+Return source buffer or list of buffer and position for the current node.
+This information can be used for future display.  Stay in the selected window
+and ignore any prefix argument.
+
+\(fn &optional _)" t nil)
+
+(autoload 'treemacs-rightclick-menu "treemacs/src/elisp/treemacs-mouse-interface" "\
+Show a contextual right click menu based on click EVENT.
+
+\(fn EVENT)" t nil)
+
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "treemacs/src/elisp/treemacs-mouse-interface" '("treemacs--")))
+
+;;;***
+
+;;;### (autoloads nil "treemacs/src/elisp/treemacs-peek-mode" "treemacs/src/elisp/treemacs-peek-mode.el"
+;;;;;;  (0 0 0 0))
+;;; Generated autoloads from treemacs/src/elisp/treemacs-peek-mode.el
+
+(defvar treemacs-peek-mode nil "\
+Non-nil if Treemacs-Peek mode is enabled.
+See the `treemacs-peek-mode' command
+for a description of this minor mode.
+Setting this variable directly does not take effect;
+either customize it (see the info node `Easy Customization')
+or call the function `treemacs-peek-mode'.")
+
+(custom-autoload 'treemacs-peek-mode "treemacs/src/elisp/treemacs-peek-mode" nil)
+
+(autoload 'treemacs-peek-mode "treemacs/src/elisp/treemacs-peek-mode" "\
+Minor mode that allows you to peek at buffers before deciding to open them.
+
+If called interactively, enable Treemacs-Peek mode if ARG is
+positive, and disable it if ARG is zero or negative.  If called
+from Lisp, also enable the mode if ARG is omitted or nil, and
+toggle it if ARG is `toggle'; disable the mode otherwise.
+
+While the mode is active treemacs will automatically display the file at point,
+without leaving the treemacs window.
+
+Peeking will stop when you leave the treemacs window, be it through a command
+like `treemacs-RET-action' or some other window selection change.
+
+Files' buffers that have been opened for peeking will be cleaned up if they did
+not exist before peeking started.
+
+The peeked window can be scrolled using
+`treemacs-next/previous-line-other-window' and
+`treemacs-next/previous-page-other-window'
+
+\(fn &optional ARG)" t nil)
+
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "treemacs/src/elisp/treemacs-peek-mode" '("treemacs--")))
+
+;;;***
+
+;;;### (autoloads nil "treemacs/src/elisp/treemacs-persistence" "treemacs/src/elisp/treemacs-persistence.el"
+;;;;;;  (0 0 0 0))
+;;; Generated autoloads from treemacs/src/elisp/treemacs-persistence.el
+
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "treemacs/src/elisp/treemacs-persistence" '("treemacs-")))
+
+;;;***
+
+;;;### (autoloads nil "treemacs/src/elisp/treemacs-project-follow-mode"
+;;;;;;  "treemacs/src/elisp/treemacs-project-follow-mode.el" (0 0
+;;;;;;  0 0))
+;;; Generated autoloads from treemacs/src/elisp/treemacs-project-follow-mode.el
+
+(defvar treemacs-project-follow-mode nil "\
+Non-nil if Treemacs-Project-Follow mode is enabled.
+See the `treemacs-project-follow-mode' command
+for a description of this minor mode.
+Setting this variable directly does not take effect;
+either customize it (see the info node `Easy Customization')
+or call the function `treemacs-project-follow-mode'.")
+
+(custom-autoload 'treemacs-project-follow-mode "treemacs/src/elisp/treemacs-project-follow-mode" nil)
+
+(autoload 'treemacs-project-follow-mode "treemacs/src/elisp/treemacs-project-follow-mode" "\
+Toggle `treemacs-only-current-project-mode'.
+
+If called interactively, enable Treemacs-Project-Follow mode if
+ARG is positive, and disable it if ARG is zero or negative.  If
+called from Lisp, also enable the mode if ARG is omitted or nil,
+and toggle it if ARG is `toggle'; disable the mode otherwise.
+
+This is a minor mode meant for those who do not care about treemacs' workspace
+features, or its preference to work with multiple projects simultaneously.  When
+enabled it will function as an automated version of
+`treemacs-display-current-project-exclusively', making sure that, after a small
+idle delay, the current project, and *only* the current project, is displayed in
+treemacs.
+
+The project detection is based on the current buffer, and will try to determine
+the project using the following methods, in the order they are listed:
+
+- the current projectile.el project, if `treemacs-projectile' is installed
+- the current project.el project
+- the current `default-directory'
+
+The update will only happen when treemacs is in the foreground, meaning a
+treemacs window must exist in the current scope.
+
+This mode requires at least Emacs version 27 since it relies on
+`window-buffer-change-functions' and `window-selection-change-functions'.
+
+\(fn &optional ARG)" t nil)
+
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "treemacs/src/elisp/treemacs-project-follow-mode" '("treemacs--")))
+
+;;;***
+
+;;;### (autoloads nil "treemacs/src/elisp/treemacs-rendering" "treemacs/src/elisp/treemacs-rendering.el"
+;;;;;;  (0 0 0 0))
+;;; Generated autoloads from treemacs/src/elisp/treemacs-rendering.el
+
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "treemacs/src/elisp/treemacs-rendering" '("treemacs-")))
+
+;;;***
+
+;;;### (autoloads nil "treemacs/src/elisp/treemacs-scope" "treemacs/src/elisp/treemacs-scope.el"
+;;;;;;  (0 0 0 0))
+;;; Generated autoloads from treemacs/src/elisp/treemacs-scope.el
+
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "treemacs/src/elisp/treemacs-scope" '("treemacs-")))
+
+;;;***
+
+;;;### (autoloads nil "treemacs/src/elisp/treemacs-tag-follow-mode"
+;;;;;;  "treemacs/src/elisp/treemacs-tag-follow-mode.el" (0 0 0 0))
+;;; Generated autoloads from treemacs/src/elisp/treemacs-tag-follow-mode.el
+
+(autoload 'treemacs--flatten&sort-imenu-index "treemacs/src/elisp/treemacs-tag-follow-mode" "\
+Flatten current file's imenu index and sort it by tag position.
+The tags are sorted into the order in which they appear, regardless of section
+or nesting depth." nil nil)
+
+(defvar treemacs-tag-follow-mode nil "\
+Non-nil if Treemacs-Tag-Follow mode is enabled.
+See the `treemacs-tag-follow-mode' command
+for a description of this minor mode.
+Setting this variable directly does not take effect;
+either customize it (see the info node `Easy Customization')
+or call the function `treemacs-tag-follow-mode'.")
+
+(custom-autoload 'treemacs-tag-follow-mode "treemacs/src/elisp/treemacs-tag-follow-mode" nil)
+
+(autoload 'treemacs-tag-follow-mode "treemacs/src/elisp/treemacs-tag-follow-mode" "\
+Toggle `treemacs-tag-follow-mode'.
+
+If called interactively, enable Treemacs-Tag-Follow mode if ARG
+is positive, and disable it if ARG is zero or negative.  If
+called from Lisp, also enable the mode if ARG is omitted or nil,
+and toggle it if ARG is `toggle'; disable the mode otherwise.
+
+This acts as more fine-grained alternative to `treemacs-follow-mode' and will
+thus disable `treemacs-follow-mode' on activation.  When enabled treemacs will
+focus not only the file of the current buffer, but also the tag at point.
+
+The follow action is attached to Emacs' idle timer and will run
+`treemacs-tag-follow-delay' seconds of idle time.  The delay value is not an
+integer, meaning it accepts floating point values like 1.5.
+
+Every time a tag is followed a re--scan of the imenu index is forced by
+temporarily setting `imenu-auto-rescan' to t (though a cache is applied as long
+as the buffer is unmodified).  This is necessary to assure that creation or
+deletion of tags does not lead to errors and guarantees an always up-to-date tag
+view.
+
+Note that in order to move to a tag in treemacs the treemacs buffer's window
+needs to be temporarily selected, which will reset blink-cursor-mode's timer if
+it is enabled.  This will result in the cursor blinking seemingly pausing for a
+short time and giving the appearance of the tag follow action lasting much
+longer than it really does.
+
+\(fn &optional ARG)" t nil)
+
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "treemacs/src/elisp/treemacs-tag-follow-mode" '("treemacs--")))
+
+;;;***
+
+;;;### (autoloads nil "treemacs/src/elisp/treemacs-tags" "treemacs/src/elisp/treemacs-tags.el"
+;;;;;;  (0 0 0 0))
+;;; Generated autoloads from treemacs/src/elisp/treemacs-tags.el
+
+(autoload 'treemacs--expand-file-node "treemacs/src/elisp/treemacs-tags" "\
+Open tag items for file BTN.
+Recursively open all tags below BTN when RECURSIVE is non-nil.
+
+\(fn BTN &optional RECURSIVE)" nil nil)
+
+(autoload 'treemacs--collapse-file-node "treemacs/src/elisp/treemacs-tags" "\
+Close node given by BTN.
+Remove all open tag entries under BTN when RECURSIVE.
+
+\(fn BTN &optional RECURSIVE)" nil nil)
+
+(autoload 'treemacs--visit-or-expand/collapse-tag-node "treemacs/src/elisp/treemacs-tags" "\
+Visit tag section BTN if possible, expand or collapse it otherwise.
+Pass prefix ARG on to either visit or toggle action.
+
+FIND-WINDOW is a special provision depending on this function's invocation
+context and decides whether to find the window to display in (if the tag is
+visited instead of the node being expanded).
+
+On the one hand it can be called based on `treemacs-RET-actions-config' (or
+TAB).  The functions in these configs are expected to find the windows they need
+to display in themselves, so FIND-WINDOW must be t. On the other hand this
+function is also called from the top level vist-node functions like
+`treemacs-visit-node-vertical-split' which delegates to the
+`treemacs--execute-button-action' macro which includes the determination of
+the display window.
+
+\(fn BTN ARG FIND-WINDOW)" nil nil)
+
+(autoload 'treemacs--expand-tag-node "treemacs/src/elisp/treemacs-tags" "\
+Open tags node items for BTN.
+Open all tag section under BTN when call is RECURSIVE.
+
+\(fn BTN &optional RECURSIVE)" nil nil)
+
+(autoload 'treemacs--collapse-tag-node "treemacs/src/elisp/treemacs-tags" "\
+Close tags node at BTN.
+Remove all open tag entries under BTN when RECURSIVE.
+
+\(fn BTN &optional RECURSIVE)" nil nil)
+
+(autoload 'treemacs--goto-tag "treemacs/src/elisp/treemacs-tags" "\
+Go to the tag at BTN.
+
+\(fn BTN)" nil nil)
+
+(autoload 'treemacs--create-imenu-index-function "treemacs/src/elisp/treemacs-tags" "\
+The `imenu-create-index-function' for treemacs buffers." nil nil)
+
+(function-put 'treemacs--create-imenu-index-function 'side-effect-free 't)
+
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "treemacs/src/elisp/treemacs-tags" '("treemacs--")))
+
+;;;***
+
+;;;### (autoloads nil "treemacs/src/elisp/treemacs-themes" "treemacs/src/elisp/treemacs-themes.el"
+;;;;;;  (0 0 0 0))
+;;; Generated autoloads from treemacs/src/elisp/treemacs-themes.el
+
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "treemacs/src/elisp/treemacs-themes" '("treemacs-")))
+
+;;;***
+
+;;;### (autoloads nil "treemacs/src/elisp/treemacs-treelib" "treemacs/src/elisp/treemacs-treelib.el"
+;;;;;;  (0 0 0 0))
+;;; Generated autoloads from treemacs/src/elisp/treemacs-treelib.el
+
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "treemacs/src/elisp/treemacs-treelib" '("treemacs-")))
+
+;;;***
+
+;;;### (autoloads nil "treemacs/src/elisp/treemacs-visuals" "treemacs/src/elisp/treemacs-visuals.el"
+;;;;;;  (0 0 0 0))
+;;; Generated autoloads from treemacs/src/elisp/treemacs-visuals.el
+
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "treemacs/src/elisp/treemacs-visuals" '("treemacs-")))
+
+;;;***
+
+;;;### (autoloads nil "treemacs/src/elisp/treemacs-workspaces" "treemacs/src/elisp/treemacs-workspaces.el"
+;;;;;;  (0 0 0 0))
+;;; Generated autoloads from treemacs/src/elisp/treemacs-workspaces.el
+
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "treemacs/src/elisp/treemacs-workspaces" '("treemacs-")))
 
 ;;;***
 
@@ -3705,11 +5487,12 @@ See `yas-minor-mode' for more information on Yas minor mode.
 
 ;;;***
 
-;;;### (autoloads nil nil ("dash/dash-functional.el" "el-get/el-get-install.el"
-;;;;;;  "f/f-shortdoc.el" "lsp-mode/clients/lsp-cmake.el" "lsp-mode/clients/lsp-d.el"
-;;;;;;  "lsp-mode/clients/lsp-dhall.el" "lsp-mode/lsp.el" "rainbow-mode/rainbow-mode-autoloads.el"
-;;;;;;  "rainbow-mode/rainbow-mode-pkg.el" "scala-mode/scala-mode-prettify-symbols.el")
-;;;;;;  (0 0 0 0))
+;;;### (autoloads nil nil ("avy/avy-test.el" "dash/dash-functional.el"
+;;;;;;  "el-get/el-get-install.el" "f/f-shortdoc.el" "lsp-mode/clients/lsp-cmake.el"
+;;;;;;  "lsp-mode/clients/lsp-d.el" "lsp-mode/clients/lsp-dhall.el"
+;;;;;;  "lsp-mode/lsp.el" "rainbow-mode/rainbow-mode-autoloads.el"
+;;;;;;  "rainbow-mode/rainbow-mode-pkg.el" "scala-mode/scala-mode-prettify-symbols.el"
+;;;;;;  "treemacs/src/elisp/treemacs-faces.el") (0 0 0 0))
 
 ;;;***
 

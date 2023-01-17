@@ -1,5 +1,0 @@
-(:name init-pdf-tools
-:auto-generated t
-:type emacswiki
-:description "Configure file that can load when emacs pdf-tools."
-:website "https://raw.github.com/emacsmirror/emacswiki.org/master/init-pdf-tools.el")

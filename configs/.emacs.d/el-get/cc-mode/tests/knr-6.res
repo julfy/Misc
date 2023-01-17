@@ -1,7 +1,0 @@
-((topmost-intro <0,0>))
-((knr-argdecl-intro <1,0>))
-((knr-argdecl <1,4>))
-((knr-argdecl <2,4>))
-((defun-open <4,0>))
-((defun-block-intro <1,0>))
-((defun-close <2,0>))

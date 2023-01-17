@@ -1,5 +1,0 @@
-(:name moccur-extension
-:auto-generated t
-:type emacswiki
-:description "Search something at pointer with moccur-grep-find-pwd"
-:website "https://raw.github.com/emacsmirror/emacswiki.org/master/moccur-extension.el")

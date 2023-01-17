@@ -1,5 +1,0 @@
-(:name css-sort-buffer
-:auto-generated t
-:type emacswiki
-:description "Sort CSS buffer"
-:website "https://raw.github.com/emacsmirror/emacswiki.org/master/css-sort-buffer.el")

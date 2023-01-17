@@ -1,5 +1,0 @@
-(:name init-auto-sudoedit
-:auto-generated t
-:type emacswiki
-:description "Init for auto-sudoedit.el"
-:website "https://raw.github.com/emacsmirror/emacswiki.org/master/init-auto-sudoedit.el")

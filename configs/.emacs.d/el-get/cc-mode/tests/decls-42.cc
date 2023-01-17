@@ -1,9 +1,0 @@
-int b = 5;
-int a = (b*3);
-int a = (b*3) + (b*3);
-int a = (b*3) * (b*3);
-int a = (b*3) % (b-1);
-int a = (b*3) / (b-1);
-int a = (b*3) & (b-1);
-int a = (b*3) >> (b-4);
-int a = (b*3) > (b+9);

@@ -1,5 +1,0 @@
-(:name init-projectile-rails
-:auto-generated t
-:type emacswiki
-:description "Config for projectile-rails"
-:website "https://raw.github.com/emacsmirror/emacswiki.org/master/init-projectile-rails.el")

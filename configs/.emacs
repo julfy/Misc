@@ -23,7 +23,7 @@
 ;enable line numbers
 (global-linum-mode t)
 ; transparency
-(add-to-list 'default-frame-alist '(alpha 50 50))
+(add-to-list 'default-frame-alist '(alpha 93 93))
 
 (put 'downcase-region 'disabled nil)
 (put 'erase-buffer 'disabled nil)
@@ -44,7 +44,6 @@
  '(flyspell-default-dictionary "uk")
  '(fringe-mode '(3 . 3) nil (fringe))
  '(gc-cons-threshold (* 8 1024 1024))
- '(global-hl-line-mode nil)
  '(global-rainbow-delimiters-mode t)
  '(grep-highlight-matches 'auto)
  '(grep-use-null-device nil)
@@ -106,6 +105,13 @@
  '(rainbow-delimiters-depth-6-face ((t (:foreground "#907000"))))
  '(rainbow-delimiters-unmatched-face ((t (:foreground "red")))))
 
+
+(global-hl-line-mode)
+(set-face-background 'hl-line nil)
+(set-face-foreground 'hl-line nil)
+(set-face-attribute 'hl-line nil :inherit nil)
+(set-face-underline 'hl-line "grey25")
+
 ;; PACKAGES ;;;;;;;;;;;;;;;;;;;
 (add-to-list 'load-path "~/.emacs.d/packages")
 (let ((default-directory  "~/.emacs.d/el-get/"))
@@ -146,6 +152,7 @@
         exec-path-from-shell
         jedi
         ;; flycheck adds marmalade to package-archives
+        ;; lsp-java
 	))
 
 (el-get 'sync my-el-get-packages)
@@ -348,17 +355,17 @@ BUFFER may be either a buffer or its name (a string)."
 ;;                     nil))))))
 ;; (add-hook 'prog-mode-hook 'esk-pretty-lambdas)
 
-;; (defun minimap-toggle ()
-;;   "Toggle minimap"
-;;   (interactive)
-;;   (if (or (not (boundp 'minimap-exists))
-;; 	  (not minimap-exists))
-;;       (progn (minimap-create)
-;; 	     (setf minimap-exists t)
-;; 	     (set-frame-width (selected-frame) 100))
-;;     (progn (minimap-kill)
-;; 	   (setf minimap-exists nil)
-;; 	   (set-frame-width (selected-frame) 80))))
+(defun minimap-toggle ()
+  "Toggle minimap"
+  (interactive)
+  (if (or (not (boundp 'minimap-exists))
+	  (not minimap-exists))
+      (progn (minimap-create)
+	     (setf minimap-exists t)
+	     (set-frame-width (selected-frame) 100))
+    (progn (minimap-kill)
+	   (setf minimap-exists nil)
+	   (set-frame-width (selected-frame) 80))))
 
 ;; custom keys
 (global-set-key [home] 'smart-beginning-of-line)
@@ -547,6 +554,10 @@ BUFFER may be either a buffer or its name (a string)."
 (define-key rust-mode-map (kbd "C-<tab>") 'company-complete)
 (define-key rust-mode-map (kbd "C-d") 'lsp-describe-thing-at-point)
 
+;; JAVA ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; (require 'lsp-java)
+;; (add-hook 'java-mode-hook #'lsp)
+
 ;; OCAML ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (add-to-list 'auto-mode-alist '("\\.ml[ily]?$" . tuareg-mode))
 (add-to-list 'auto-mode-alist '("\\.topml$" . tuareg-mode))
@@ -595,6 +606,6 @@ BUFFER may be either a buffer or its name (a string)."
    ;; (define-key merlin-mode-map (kbd "M-.") 'merlin-locate)
    ;; (define-key merlin-mode-map (kbd "M-,") 'merlin-pop-stack)
    ;; (define-key merlin-mode-map (kbd "C-c C-z") 'clear-werrors)
-(define-key tuareg-mode-map (kbd "C-t") 'ocaml-snippets)
+;; (define-key tuareg-mode-map (kbd "C-t") 'ocaml-snippets)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

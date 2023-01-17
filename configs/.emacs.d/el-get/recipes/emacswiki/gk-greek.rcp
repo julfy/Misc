@@ -1,5 +1,0 @@
-(:name gk-greek
-:auto-generated t
-:type emacswiki
-:description "-- Input method for modern Greek."
-:website "https://raw.github.com/emacsmirror/emacswiki.org/master/gk-greek.el")

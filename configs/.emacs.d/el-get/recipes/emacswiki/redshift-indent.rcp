@@ -1,5 +1,0 @@
-(:name redshift-indent
-:auto-generated t
-:type emacswiki
-:description "minor mode to control the size of (indentation) space"
-:website "https://raw.github.com/emacsmirror/emacswiki.org/master/redshift-indent.el")

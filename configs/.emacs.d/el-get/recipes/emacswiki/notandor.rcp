@@ -1,5 +1,0 @@
-(:name notandor
-:auto-generated t
-:type emacswiki
-:description "Transform Boolean sexps using De Morgan's laws."
-:website "https://raw.github.com/emacsmirror/emacswiki.org/master/notandor.el")

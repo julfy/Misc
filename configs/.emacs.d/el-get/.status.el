@@ -1,6 +1,9 @@
 ((ac-capf status "required" recipe
           (:name ac-capf :description "auto-complete source of completion-at-point." :type github :pkgname "emacsorphanage/ac-capf" :depends
                  (auto-complete)))
+ (ace-window status "installed" recipe
+             (:name ace-window :description "Quickly switch windows using `avy'" :type github :pkgname "abo-abo/ace-window" :depends
+                    (avy)))
  (auto-complete status "installed" recipe
                 (:name auto-complete :website "https://github.com/auto-complete/auto-complete" :description "The most intelligent auto-completion extension." :type github :pkgname "auto-complete/auto-complete" :depends
                        (popup fuzzy)
@@ -9,12 +12,18 @@
                          (add-to-list 'ac-dictionary-directories
                                       (expand-file-name "dict" default-directory))
                          (ac-config-default))))
+ (avy status "installed" recipe
+      (:name avy :description "Jump to things in Emacs tree-style." :type github :pkgname "abo-abo/avy" :depends
+             (cl-lib)))
  (bar-cursor status "required" recipe nil)
  (bash-completion status "installed" recipe
                   (:name bash-completion :description "Completions for shell prompts based on Bash" :type github :pkgname "szermatt/emacs-bash-completion" :post-init
                          (progn
                            (add-hook 'shell-dynamic-complete-functions 'bash-completion-dynamic-complete)
                            (add-hook 'shell-command-complete-functions 'bash-completion-dynamic-complete))))
+ (bui status "installed" recipe
+      (:name bui :description "Buffer interface library" :type github :pkgname "alezost/bui.el" :depends
+             (dash)))
  (cc-mode status "installed" recipe
           (:name cc-mode :type hg :url "http://hg.code.sf.net/p/cc-mode/cc-mode" :description "Major mode for editing C and similar languages."))
  (cider status "required" recipe
@@ -157,6 +166,8 @@
                    (autoload 'enable-paredit-mode "paredit")
                    (autoload 'disable-paredit-mode "paredit"))
                  :pkgname "emacsmirror/paredit"))
+ (pfuture status "installed" recipe
+          (:name pfuture :description "A simple wrapper around asynchronous processes" :website "https://github.com/Alexander-Miller/pfuture" :type github :pkgname "Alexander-Miller/pfuture"))
  (pkg-info status "installed" recipe
            (:name pkg-info :description "Provide information about Emacs packages." :type github :pkgname "lunaryorn/pkg-info.el" :depends
                   (dash epl)))
@@ -164,6 +175,8 @@
         (:name popup :website "https://github.com/auto-complete/popup-el" :description "Visual Popup Interface Library for Emacs" :type github :submodule nil :depends cl-lib :pkgname "auto-complete/popup-el"))
  (pos-tip status "installed" recipe
           (:name pos-tip :description "Show tooltip at point" :type github :pkgname "pitkali/pos-tip"))
+ (posframe status "installed" recipe
+           (:name posframe :description "Pop a posframe (just a frame) at point" :website "https://github.com/tumashu/posframe" :type github :minimum-emacs-version "26" :depends cl-lib :pkgname "tumashu/posframe"))
  (powerline status "installed" recipe
             (:name powerline :website "https://github.com/milkypostman/powerline" :depends
                    (cl-lib)
@@ -181,6 +194,11 @@
  (rainbow-mode status "installed" recipe
                (:name rainbow-mode :description "Colorize color names in buffers" :type elpa :prepare
                       (autoload 'rainbow-turn-on "rainbow-mode")))
+ (request status "installed" recipe
+   (:name request :description "Easy HTTP request for Emacs Lisp" :type github :submodule nil :pkgname "tkf/emacs-request" :depends
+          (deferred)
+          :provide
+          (request-deferred)))
  (rtags status "required" recipe nil)
  (rust-mode status "installed" recipe
             (:name rust-mode :type github :pkgname "rust-lang/rust-mode" :description "Emacs mode for Rust"))
@@ -203,6 +221,13 @@
           (:name spinner :description "Emacs mode-line spinner for operations in progress." :type github :pkgname "Bruce-Connor/spinner.el"))
  (tabbar status "required" recipe
          (:name tabbar :description "Display a tab bar in the header line." :type github :pkgname "dholm/tabbar" :lazy t))
+ (tree-mode status "installed" recipe
+            (:name tree-mode :auto-generated t :type emacswiki :description "A mode to manage tree widgets" :website "https://raw.github.com/emacsmirror/emacswiki.org/master/tree-mode.el"))
+ (treemacs status "installed" recipe
+           (:name treemacs :description "A tree layout file explorer for Emacs" :website "https://github.com/Alexander-Miller/treemacs" :type github :pkgname "Alexander-Miller/treemacs" :build
+                  (("rm" "-rf" "src/extra"))
+                  :load-path "src/elisp" :compile "src/elisp" :depends
+                  (ace-window dash f ht hydra pfuture s)))
  (tuareg-mode status "installed" recipe
               (:name tuareg-mode :type github :description "an Emacs OCaml mode" :load-path
                      (".")

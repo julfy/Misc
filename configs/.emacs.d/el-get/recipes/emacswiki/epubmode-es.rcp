@@ -1,5 +1,0 @@
-(:name epubmode-es
-:auto-generated t
-:type emacswiki
-:description "epub-mode.el --- Modo menor para leer libros electronicos del formato epub en Emacs."
-:website "https://raw.github.com/emacsmirror/emacswiki.org/master/epubmode-es.el")

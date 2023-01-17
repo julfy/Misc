@@ -1,5 +1,0 @@
-(:name ido-choose-function
-:auto-generated t
-:type emacswiki
-:description "Use ido to select functions and (partially) apply arguments"
-:website "https://raw.github.com/emacsmirror/emacswiki.org/master/ido-choose-function.el")

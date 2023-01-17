@@ -1,5 +1,0 @@
-(:name init-string-inflection
-:auto-generated t
-:type emacswiki
-:description "Config for string-inflection.el"
-:website "https://raw.github.com/emacsmirror/emacswiki.org/master/init-string-inflection.el")
