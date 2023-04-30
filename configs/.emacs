@@ -7,23 +7,25 @@
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 (add-hook 'prog-mode-hook 'global-visual-line-mode)
 
-;; font size
-(set-face-attribute 'default nil :height 120)
+; font size
+(set-face-attribute 'default nil :height 140)
 
-;set default grep command
+; set default grep command
 (setq grep-command "ag --nogroup ")
-;disable welcome screen
+; disable welcome screen
 (setq inhibit-startup-message t)
-;disable menu-bar
+; disable menu-bar
 (menu-bar-mode -1)
-;remove toolbar
+; remove toolbar
 (tool-bar-mode -1)
-;remove window title
+; remove window title
 (set-frame-parameter nil 'undecorated t)
-;enable line numbers
+; enable line numbers
 (global-linum-mode t)
 ; transparency
 (add-to-list 'default-frame-alist '(alpha 93 93))
+; no auto-save-list dir in .emacs.d
+(setq auto-save-list-file-prefix nil)
 
 (put 'downcase-region 'disabled nil)
 (put 'erase-buffer 'disabled nil)
@@ -49,6 +51,7 @@
  '(grep-use-null-device nil)
  '(horizontal-scroll-bar-mode nil)
  '(initial-frame-alist '((fullscreen . maximized)))
+ '(ispell-dictionary nil)
  '(ispell-local-dictionary-alist
    '(("ukrainian" "[йцукенгшщзхїфівапролджєячсмитьбю]" "[^йцукенгшщзхїфівапролджєячсмитьбю]" "[']" t
       ("-B" "-d" "ukrainian")
@@ -93,10 +96,10 @@
  '(flycheck-fringe-error ((t (:stipple nil :background "red" :foreground "red"))))
  '(flycheck-fringe-info ((t (:background "lawn green" :foreground "lawn green"))))
  '(flycheck-fringe-warning ((t (:background "gold" :foreground "gold"))))
- '(powerline-active0 ((t (:background "orange" :foreground "black"))))
+ '(powerline-active0 ((t (:background "#e090ee" :foreground "black"))))
  '(powerline-active1 ((t (:background "gray15" :foreground "white"))))
  '(powerline-active2 ((t (:background "grey40" :foreground "white"))))
- '(powerline-inactive0 ((t (:background "tan4" :foreground "black"))))
+ '(powerline-inactive0 ((t (:background "#805088" :foreground "black"))))
  '(rainbow-delimiters-depth-1-face ((t (:foreground "#f0c000"))))
  '(rainbow-delimiters-depth-2-face ((t (:foreground "#c09000"))))
  '(rainbow-delimiters-depth-3-face ((t (:foreground "#907000"))))
@@ -112,53 +115,42 @@
 (set-face-attribute 'hl-line nil :inherit nil)
 (set-face-underline 'hl-line "grey25")
 
+
 ;; PACKAGES ;;;;;;;;;;;;;;;;;;;
 (add-to-list 'load-path "~/.emacs.d/packages")
-(let ((default-directory  "~/.emacs.d/el-get/"))
-  (normal-top-level-add-subdirs-to-load-path))
 
-(require 'package)
-(setq package-archives
-      '(;; bad cert ("marmalade" . "http://marmalade-repo.org/packages/")
-       ("melpa" . "http://melpa.org/packages/")
-       ("melpa-stable" . "https://stable.melpa.org/packages/")
-       ("gnu" . "http://elpa.gnu.org/packages/")))
+;; https://github.com/radian-software/straight.el
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+      (bootstrap-version 6))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
 
-(unless (require 'el-get nil 'noerror)
-  (with-current-buffer
-      (url-retrieve-synchronously
-       "https://raw.githubusercontent.com/dimitri/el-get/master/el-get-install.el")
-    (goto-char (point-max))
-    (eval-print-last-sexp)))
+(straight-use-package 'auto-complete)
+(straight-use-package 'rainbow-delimiters)
+(straight-use-package 'rainbow-mode)
+(straight-use-package 'cc-mode)
+(straight-use-package 'paredit)
+(straight-use-package 'powerline)
+(straight-use-package 'tuareg-mode)
+(straight-use-package 'yaml-mode)
+(straight-use-package 'scala-mode)
+(straight-use-package 'lsp-mode)
+(straight-use-package 'rust-mode)
+(straight-use-package 'company-mode) ;; https://rust-analyzer.github.io/manual.html#installation
+(straight-use-package 'exec-path-from-shell)
+;; (straight-use-package jedi)
+(straight-use-package 'flycheck)
+(straight-use-package 'lsp-ui)
 
-;;(url-retrieve
-;; "https://raw.githubusercontent.com/dimitri/el-get/master/el-get-install.el"
-;; (lambda (s)
-;;   (goto-char (point-max))
-;;   (eval-print-last-sexp)))
-
-(setq my-el-get-packages
-      '(auto-complete
-        rainbow-delimiters
-        rainbow-mode
-        cc-mode
-        paredit
-        powerline
-        tuareg-mode
-        yaml-mode
-        scala-mode
-        rust-mode lsp-mode company-mode ;; https://rust-analyzer.github.io/manual.html#installation
-        ;; rustic
-        exec-path-from-shell
-        jedi
-        ;; flycheck adds marmalade to package-archives
-        ;; lsp-java
-	))
-
-(el-get 'sync my-el-get-packages)
-(package-initialize)
 ;; MODELINE ;;;;;;;;;;;;;;;;;;;
-
 ;modeline customize
 (require 'powerline)
 (setq-default mode-line-format
@@ -210,7 +202,6 @@
                            (powerline-fill face2 (powerline-width rhs))
                            (powerline-render rhs))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;
-(require 'lsp-mode)
 (require 'cc-mode)
 
 (defun comment-or-uncomment-region-or-line ()
@@ -368,26 +359,33 @@ BUFFER may be either a buffer or its name (a string)."
 	   (set-frame-width (selected-frame) 80))))
 
 ;; custom keys
+;; udlr = olk;
 (global-set-key [home] 'smart-beginning-of-line)
+(global-set-key (kbd "M-[") 'smart-beginning-of-line)                     ;
 (global-set-key [end] 'end-of-line)
-;; (global-set-key [home] 'beginning-of-line-text)
-(global-set-key (kbd "C-n") '(lambda () (interactive) (message (buffer-file-name))))
-(global-set-key (kbd "M-<up>") 'backward-paragraph)
-(global-set-key (kbd "M-<down>") 'forward-paragraph)
+(global-set-key (kbd "M-]") 'end-of-line)
+(global-set-key (kbd "C-<right>") 'forward-word)
+(global-set-key (kbd "C-<left>") 'backward-word)
+(global-set-key (kbd "C-<down>") (lambda () (interactive) (next-line 5)))
+(global-set-key (kbd "C-<up>") (lambda () (interactive) (previous-line 5)))
+(global-set-key (kbd "M--") 'beginning-of-buffer)
+(global-set-key (kbd "M-=") 'end-of-buffer)
+
 (global-set-key (kbd "S-<up>") '(lambda () "Previous" (interactive) (scroll-down 5)))
 (global-set-key (kbd "S-<down>") '(lambda () "Next" (interactive) (scroll-up 5)))
 (global-set-key (kbd "C-`") 'other-window)
+
+(global-set-key (kbd "C-n") '(lambda () (interactive) (message (buffer-file-name))))
+
 (global-set-key (kbd "C-s") 'isearch-forward-regexp)
 (global-set-key (kbd "C-r") 'isearch-backward-regexp)
 (global-set-key (kbd "C-<Home>") 'backward-sexp)
 (global-set-key (kbd "C-<End>") 'forward-sexp)
 (global-set-key (kbd "C-;") 'comment-or-uncomment-region-or-line)
+
 (global-set-key [(control shift up)] 'move-line-up)
 (global-set-key [(control shift down)] 'move-line-down)
-(global-set-key (kbd "C-<down>") (lambda () (interactive) (next-line 5)))
-(global-set-key (kbd "C-<up>") (lambda () (interactive) (previous-line 5)))
-(global-set-key (kbd "C-<right>") 'forward-word)
-(global-set-key (kbd "C-<left>") 'backward-word)
+
 (global-set-key (kbd "C-M-r") 'revert-buffer-no-confirm)
 (global-set-key (kbd "C-x C-k") 'kill-buffer-and-its-windows)
 (global-set-key [f5]'kmacro-start-macro-or-insert-counter)
@@ -419,7 +417,7 @@ BUFFER may be either a buffer or its name (a string)."
 ;; (autoload 'enable-paredit-mode "paredit" "Turn on pseudo-structural editing of Lisp code." t)
 ;; (add-hook 'emacs-lisp-mode-hook                  #'enable-paredit-mode)
 ;; (add-hook 'eval-expression-minibuffer-setup-hook #'enable-paredit-mode)
-(add-hook 'ielm-mode-hook                    #'enable-paredit-mode)
+(add-hook 'ielm-mode-hook                        #'enable-paredit-mode)
 (add-hook 'lisp-mode-hook                        #'enable-paredit-mode)
 (add-hook 'lisp-interaction-mode-hook            #'enable-paredit-mode)
 (add-hook 'scheme-mode-hook                      #'enable-paredit-mode)
@@ -446,44 +444,65 @@ BUFFER may be either a buffer or its name (a string)."
 (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
 
 ;; PYTHON ;;;;;;;;;;;;;;;;;;;;;;;;
-;; reqs: pip mypy black virtualenv
+;; reqs: pip mypy black virtualenv 'python-lsp-server[all]' gitpython
 (require 'python)
-(require 'jedi)
-(jedi:install-server)
-(add-hook 'python-mode-hook 'jedi:setup)
-(setq jedi:complete-on-dot t)
-(define-key python-mode-map (kbd "M-.") 'jedi:goto-definition)
-(define-key python-mode-map (kbd "M-,") 'jedi:goto-definition-pop-marker)
-(define-key python-mode-map (kbd "C-<tab>") 'jedi:complete)
+(require 'lsp-mode)
+
+(add-hook 'python-mode-hook 'lsp-mode)
+(add-hook 'python-mode-hook (lambda ()
+                              (auto-complete-mode -1)
+                              (lsp-ui-mode -1)
+                              (setq lsp-ui-doc-enable nil)
+                              (setq lsp-diagnostic-package :none)
+                              (setq lsp-lens-enable nil)
+                              (setq lsp-modeline-diagnostics-enable nil)
+                              (setq lsp-ui-doc-show-with-cursor nil)
+                              (setq lsp-ui-doc-show-with-mouse nil)
+                              (lsp-diagnostics--disable)
+                              (lsp)))
+(define-key python-mode-map (kbd "C-<tab>") 'company-complete)
 
 (require 'flycheck)
 (setq flycheck-checker-error-threshold 1000)
 (setq flycheck-python-pycompile-executable "python3")
 (setq flycheck-python-flake8-executable "flake8")
-(setq flycheck-flake8-maximum-line-length 100)
-(flycheck-define-checker ;; need pip mypy
+(setq flycheck-flake8-maximum-line-length 120)
+;; (shell-command-to-string "dmypy --status-file /tmp/dmypy.status start -- --show-error-codes --ignore-missing-imports --check-untyped-defs --disallow-untyped-defs --python-version 3.8")
+
+(flycheck-define-checker
     python-mypy ""
-    ;; :working-directory (lambda (x) "")
-    :command ("mypy"
+    :working-directory (lambda (x) "")
+    :command ("python"
+              "-c"
+              "
+import sys, git, subprocess
+args = sys.argv[1:-1]; path = sys.argv[-1]
+root = git.Repo(path, search_parent_directories=True).git.rev_parse('--show-toplevel')
+path = path[len(root)+1:]
+cmd = f'cd {root} && dmypy run -- ' + ' '.join(args) + f' {path}'
+
+result = subprocess.run(cmd, shell=True, capture_output=True)
+print(result.stdout.decode().replace(path, root+'/'+path))
+exit(result.returncode)
+"
               "--show-error-codes"
-              "--follow-imports=silent"
+              "--follow-imports=normal"
               "--ignore-missing-imports"
-              ;; "--no-strict-optional"
-              ;; "--allow-redefinition"
-              ;; "--disallow-any-explicit"
               "--check-untyped-defs"
               "--disallow-untyped-defs"
-              ;; "--python-version" "3.6"
-              source-original)
+              "--python-version" "3.8"
+              source-original
+              )
     :error-patterns
-    ((error line-start (file-name) ":" line ": error:" (message) line-end))
+    (;(error line-start (file-name) ": error:" (message) line-end)
+     (error line-start (file-name) ":" line ": error:" (message) line-end))
     :modes python-mode)
 
 (flycheck-define-checker ;; need pip black
     python-black ""
     :command ("black"
               "-S"
-              "-l" "100"
+              "-l" "120"
               "--diff"
               source-original)
     :error-parser
@@ -514,8 +533,8 @@ BUFFER may be either a buffer or its name (a string)."
     :modes python-mode)
 
 
-(add-to-list 'flycheck-checkers 'python-mypy t)
 (add-to-list 'flycheck-checkers 'python-black t)
+(add-to-list 'flycheck-checkers 'python-mypy t)
 (flycheck-add-next-checker 'python-pycompile 'python-flake8)
 (flycheck-add-next-checker 'python-flake8 'python-black)
 (flycheck-add-next-checker 'python-black 'python-mypy)
