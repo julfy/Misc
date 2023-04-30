@@ -1,8 +1,12 @@
 [user]
-	name = julfy
+	name = Bogdan
 	email = julfy777@gmail.com
 [alias]
 	co = checkout
 	br = branch
 	ci = commit
 	st = status
+[core]
+	# hooksPath = /home/bogdan/.git/hooks
+[push]
+    default = current
